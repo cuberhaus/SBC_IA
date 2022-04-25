@@ -8,214 +8,129 @@
 
 <http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5> rdf:type owl:Ontology .
 
-
 #################################################################
-#
 #    Object Properties
-#
 #################################################################
-
 
 ###  http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#is_in_a
-
-:is_in_a rdf:type owl:FunctionalProperty ,
-                  owl:ObjectProperty ;
-         
+:is_in_a rdf:type owl:ObjectProperty ;
          rdfs:domain :Alojamiento ;
-         
          rdfs:range :Ciudad .
 
 
-
-
-
 #################################################################
-#
 #    Data properties
-#
 #################################################################
-
 
 ###  http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Estrellas
-
-:Estrellas rdf:type owl:DatatypeProperty ,
-                    owl:FunctionalProperty ;
-           
+:Estrellas rdf:type owl:DatatypeProperty ;
+           rdfs:subPropertyOf owl:topDataProperty ;
+           rdf:type owl:FunctionalProperty ;
            rdfs:domain :Hotel ;
-           
-           rdfs:range xsd:integer ;
-           
-           rdfs:subPropertyOf owl:topDataProperty .
-
+           rdfs:range xsd:integer .
 
 
 ###  http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Número_de_habitantes
-
-:Número_de_habitantes rdf:type owl:DatatypeProperty ,
-                               owl:FunctionalProperty ;
-                      
+:Número_de_habitantes rdf:type owl:DatatypeProperty ;
+                      rdfs:subPropertyOf owl:topDataProperty ;
+                      rdf:type owl:FunctionalProperty ;
                       rdfs:domain :Hotel ;
-                      
-                      rdfs:range xsd:integer ;
-                      
-                      rdfs:subPropertyOf owl:topDataProperty .
-
+                      rdfs:range xsd:integer .
 
 
 ###  http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Precio/noche
-
-<http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Precio/noche> rdf:type owl:DatatypeProperty ,
-                                                                                               owl:FunctionalProperty ;
-                                                                                      
-                                                                                      rdfs:domain :Alojamiento ;
-                                                                                      
-                                                                                      rdfs:range xsd:integer ;
-                                                                                      
-                                                                                      rdfs:subPropertyOf owl:topDataProperty .
-
-
-
+<http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Precio/noche> rdf:type owl:DatatypeProperty ;
+                                                                                      rdfs:subPropertyOf owl:topDataProperty ;
+                                                                                      rdf:type owl:FunctionalProperty ;
+                                                                                      rdfs:domain :Hotel ;
+                                                                                      rdfs:range xsd:integer .
 
 
 #################################################################
-#
 #    Classes
-#
 #################################################################
-
 
 ###  http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Albergue
-
 :Albergue rdf:type owl:Class ;
-          
           rdfs:subClassOf :Alojamiento .
 
 
-
 ###  http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Alojamiento
-
 :Alojamiento rdf:type owl:Class .
 
 
-
 ###  http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Camping
-
 :Camping rdf:type owl:Class ;
-         
          rdfs:subClassOf :Alojamiento .
 
 
-
 ###  http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Casa_Rural
-
 :Casa_Rural rdf:type owl:Class ;
-            
             rdfs:subClassOf :Alojamiento .
 
 
-
 ###  http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Ciudad
-
 :Ciudad rdf:type owl:Class .
 
 
-
 ###  http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Hotel
-
 :Hotel rdf:type owl:Class ;
-       
        rdfs:subClassOf :Alojamiento .
 
 
-
 ###  http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Resort
-
 :Resort rdf:type owl:Class ;
-        
         rdfs:subClassOf :Alojamiento .
 
 
-
-
-
 #################################################################
-#
 #    Individuals
-#
 #################################################################
-
 
 ###  http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Barcelona
-
-:Barcelona rdf:type :Ciudad ,
-                    owl:NamedIndividual .
-
+:Barcelona rdf:type owl:NamedIndividual ,
+                    :Ciudad .
 
 
 ###  http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Camping_sa_caleta
-
-:Camping_sa_caleta rdf:type :Camping ,
-                            owl:NamedIndividual ;
-                   
-                   <http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Precio/noche> "5" ;
-                   
-                   :is_in_a :Paris .
-
+:Camping_sa_caleta rdf:type owl:NamedIndividual ,
+                            :Camping .
 
 
 ###  http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Hotel_Wela
-
-:Hotel_Wela rdf:type :Hotel ,
-                     owl:NamedIndividual .
-
+:Hotel_Wela rdf:type owl:NamedIndividual ,
+                     :Hotel .
 
 
 ###  http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Paris
-
-:Paris rdf:type :Ciudad ,
-                owl:NamedIndividual .
-
+:Paris rdf:type owl:NamedIndividual ,
+                :Ciudad .
 
 
 ###  http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Resort_grancanaria
-
-:Resort_grancanaria rdf:type :Resort ,
-                             owl:NamedIndividual .
-
+:Resort_grancanaria rdf:type owl:NamedIndividual ,
+                             :Resort .
 
 
 ###  http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Roma
-
-:Roma rdf:type :Ciudad ,
-               owl:NamedIndividual .
-
+:Roma rdf:type owl:NamedIndividual ,
+               :Ciudad .
 
 
 ###  http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Rural1
-
-:Rural1 rdf:type :Casa_Rural ,
-                 owl:NamedIndividual ;
-        
-        <http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Precio/noche> "100000" ;
-        
-        :is_in_a :Barcelona .
-
+:Rural1 rdf:type owl:NamedIndividual ,
+                 :Casa_Rural .
 
 
 ###  http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Santiago_de_compostela
-
-:Santiago_de_compostela rdf:type :Ciudad ,
-                                 owl:NamedIndividual .
-
+:Santiago_de_compostela rdf:type owl:NamedIndividual ,
+                                 :Ciudad ;
+                        <http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Precio/noche> 400 .
 
 
 ###  http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#albergue_caminosantiago1
-
-:albergue_caminosantiago1 rdf:type :Albergue ,
-                                   owl:NamedIndividual .
-
+:albergue_caminosantiago1 rdf:type owl:NamedIndividual ,
+                                   :Albergue .
 
 
-
-###  Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net
-
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
