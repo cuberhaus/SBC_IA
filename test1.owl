@@ -155,7 +155,11 @@
 ###  http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Camping_sa_caleta
 
 :Camping_sa_caleta rdf:type :Camping ,
-                            owl:NamedIndividual .
+                            owl:NamedIndividual ;
+                   
+                   <http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Precio/noche> "5" ;
+                   
+                   :is_in_a :Paris .
 
 
 
