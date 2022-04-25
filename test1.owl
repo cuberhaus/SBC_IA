@@ -194,7 +194,11 @@
 ###  http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Rural1
 
 :Rural1 rdf:type :Casa_Rural ,
-                 owl:NamedIndividual .
+                 owl:NamedIndividual ;
+        
+        <http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Precio/noche> "100000" ;
+        
+        :is_in_a :Barcelona .
 
 
 
