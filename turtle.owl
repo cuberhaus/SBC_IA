@@ -99,7 +99,8 @@
 
 ###  http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Hotel_Wela
 :Hotel_Wela rdf:type owl:NamedIndividual ,
-                     :Hotel .
+                     :Hotel ;
+            <http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Precio/noche> 400 .
 
 
 ###  http://www.semanticweb.org/alesp/ontologies/2022/3/untitled-ontology-5#Paris

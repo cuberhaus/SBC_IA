@@ -1,0 +1,175 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#"
+     xml:base="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:untitled-ontology-6="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Estrellas -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Estrellas">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Hotel"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Numero_de_habitantes -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Numero_de_habitantes">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Ciudad"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Precio_por_noche -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Precio_por_noche">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Albergue"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Camping"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Casa_Rural"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Hotel"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Resort"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Albergue -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Albergue">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Alojamiento"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Alojamiento -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Alojamiento">
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Ciudad"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Camping -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Camping">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Alojamiento"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Casa_Rural -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Casa_Rural">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Alojamiento"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Ciudad -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Ciudad"/>
+    
+
+
+    <!-- http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Hotel -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Hotel">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Alojamiento"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Resort -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Resort">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Alojamiento"/>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Camping_las_morenas -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Camping_las_morenas">
+        <rdf:type rdf:resource="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Camping"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Hotel_Vela -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Hotel_Vela">
+        <rdf:type rdf:resource="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Hotel"/>
+        <Precio_por_noche rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">400</Precio_por_noche>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Albergue"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Camping"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Casa_Rural"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Hotel"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Resort"/>
+        </owl:members>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+

@@ -1,34 +1,40 @@
 ;;; ---------------------------------------------------------
-;;; turtle.clp
+;;; pol.clp
 ;;; Translated by owl2clips
-;;; Translated to CLIPS from ontology turtle.owl
-;;; :Date 26/04/2022 19:42:46
+;;; Translated to CLIPS from ontology pol.owl
+;;; :Date 26/04/2022 21:00:28
 
 (defclass Alojamiento
     (is-a USER)
     (role concrete)
     (pattern-match reactive)
-    (multislot is_in_a
-        (type INSTANCE)
-        (create-accessor read-write))
 )
 
 (defclass Albergue
     (is-a Alojamiento)
     (role concrete)
     (pattern-match reactive)
+    (slot Precio_por_noche
+        (type SYMBOL)
+        (create-accessor read-write))
 )
 
 (defclass Camping
     (is-a Alojamiento)
     (role concrete)
     (pattern-match reactive)
+    (slot Precio_por_noche
+        (type SYMBOL)
+        (create-accessor read-write))
 )
 
 (defclass Casa_Rural
     (is-a Alojamiento)
     (role concrete)
     (pattern-match reactive)
+    (slot Precio_por_noche
+        (type SYMBOL)
+        (create-accessor read-write))
 )
 
 (defclass Hotel
@@ -36,13 +42,10 @@
     (role concrete)
     (pattern-match reactive)
     (slot Estrellas
-        (type INTEGER)
+        (type SYMBOL)
         (create-accessor read-write))
-    (slot Número_de_habitantes
-        (type INTEGER)
-        (create-accessor read-write))
-    (slot Precio/noche
-        (type INTEGER)
+    (slot Precio_por_noche
+        (type SYMBOL)
         (create-accessor read-write))
 )
 
@@ -50,18 +53,26 @@
     (is-a Alojamiento)
     (role concrete)
     (pattern-match reactive)
+    (slot Precio_por_noche
+        (type SYMBOL)
+        (create-accessor read-write))
 )
 
 (defclass Ciudad
     (is-a USER)
     (role concrete)
     (pattern-match reactive)
+    (slot Numero_de_habitantes
+        (type SYMBOL)
+        (create-accessor read-write))
 )
 
 (definstances instances
-    ([Barcelona] of Ciudad
+    ([Camping_las_morenas] of Camping
     )
 
-    ([Camping_sa_caleta] of Camping
+    ([Hotel_Vela] of Hotel
+         (Precio_por_noche  400)
     )
 
+)
