@@ -1,13 +1,19 @@
 ;;; ---------------------------------------------------------
-;;; pol.clp
+;;; sbc.clp
 ;;; Translated by owl2clips
-;;; Translated to CLIPS from ontology pol.owl
-;;; :Date 26/04/2022 21:00:28
+;;; Translated to CLIPS from ontology sbc.owl
+;;; :Date 27/04/2022 18:04:36
 
 (defclass Alojamiento
     (is-a USER)
     (role concrete)
     (pattern-match reactive)
+    (slot esta_en
+        (type INSTANCE)
+        (create-accessor read-write))
+    (multislot Distancia_a_centro
+        (type FLOAT)
+        (create-accessor read-write))
 )
 
 (defclass Albergue
@@ -15,7 +21,7 @@
     (role concrete)
     (pattern-match reactive)
     (slot Precio_por_noche
-        (type SYMBOL)
+        (type INTEGER)
         (create-accessor read-write))
 )
 
@@ -24,7 +30,7 @@
     (role concrete)
     (pattern-match reactive)
     (slot Precio_por_noche
-        (type SYMBOL)
+        (type INTEGER)
         (create-accessor read-write))
 )
 
@@ -33,7 +39,7 @@
     (role concrete)
     (pattern-match reactive)
     (slot Precio_por_noche
-        (type SYMBOL)
+        (type INTEGER)
         (create-accessor read-write))
 )
 
@@ -44,8 +50,11 @@
     (slot Estrellas
         (type SYMBOL)
         (create-accessor read-write))
-    (slot Precio_por_noche
+    (multislot Para_adultos
         (type SYMBOL)
+        (create-accessor read-write))
+    (slot Precio_por_noche
+        (type INTEGER)
         (create-accessor read-write))
 )
 
@@ -53,8 +62,11 @@
     (is-a Alojamiento)
     (role concrete)
     (pattern-match reactive)
-    (slot Precio_por_noche
+    (multislot Para_adultos
         (type SYMBOL)
+        (create-accessor read-write))
+    (slot Precio_por_noche
+        (type INTEGER)
         (create-accessor read-write))
 )
 
@@ -63,7 +75,7 @@
     (role concrete)
     (pattern-match reactive)
     (slot Numero_de_habitantes
-        (type SYMBOL)
+        (type INTEGER)
         (create-accessor read-write))
 )
 
@@ -72,7 +84,10 @@
     )
 
     ([Hotel_Vela] of Hotel
+         (Estrellas  5)
+         (Para_adultos  "false")
          (Precio_por_noche  400)
+         (Distancia_a_centro  3.3)
     )
 
 )
