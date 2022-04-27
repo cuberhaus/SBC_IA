@@ -2,7 +2,7 @@
 ;;; sbc.clp
 ;;; Translated by owl2clips
 ;;; Translated to CLIPS from ontology sbc.owl
-;;; :Date 27/04/2022 18:04:36
+;;; :Date 27/04/2022 18:15:53
 
 (defclass Alojamiento
     (is-a USER)
@@ -10,9 +10,6 @@
     (pattern-match reactive)
     (slot esta_en
         (type INSTANCE)
-        (create-accessor read-write))
-    (multislot Distancia_a_centro
-        (type FLOAT)
         (create-accessor read-write))
 )
 
@@ -80,14 +77,43 @@
 )
 
 (definstances instances
+    ([Barcelona] of Ciudad
+         (Numero_de_habitantes  1620000)
+    )
+
+    ([Bird_House] of Hotel
+         (Estrellas  3)
+         (Para_adultos  "false")
+         (Precio_por_noche  98)
+         (esta_en  [Barcelona])
+    )
+
     ([Camping_las_morenas] of Camping
+    )
+
+    ([H10_Madison] of Hotel
+         (Estrellas  4)
+         (Para_adultos  "false")
+         (Precio_por_noche  298)
+         (esta_en  [Barcelona])
     )
 
     ([Hotel_Vela] of Hotel
          (Estrellas  5)
          (Para_adultos  "false")
          (Precio_por_noche  400)
-         (Distancia_a_centro  3.3)
+         (esta_en  [Barcelona])
+    )
+
+    ([Napoleon_Hotel_Roma] of Hotel
+         (Estrellas  4)
+         (Para_adultos  "false")
+         (Precio_por_noche  135)
+         (esta_en  [Roma])
+    )
+
+    ([Roma] of Ciudad
+         (Numero_de_habitantes  2873000)
     )
 
 )
