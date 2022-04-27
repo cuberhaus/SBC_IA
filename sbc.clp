@@ -124,3 +124,12 @@
     )
 
 )
+(esta_en Barcelona Hotel_Vela)
+
+(defrule mindist "regladistancia"
+    ?Alojamiento <- (object (esta_en Barcelona))
+    =>
+    (printout "a")
+
+)
+
