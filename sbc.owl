@@ -157,6 +157,19 @@ untitled-ontology-6:Estrellas rdf:type owl:DatatypeProperty ;
                               rdfs:comment "Atributo que indica quan bueno es un hotel, de 1 a 5." .
 
 
+###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Nombre
+untitled-ontology-6:Nombre rdf:type owl:DatatypeProperty ;
+                           rdfs:subPropertyOf owl:topDataProperty ;
+                           rdfs:domain untitled-ontology-6:Actividad ,
+                                       untitled-ontology-6:Alojamiento ,
+                                       untitled-ontology-6:Ciudad ,
+                                       untitled-ontology-6:Transporte ,
+                                       untitled-ontology-6:Usuario ,
+                                       untitled-ontology-6:Viaje ;
+                           rdfs:range xsd:string ;
+                           rdfs:comment "Atributo que indica el nombre de la instancia" .
+
+
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Numero_de_habitantes
 untitled-ontology-6:Numero_de_habitantes rdf:type owl:DatatypeProperty ;
                                          rdfs:subPropertyOf owl:topDataProperty ;
@@ -183,27 +196,6 @@ untitled-ontology-6:Para_adultos rdf:type owl:DatatypeProperty ;
                                  rdfs:comment "Atributo que indica si un hotel es exclusivamente para adultos o no." .
 
 
-###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Precio_actividad
-untitled-ontology-6:Precio_actividad rdf:type owl:DatatypeProperty ;
-                                     rdfs:subPropertyOf owl:topDataProperty ;
-                                     rdfs:domain untitled-ontology-6:Actividad ;
-                                     rdfs:range xsd:float ;
-                                     rdfs:comment "Atributo que indica el precio de una actividad." .
-
-
-###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Precio_por_noche
-untitled-ontology-6:Precio_por_noche rdf:type owl:DatatypeProperty ;
-                                     rdfs:subPropertyOf owl:topDataProperty ;
-                                     rdf:type owl:FunctionalProperty ;
-                                     rdfs:domain untitled-ontology-6:Albergue ,
-                                                 untitled-ontology-6:Camping ,
-                                                 untitled-ontology-6:Casa_Rural ,
-                                                 untitled-ontology-6:Hotel ,
-                                                 untitled-ontology-6:Resort ;
-                                     rdfs:range xsd:integer ;
-                                     rdfs:comment "Atributo que indica el precio por noche de un alojamiento." .
-
-
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#duracion_transporte
 untitled-ontology-6:duracion_transporte rdf:type owl:DatatypeProperty ;
                                         rdfs:subPropertyOf owl:topDataProperty ;
@@ -212,12 +204,14 @@ untitled-ontology-6:duracion_transporte rdf:type owl:DatatypeProperty ;
                                         rdfs:comment "Atributo que representa la duración de un medio de transporte." .
 
 
-###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#precio_transporte
-untitled-ontology-6:precio_transporte rdf:type owl:DatatypeProperty ;
-                                      rdfs:subPropertyOf owl:topDataProperty ;
-                                      rdfs:domain untitled-ontology-6:Transporte ;
-                                      rdfs:range xsd:float ;
-                                      rdfs:comment "Atributo que indica el precio de el transporte." .
+###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#precio
+untitled-ontology-6:precio rdf:type owl:DatatypeProperty ;
+                           rdfs:subPropertyOf owl:topDataProperty ;
+                           rdfs:domain untitled-ontology-6:Actividad ,
+                                       untitled-ontology-6:Alojamiento ,
+                                       untitled-ontology-6:Transporte ;
+                           rdfs:range xsd:float ;
+                           rdfs:comment "Precio de un servicio específico." .
 
 
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#preferencia_viaje
@@ -410,8 +404,7 @@ untitled-ontology-6:Bird_House rdf:type owl:NamedIndividual ,
                                untitled-ontology-6:esta_en untitled-ontology-6:Barcelona ;
                                untitled-ontology-6:Distancia_a_centro "1.0"^^xsd:float ;
                                untitled-ontology-6:Estrellas 3 ;
-                               untitled-ontology-6:Para_adultos "false"^^xsd:boolean ;
-                               untitled-ontology-6:Precio_por_noche 98 .
+                               untitled-ontology-6:Para_adultos "false"^^xsd:boolean .
 
 
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Camping_las_morenas
@@ -425,8 +418,7 @@ untitled-ontology-6:H10_Madison rdf:type owl:NamedIndividual ,
                                 untitled-ontology-6:esta_en untitled-ontology-6:Barcelona ;
                                 untitled-ontology-6:Distancia_a_centro "0.5"^^xsd:float ;
                                 untitled-ontology-6:Estrellas 4 ;
-                                untitled-ontology-6:Para_adultos "false"^^xsd:boolean ;
-                                untitled-ontology-6:Precio_por_noche 298 .
+                                untitled-ontology-6:Para_adultos "false"^^xsd:boolean .
 
 
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Hotel_Vela
@@ -435,8 +427,7 @@ untitled-ontology-6:Hotel_Vela rdf:type owl:NamedIndividual ,
                                untitled-ontology-6:esta_en untitled-ontology-6:Barcelona ;
                                untitled-ontology-6:Distancia_a_centro "3.3"^^xsd:float ;
                                untitled-ontology-6:Estrellas 5 ;
-                               untitled-ontology-6:Para_adultos "false"^^xsd:boolean ;
-                               untitled-ontology-6:Precio_por_noche 400 .
+                               untitled-ontology-6:Para_adultos "false"^^xsd:boolean .
 
 
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Napoleon_Hotel_Roma
@@ -445,8 +436,7 @@ untitled-ontology-6:Napoleon_Hotel_Roma rdf:type owl:NamedIndividual ,
                                         untitled-ontology-6:esta_en untitled-ontology-6:Roma ;
                                         untitled-ontology-6:Distancia_a_centro "2.4"^^xsd:float ;
                                         untitled-ontology-6:Estrellas 4 ;
-                                        untitled-ontology-6:Para_adultos "false"^^xsd:boolean ;
-                                        untitled-ontology-6:Precio_por_noche 135 .
+                                        untitled-ontology-6:Para_adultos "false"^^xsd:boolean .
 
 
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Roma
