@@ -1,3 +1,4 @@
+
 ; (defrule mi-regla
 ; ?hotel <- (Hotel (nombre juan))
 ; =>
@@ -16,6 +17,13 @@
    (printout t "###################################################" crlf )
 )
 
+;(defrule mi-regla
+;?hotel <- (Hotel (nombre juan))
+;=>
+;(retract ?x)
+;)
+
+
 (defrule print_hotels ;; prints all hotel names
 (object (is-a Hotel) (precio ?x))
 =>
@@ -27,4 +35,5 @@
 ;     =>
 ;     (printout "a")
 ; )
+
 
