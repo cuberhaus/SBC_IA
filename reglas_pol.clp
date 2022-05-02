@@ -16,11 +16,11 @@
    (printout t "###################################################" crlf )
 )
 
-; (defrule print_hotels ;; prints all hotel names
-; (object (is-a Hotel) (Precio ?x))
-; =>
-; (printout t ?x crlf)
-; )
+(defrule print_hotels ;; prints all hotel names
+(object (is-a Hotel) (precio ?x))
+=>
+(printout t ?x crlf)
+)
 
 ; (defrule mindist "regladistancia"
 ;     ?Alojamiento <- (object (esta_en Barcelona))

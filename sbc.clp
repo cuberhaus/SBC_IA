@@ -2,7 +2,7 @@
 ;;; sbc.clp
 ;;; Translated by owl2clips
 ;;; Translated to CLIPS from ontology sbc.owl
-;;; :Date 01/05/2022 20:27:06
+;;; :Date 02/05/2022 19:43:55
 
 (defclass Viaje
     (is-a USER)
@@ -49,6 +49,48 @@
 
 (defclass VCultural
     (is-a Viaje)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass Transporte
+    (is-a USER)
+    (role concrete)
+    (pattern-match reactive)
+    (multislot parte_de
+        (type INSTANCE)
+        (create-accessor read-write))
+    (multislot va_a
+        (type INSTANCE)
+        (create-accessor read-write))
+    ;;; Atributo que indica el nombre de la instancia
+    (multislot Nombre
+        (type STRING)
+        (create-accessor read-write))
+    ;;; Atributo que representa la duración de un medio de transporte.
+    (multislot duracion_transporte
+        (type INTEGER)
+        (create-accessor read-write))
+    ;;; Precio de un servicio específico.
+    (multislot precio
+        (type FLOAT)
+        (create-accessor read-write))
+)
+
+(defclass Avion
+    (is-a Transporte)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass Barco
+    (is-a Transporte)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass Tren
+    (is-a Transporte)
     (role concrete)
     (pattern-match reactive)
 )
@@ -194,48 +236,6 @@
     (pattern-match reactive)
 )
 
-(defclass Transporte
-    (is-a USER)
-    (role concrete)
-    (pattern-match reactive)
-    (multislot parte_de
-        (type INSTANCE)
-        (create-accessor read-write))
-    (multislot va_a
-        (type INSTANCE)
-        (create-accessor read-write))
-    ;;; Atributo que indica el nombre de la instancia
-    (multislot Nombre
-        (type STRING)
-        (create-accessor read-write))
-    ;;; Atributo que representa la duración de un medio de transporte.
-    (multislot duracion_transporte
-        (type INTEGER)
-        (create-accessor read-write))
-    ;;; Precio de un servicio específico.
-    (multislot precio
-        (type FLOAT)
-        (create-accessor read-write))
-)
-
-(defclass Avion
-    (is-a Transporte)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass Barco
-    (is-a Transporte)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass Tren
-    (is-a Transporte)
-    (role concrete)
-    (pattern-match reactive)
-)
-
 (defclass Actividad
     (is-a USER)
     (role concrete)
@@ -342,6 +342,7 @@
          (Para_adultos  "false")
          (esta_en  [Barcelona])
          (Distancia_a_centro  1.0)
+         (precio  60)
     )
 
     ([Camping_las_morenas] of Camping
@@ -352,6 +353,7 @@
          (Para_adultos  "false")
          (esta_en  [Barcelona])
          (Distancia_a_centro  0.5)
+         (precio  100)
     )
 
     ([Hotel_Vela] of Hotel
@@ -359,6 +361,7 @@
          (Para_adultos  "false")
          (esta_en  [Barcelona])
          (Distancia_a_centro  3.3)
+         (precio  200)
     )
 
     ([Napoleon_Hotel_Roma] of Hotel
@@ -366,6 +369,7 @@
          (Para_adultos  "false")
          (esta_en  [Roma])
          (Distancia_a_centro  2.4)
+         (precio  70)
     )
 
     ([Roma] of Ciudad
