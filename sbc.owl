@@ -404,7 +404,8 @@ untitled-ontology-6:Bird_House rdf:type owl:NamedIndividual ,
                                untitled-ontology-6:esta_en untitled-ontology-6:Barcelona ;
                                untitled-ontology-6:Distancia_a_centro "1.0"^^xsd:float ;
                                untitled-ontology-6:Estrellas 3 ;
-                               untitled-ontology-6:Para_adultos "false"^^xsd:boolean .
+                               untitled-ontology-6:Para_adultos "false"^^xsd:boolean ;
+                               untitled-ontology-6:precio 60 .
 
 
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Camping_las_morenas
@@ -418,7 +419,8 @@ untitled-ontology-6:H10_Madison rdf:type owl:NamedIndividual ,
                                 untitled-ontology-6:esta_en untitled-ontology-6:Barcelona ;
                                 untitled-ontology-6:Distancia_a_centro "0.5"^^xsd:float ;
                                 untitled-ontology-6:Estrellas 4 ;
-                                untitled-ontology-6:Para_adultos "false"^^xsd:boolean .
+                                untitled-ontology-6:Para_adultos "false"^^xsd:boolean ;
+                                untitled-ontology-6:precio 100 .
 
 
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Hotel_Vela
@@ -427,7 +429,8 @@ untitled-ontology-6:Hotel_Vela rdf:type owl:NamedIndividual ,
                                untitled-ontology-6:esta_en untitled-ontology-6:Barcelona ;
                                untitled-ontology-6:Distancia_a_centro "3.3"^^xsd:float ;
                                untitled-ontology-6:Estrellas 5 ;
-                               untitled-ontology-6:Para_adultos "false"^^xsd:boolean .
+                               untitled-ontology-6:Para_adultos "false"^^xsd:boolean ;
+                               untitled-ontology-6:precio 200 .
 
 
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Napoleon_Hotel_Roma
@@ -436,7 +439,8 @@ untitled-ontology-6:Napoleon_Hotel_Roma rdf:type owl:NamedIndividual ,
                                         untitled-ontology-6:esta_en untitled-ontology-6:Roma ;
                                         untitled-ontology-6:Distancia_a_centro "2.4"^^xsd:float ;
                                         untitled-ontology-6:Estrellas 4 ;
-                                        untitled-ontology-6:Para_adultos "false"^^xsd:boolean .
+                                        untitled-ontology-6:Para_adultos "false"^^xsd:boolean ;
+                                        untitled-ontology-6:precio 70 .
 
 
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Roma
