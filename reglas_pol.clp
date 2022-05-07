@@ -36,4 +36,8 @@
 ;     (printout "a")
 ; )
 
-
+(defrule tienen_gentemayor ;;prints all users with elder people
+(object (is-a Usuario) (Con_gente_mayor ?x))
+=>
+(printout t ?x crlf)
+)
