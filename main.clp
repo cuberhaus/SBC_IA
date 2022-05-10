@@ -105,7 +105,6 @@
   (preguntado-con-numero-integrantes)
   (preguntado-tipo-de-viaje)
   (preguntado-ciudades-preferidas)
-
   (preguntado-dias-minimo)
   (preguntado-dias-maximo)
   (preguntado-ciudades-minimo)
@@ -113,7 +112,6 @@
   (preguntado-presupuesto)
   (preguntado-medios-de-transporte)
   (preguntado-calidad-alojamiento)
-
   (preguntado-popularidad-ciudad)
   (preguntado-duracion-o-calidad)
 
@@ -122,3 +120,27 @@
   (assert (preguntas-acabadas))
 	  ; aqui seria un buen momento para cambiar el focus
 )
+
+(deftemplate usuario
+  (slot edat (type INTEGER))
+
+  (slot ninos (type SYMBOL) (allowed-values TRUE FALSE))
+  (slot adolescentes (type SYMBOL) (allowed-values TRUE FALSE))
+  (slot numero-integrantes (type INTEGER) )
+
+
+  (slot dias-minimo (type INTEGER) )
+  (slot dias-maximo (type INTEGER) )
+  (slot ciudades-minimo (type INTEGER) )
+  (slot ciudades-maximo (type INTEGER) )
+  (slot presupuesto (type INTEGER) )
+
+  (slot calidad-alojamiento (type INTEGER) )
+  (slot popularidad-ciudad (type INTEGER) )
+  (slot duracion-o-calidad (type SYMBOL) (allowed-values DURACION CALIDAD))
+
+  )
+
+(deffacts inicialitzacio
+  (usuario)
+  )
