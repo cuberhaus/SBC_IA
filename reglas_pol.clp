@@ -34,3 +34,6 @@
 =>
 (printout t ?x crlf)
 )
+
+
+(defrule preferenciadiasviaje)

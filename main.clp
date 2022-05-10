@@ -1,9 +1,26 @@
 ; (defmodule MENU "Inicio del programa")
 ; (focus MENU)
 
+(deffunction pregunta-int(?pregunta ?min ?max)
+  (printout t ?pregunta crlf "Introduzca su respuesta: ")
+  (bind ?param (read))
+  (while(not (and (integerp ?param) (and (>= ?param ?min) (<= ?param ?max)))) do
+    (printout t "Parámetro en formato incorrecto o fuera de rango" crlf crlf)
+    (printout t ?pregunta crlf "Introduzca su respuesta: ")
+    (bind ?param (read))
+  )
+  ?param
+)
+
 (defrule preguntar-edad
   (not (preguntado-edad))
  =>
+  (bind ?edad (pregunta-int "¿Cuantos años tienes?" 0 100))
+  (printout t "Su edad es: " ?edad crlf)
+
+  (if (and (>= ?edad 10) (< ?edad 17)) then (printout t "Eres adolescente" crlf))
+  (if (< ?edad 10) then (printout t "Eres un niño" crlf))
+
   (assert(preguntado-edad))
 )
 
@@ -13,12 +30,14 @@
   (assert(preguntado-nivel-cultural))
 )
 
+; Esta realmente ya la he hecho en la de la edad?
 (defrule preguntar-con-ninos
   (not (preguntado-con-ninos))
  =>
   (assert(preguntado-con-ninos))
 )
 
+; Esta realmente ya la he hecho en la de los adolescentes?
 (defrule preguntar-con-adolescentes
   (not (preguntado-con-adolescentes))
  =>
@@ -28,6 +47,8 @@
 (defrule preguntar-con-numero-integrantes
   (not (preguntado-con-numero-integrantes))
  =>
+  ;(bind ?nintegrantes (pregunta-int "¿Cuántos integrantes realizareis el viaje?" 1 20))
+  ;(if (= ?nintengrantes 1) then (printout t "Es un viaje individual"))
   (assert(preguntado-con-numero-integrantes))
 )
 

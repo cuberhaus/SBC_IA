@@ -190,6 +190,9 @@
     (multislot preferencia_viaje
         (type STRING)
         (create-accessor read-write))
+    (multislot numero_dias_viaje)
+        (type INTEGER)
+        (create-accessor read-write)
 )
 
 (defclass Familia
