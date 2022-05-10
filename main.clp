@@ -119,4 +119,5 @@
  =>
   
   (assert (preguntas-acabadas)
+	  ; aqui seria un buen momento para cambiar el focus
 )
