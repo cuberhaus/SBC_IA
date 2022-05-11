@@ -2,6 +2,32 @@
 ; (focus MENU)
  ; Fa una pregunta sobre una llista d'elements
 
+
+;; deftemplate has to be at the top
+(deftemplate usuario
+  (multislot edades (type INTEGER))
+
+  (slot ninos (type SYMBOL) (allowed-values TRUE FALSE))
+  (slot adolescentes (type SYMBOL) (allowed-values TRUE FALSE))
+  (slot numero-integrantes (type INTEGER) )
+
+
+  (slot dias-minimo (type INTEGER) )
+  (slot dias-maximo (type INTEGER) )
+  (slot ciudades-minimo (type INTEGER) )
+  (slot ciudades-maximo (type INTEGER) )
+  (slot presupuesto (type INTEGER) )
+
+  (slot calidad-alojamiento (type INTEGER) )
+  (slot popularidad-ciudad (type INTEGER) )
+  (slot duracion-o-calidad (type SYMBOL) (allowed-values DURACION CALIDAD))
+  )
+
+(deffacts inicialitzacio
+  (usuario)
+  )
+
+
  (deffunction pregunta-llista (?pregunta ?min ?max)
  (format t "%s: %n" ?pregunta)
  ; Llegim una línea sencera (Ex. "Pasta Marisc Fruita")
@@ -219,26 +245,3 @@
 	  ; aqui seria un buen momento para cambiar el focus
 )
 
-(deftemplate usuario
-  (multislot edades (type INTEGER))
-
-  (slot ninos (type SYMBOL) (allowed-values TRUE FALSE))
-  (slot adolescentes (type SYMBOL) (allowed-values TRUE FALSE))
-  (slot numero-integrantes (type INTEGER) )
-
-
-  (slot dias-minimo (type INTEGER) )
-  (slot dias-maximo (type INTEGER) )
-  (slot ciudades-minimo (type INTEGER) )
-  (slot ciudades-maximo (type INTEGER) )
-  (slot presupuesto (type INTEGER) )
-
-  (slot calidad-alojamiento (type INTEGER) )
-  (slot popularidad-ciudad (type INTEGER) )
-  (slot duracion-o-calidad (type SYMBOL) (allowed-values DURACION CALIDAD))
-
-  )
-
-(deffacts inicialitzacio
-  (usuario)
-  )
