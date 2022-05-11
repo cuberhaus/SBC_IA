@@ -38,7 +38,7 @@
 (deffunction pregunta-float(?pregunta ?min ?max)
   (printout t ?pregunta crlf "Introduzca su respuesta: ")
   (bind ?param (read))
-  (while(not (and (floatp ?param) (and (>= ?param ?min) (<= ?param ?max)))) do
+  (while(not (and (or(floatp ?param) (integerp ?param)) (and (>= ?param ?min) (<= ?param ?max)))) do
     (printout t "Parámetro en formato incorrecto o fuera de rango" crlf crlf)
     (printout t ?pregunta crlf "Introduzca su respuesta: ")
     (bind ?param (read))
@@ -174,6 +174,8 @@
 (defrule preguntar-medios-de-transporte
   (not (preguntado-medios-de-transporte))
  =>
+  (bind ?tipoviaje (pregunta-llista "Que medios de transporte se desean evitar" 0 1))
+  (printout t "Se intentaran evitar los siguientes medios de transporte " ?tipoviaje crlf)
   (assert(preguntado-medios-de-transporte))
 )
 
