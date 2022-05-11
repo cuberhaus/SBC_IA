@@ -35,21 +35,10 @@
  ; Separem l'string (Ex. "Pasta" "Marisc" "Fruita")
  (bind ?res (str-explode ?resposta))
  ; Retornem els diferents camps (Ex. "Pasta" "Marisc" "Fruita")
- ; (bind ?i 1)
- ; (while (<= ?i (length$ ?res))
- ;   do
- ;   (bind ?edad (nth$ ?i ?res))
- ;   (bind ?edad_num (format nil ?edad))
- ;   ; (printout t ?edad_num crlf)
- ;   (printout t ?edad crlf)
- ;   (bind ?i (+ ?i 1))
- ;   )
- 
  ?res
  )
 
 (defrule preguntar-edades
-  ; (declare (salience 5))
   (not (preguntado-edad))
  =>
   (bind ?edades (pregunta-llista "Escriba las edades de los participantes separados por espacios" 0 100))
@@ -96,17 +85,17 @@
   ?respuesta
  )
 
-; (defrule preguntar-edad
-;   (not (preguntado-edad))
-;  =>
-;   (bind ?edad (pregunta-int "¿Cuantos años tienes?" 0 100))
-;   (printout t "Su edad es: " ?edad crlf)
+(defrule preguntar-edad
+  (not (preguntado-edad))
+ =>
+  (bind ?edad (pregunta-int "¿Cuantos años tienes?" 0 100))
+  (printout t "Su edad es: " ?edad crlf)
 
-;   (if (and (>= ?edad 10) (< ?edad 17)) then (printout t "Eres adolescente" crlf))
-;   (if (< ?edad 10) then (printout t "Eres un niño" crlf))
+  (if (and (>= ?edad 10) (< ?edad 17)) then (printout t "Eres adolescente" crlf))
+  (if (< ?edad 10) then (printout t "Eres un niño" crlf))
 
-;   (assert(preguntado-edad))
-; )
+  (assert(preguntado-edad))
+)
 
 (defrule preguntar-nivel-cultural
   (not (preguntado-nivel-cultural))
@@ -157,7 +146,6 @@
 
 (defrule preguntar-dias
   (not (preguntado-dias))
- ?user <- (usuario)
  =>
   (bind ?min (pregunta-int "¿Cuál es el minimo de dias que quereis de viaje?" 1 365))
   (bind ?max (pregunta-int "¿Cuál es el maximo de dias que quereis de viaje?" 1 365))
@@ -165,15 +153,12 @@
     (printout t "Maximo no puede ser menor que el minimo" crlf)
     (bind ?max (pregunta-int "¿Cuál es el maximo de dias que quereis de viaje?" 1 365))
   )
-  (modify ?user (dias-minimo ?min))
-  (modify ?user (dias-maximo ?max))
   (printout t "Dias seleccionados, se viajará minimo " ?min " dias y maximo " ?max " dias" crlf)
   (assert(preguntado-dias))
 )
 
 (defrule preguntar-nciudades
   (not (preguntado-nciudades))
-  ?user <- (usuario)
  =>
   (bind ?min (pregunta-int "¿Cuál es el minimo de ciudades que quereis visitar?" 1 365))
   (bind ?max (pregunta-int "¿Cuál es el maximo de ciudades que quereis visitar?" 1 365))
@@ -181,18 +166,14 @@
     (printout t "Maximo no puede ser menor que el minimo" crlf)
     (bind ?max (pregunta-int "¿Cuál es el maximo de ciudades que quereis visitar?" 1 365))
   )
-  (modify ?user (ciudades-minimo ?min))
-  (modify ?user (ciudades-maximo ?max))
   (printout t "Dias seleccionados, se viajará a minimo " ?min " ciudades y maximo " ?max " ciudades" crlf)
   (assert(preguntado-nciudades))
 )
 
 (defrule preguntar-presupuesto
   (not (preguntado-presupuesto))
-  ?user <- (usuario)
  =>
   (bind ?presupuesto (pregunta-float "De cuanto presupuesto disponeis (en euros €)" 100 100000000))
-  (modify ?user (presupuesto ?presupuesto))
   (printout t "Su presupuesto es de " ?presupuesto  "€"crlf)
   (assert(preguntado-presupuesto))
 )
@@ -200,7 +181,7 @@
 (defrule preguntar-medios-de-transporte
   (not (preguntado-medios-de-transporte))
  =>
-  (bind ?tipoviaje (pregunta-llista "Que medios de transporte se desean evitar" 0 1))
+  (bind ?tipoviaje (pregunta-llista "Que medios de transporte se desean evitar" 0 1)) ; 0 y 1 sonvalores basura de momento, habra que hacer una funcion bien
   (printout t "Se intentaran evitar los siguientes medios de transporte " ?tipoviaje crlf)
   (assert(preguntado-medios-de-transporte))
 )
@@ -208,18 +189,24 @@
 (defrule preguntar-calidad-alojamiento
   (not (preguntado-calidad-alojamiento))
  =>
+  (bind ?tipocalidadalojamiento (pregunta-int "Que calidad de alojamiento se prefiere (de minimo)" 1 5))
+  (printout "Se buscaran alojamientos de calidad: " ?tipocalidadalojamiento crlf)
   (assert(preguntado-calidad-alojamiento))
 )
 
 (defrule preguntar-popularidad-ciudad
   (not (preguntado-popularidad-ciudad))
  =>
+  (bind ?ciudades (pregunta-llista "Que ciudades desean visitar" 0 1)) ; 0 y 1 son valores basura de momento, habra que hacer una funcion bien
+  (printout "Se buscaran rutas con las siguientes ciudades: " ?ciudades crlf)
   (assert(preguntado-popularidad-ciudad))
 )
 
 (defrule preguntar-duracion-o-calidad
   (not (preguntado-duracion-o-calidad))
  =>
+  (bind ?respuesta (pregunta-restri "Prefiere duracion, calidad o un mixto" (create$ duracion calidad mixto)))
+  (printout "Se priorizara la: " ?respuesta crlf)
   (assert(preguntado-duracion-o-calidad))
 )
 
