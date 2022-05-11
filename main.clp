@@ -1,5 +1,28 @@
 ; (defmodule MENU "Inicio del programa")
 ; (focus MENU)
+ ; Fa una pregunta sobre una llista d'elements
+
+ (deffunction pregunta-llista (?pregunta ?min ?max)
+ (format t "%s: %n" ?pregunta)
+ ; Llegim una línea sencera (Ex. "Pasta Marisc Fruita")
+ (bind ?resposta (readline))
+ ; Separem l'string (Ex. "Pasta" "Marisc" "Fruita")
+ (bind ?res (str-explode ?resposta))
+ ; Retornem els diferents camps (Ex. "Pasta" "Marisc" "Fruita")
+ ?res
+ )
+
+(defrule preguntar-edades
+  (not (preguntado-edad))
+ =>
+  (bind ?edades (pregunta-llista "Escriba las edades de los participantes separados por espacios" 0 100))
+  (printout t "Su edad es: " ?edades crlf)
+
+  ; (if (and (>= ?edad 10) (< ?edad 17)) then (printout t "Eres adolescente" crlf))
+  ; (if (< ?edad 10) then (printout t "Eres un niño" crlf))
+
+  (assert(preguntado-edad))
+)
 
 (deffunction pregunta-int(?pregunta ?min ?max)
   (printout t ?pregunta crlf "Introduzca su respuesta: ")
@@ -143,7 +166,7 @@
 )
 
 (deftemplate usuario
-  (slot edat (type INTEGER))
+  (multislot edades (type INTEGER))
 
   (slot ninos (type SYMBOL) (allowed-values TRUE FALSE))
   (slot adolescentes (type SYMBOL) (allowed-values TRUE FALSE))
