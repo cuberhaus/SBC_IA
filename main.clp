@@ -17,6 +17,8 @@
     (slot medios-de-transporte (type STRING) (allowed-values "avion" "tren" "barco"))
   (slot dias-minimo (type INTEGER) )
   (slot dias-maximo (type INTEGER) )
+  (slot diasporciudad-minimo (type INTEGER) )
+  (slot diasporciudad-maximo (type INTEGER) )
   (slot ciudades-minimo (type INTEGER) )
   (slot ciudades-maximo (type INTEGER) )
   (slot presupuesto (type INTEGER FLOAT) )
@@ -166,6 +168,7 @@
 )
 
 (defrule preguntar-dias
+  (declare (salience 20))
   (not (preguntado-dias))
  ?user <- (usuario)
  =>
@@ -179,6 +182,22 @@
   (modify ?user (dias-maximo ?max))
   (printout t "Dias seleccionados, se viajará minimo " ?min " dias y maximo " ?max " dias" crlf)
   (assert(preguntado-dias))
+)
+
+(defrule preguntar-ndias-ciudad
+  (not (preguntado-ndiasciudades))
+ ?user <- (usuario)
+ =>
+  (bind ?min (pregunta-int "¿Cuál es el minimo de dias que quereis estar en cada ciudad?" 1 (fact-slot-value ?user dias-maximo)))
+  (bind ?max (pregunta-int "¿Cuál es el maximo de dias que quereis estar en cada ciudad?" 1 (fact-slot-value ?user dias-maximo)))
+  (while (not(<= ?min ?max )) do
+    (printout t "Maximo no puede ser menor que el minimo" crlf)
+    (bind ?max (pregunta-int "¿Cuál es el maximo de dias que quereis de viaje?" 1 365))
+  )
+  (modify ?user (diasporciudad-minimo ?min))
+  (modify ?user (diasporciudad-maximo ?max))
+  (printout t "Dias seleccionados, se viajará minimo " ?min " dias por ciudad y maximo " ?max " dias por ciudad" crlf)
+  (assert(preguntado-ndiasciudades))
 )
 
 (defrule preguntar-nciudades
@@ -223,7 +242,7 @@
  =>
   (bind ?tipocalidadalojamiento (pregunta-int "Que calidad de alojamiento se prefiere (de minimo)" 1 5))
   (modify ?user (calidad-alojamiento ?respuesta))
-  (printout "Se buscaran alojamientos de calidad: " ?tipocalidadalojamiento crlf)
+  (printout t "Se buscaran alojamientos de calidad: " ?tipocalidadalojamiento crlf)
   (assert(preguntado-calidad-alojamiento))
 )
 
@@ -231,7 +250,7 @@
   (not (preguntado-popularidad-ciudad))
  =>
   (bind ?ciudades (pregunta-llista "Que ciudades desean visitar" 0 1)) ; 0 y 1 son valores basura de momento, habra que hacer una funcion bien
-  (printout "Se buscaran rutas con las siguientes ciudades: " ?ciudades crlf)
+  (printout t "Se buscaran rutas con las siguientes ciudades: " ?ciudades crlf)
   (assert(preguntado-popularidad-ciudad))
 )
 
@@ -254,6 +273,7 @@
   (preguntado-tipo-de-viaje)
   (preguntado-ciudades-preferidas)
   (preguntado-dias)
+  (preguntado-ndiasciudades)
   (preguntado-nciudades)
   (preguntado-presupuesto)
   (preguntado-medios-de-transporte)
