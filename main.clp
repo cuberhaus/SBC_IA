@@ -27,6 +27,9 @@
   (usuario)
   )
 
+;; ###########################################################
+;; ## RULES AND FUNCTIONS
+;; ###########################################################
 
  (deffunction pregunta-llista (?pregunta ?min ?max)
  (format t "%s: %n" ?pregunta)
