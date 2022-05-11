@@ -120,6 +120,8 @@
 ;   (assert(preguntado-edad))
 ; )
 
+
+
 (defrule MENU::preguntar-edades
   (not (preguntado-edad))
 ; (declare (salience 5))
@@ -144,6 +146,7 @@
 (defrule MENU::preguntar-con-ninos
   (not (preguntado-con-ninos))
  =>
+
   (assert(preguntado-con-ninos))
 )
 
@@ -157,7 +160,10 @@
 
 (defrule MENU::preguntar-con-numero-integrantes
   (not (preguntado-con-numero-integrantes))
+ ?user <- (usuario (edades ?edades))
  =>
+ (bind ?num_integrantes (length$ ?edades) )
+  (modify ?user (numero-integrantes ?num_integrantes))
 ;  (bind ?nintegrantes (pregunta-int "¿Cuántos integrantes realizareis el viaje?" 1 20))
 ;  (if (= ?nintegrantes 1) then (printout t "Es un viaje individual" crlf))
 ;  (if (= ?nintegrantes 2) then (printout t "Es un viaje en pareja" crlf))
