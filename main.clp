@@ -12,6 +12,19 @@
   ?param
 )
 
+(deffunction pregunta-restri (?pregunta $?valores-permitidos)
+  (progn$
+  (?var ?valores-permitidos)
+  (lowcase ?var))
+  (format t "¿%s? (%s) " ?pregunta (implode$ ?valores-permitidos))
+  (bind ?respuesta (read))
+  (while (not (member (lowcase ?respuesta) ?valores-permitidos)) do
+    (format t "¿%s? (%s) " ?pregunta (implode$ ?valores-permitidos))
+    (bind ?respuesta (read))
+  )
+  ?respuesta
+ )
+
 (defrule preguntar-edad
   (not (preguntado-edad))
  =>
@@ -47,8 +60,13 @@
 (defrule preguntar-con-numero-integrantes
   (not (preguntado-con-numero-integrantes))
  =>
-  ;(bind ?nintegrantes (pregunta-int "¿Cuántos integrantes realizareis el viaje?" 1 20))
-  ;(if (= ?nintengrantes 1) then (printout t "Es un viaje individual"))
+  (bind ?nintegrantes (pregunta-int "¿Cuántos integrantes realizareis el viaje?" 1 20))
+  (if (= ?nintegrantes 1) then (printout t "Es un viaje individual" crlf))
+  (if (= ?nintegrantes 2) then (printout t "Es un viaje en pareja" crlf))
+  (if (and (>= ?nintegrantes 3) ( <= ?nintegrantes 20)) then ((bind ?respuesta (pregunta-restri "¿Sois una familia?" (create$ "si" "no")))
+                                                              (if (= ?respuesta "si") then (printout t "Viaje en familia" crlf))
+                                                              (if (= ?respuesta "no") then (printout t "Viaje en grupo" crlf))
+                                                              )
   (assert(preguntado-con-numero-integrantes))
 )
 
