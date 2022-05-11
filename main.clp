@@ -20,7 +20,7 @@
 
   (slot calidad-alojamiento (type INTEGER) )
   (slot popularidad-ciudad (type INTEGER) )
-  (slot duracion-o-calidad (type SYMBOL) (allowed-values DURACION CALIDAD))
+  (slot duracion-o-calidad (type STRING) (allowed-strings "duracion" "calidad" "mixto"))
   )
 
 (deffacts inicialitzacio
@@ -227,7 +227,7 @@
   (not (preguntado-duracion-o-calidad))
  =>
   (bind ?respuesta (pregunta-restri "Prefiere duracion, calidad o un mixto" (create$ duracion calidad mixto)))
-  (printout "Se priorizara la: " ?respuesta crlf)
+  (printout t "Se priorizara la: " ?respuesta crlf)
   (assert(preguntado-duracion-o-calidad))
 )
 
@@ -254,3 +254,11 @@
 )
 
 
+
+(defrule print-user
+  (declare (salience -1))
+?user <- (usuario)
+=>
+ ; (print t (?user (dias_minimo)) crlf)
+
+)
