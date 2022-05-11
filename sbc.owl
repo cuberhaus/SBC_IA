@@ -125,6 +125,13 @@ untitled-ontology-6:Con_piscina rdf:type owl:DatatypeProperty ;
                                 rdfs:comment "Atributo que indica si un alojamiento dispone de piscina" .
 
 
+###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Continente
+untitled-ontology-6:Continente rdf:type owl:DatatypeProperty ;
+                               rdfs:subPropertyOf owl:topDataProperty ;
+                               rdfs:domain untitled-ontology-6:Ciudad ;
+                               rdfs:range xsd:string .
+
+
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Dificultad
 untitled-ontology-6:Dificultad rdf:type owl:DatatypeProperty ;
                                rdfs:subPropertyOf owl:topDataProperty ;
@@ -395,6 +402,7 @@ untitled-ontology-6:Visita_museo rdf:type owl:Class ;
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Barcelona
 untitled-ontology-6:Barcelona rdf:type owl:NamedIndividual ,
                                        untitled-ontology-6:Ciudad ;
+                              untitled-ontology-6:Continente "Europa" ;
                               untitled-ontology-6:Numero_de_habitantes 1620000 .
 
 
