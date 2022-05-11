@@ -43,6 +43,7 @@
 
 (defrule preguntar-edades
   (not (preguntado-edad))
+; (declare (salience 5))
  =>
   (bind ?edades (pregunta-llista "Escriba las edades de los participantes separados por espacios" 0 100))
   (printout t "Su edad es: " ?edades crlf)
@@ -88,17 +89,17 @@
   ?respuesta
  )
 
-(defrule preguntar-edad
-  (not (preguntado-edad))
- =>
-  (bind ?edad (pregunta-int "¿Cuantos años tienes?" 0 100))
-  (printout t "Su edad es: " ?edad crlf)
+; (defrule preguntar-edad
+;   (not (preguntado-edad))
+;  =>
+;   (bind ?edad (pregunta-int "¿Cuantos años tienes?" 0 100))
+;   (printout t "Su edad es: " ?edad crlf)
 
-  (if (and (>= ?edad 10) (< ?edad 17)) then (printout t "Eres adolescente" crlf))
-  (if (< ?edad 10) then (printout t "Eres un niño" crlf))
+;   (if (and (>= ?edad 10) (< ?edad 17)) then (printout t "Eres adolescente" crlf))
+;   (if (< ?edad 10) then (printout t "Eres un niño" crlf))
 
-  (assert(preguntado-edad))
-)
+;   (assert(preguntado-edad))
+; )
 
 (defrule preguntar-nivel-cultural
   (not (preguntado-nivel-cultural))
