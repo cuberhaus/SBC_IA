@@ -299,7 +299,7 @@
 (defmodule LOGIC "logica del programa" (import MENU ?ALL))
 
 (defrule LOGIC::escoger-ciudades
- (declare (salience 10 ))
+ (declare (salience 16 ))
 ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max))
 =>
  (bind ?dies  (/ (+ ?min ?max) 2))
