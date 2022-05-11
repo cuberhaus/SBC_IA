@@ -1,3 +1,7 @@
+; (defmodule MENU "Inicio del programa")
+; (focus MENU)
+ ; Fa una pregunta sobre una llista d'elements
+
 ;; (load main.clp)
 ;; (reset)
 ;; (run)
@@ -35,6 +39,7 @@
 
 (deftemplate MENU::viaje
   (multislot dias)
+  (multislot ciudades)
   )
 
 (deffacts MENU::inicialitzacio
@@ -214,11 +219,11 @@
   (not (preguntado-nciudades))
   ?user <- (usuario)
  =>
-  (bind ?min (pregunta-int "¿Cuál es el minimo de ciudades que quereis visitar?" 1 365))
-  (bind ?max (pregunta-int "¿Cuál es el maximo de ciudades que quereis visitar?" 1 365))
+  (bind ?min (pregunta-int "¿Cuál es el minimo de ciudades que quereis visitar?" 1 (fact-slot-value ?user dias-maximo)))
+  (bind ?max (pregunta-int "¿Cuál es el maximo de ciudades que quereis visitar?" 1 (fact-slot-value ?user dias-maximo)))
   (while (not(<= ?min ?max )) do
     (printout t "Maximo no puede ser menor que el minimo" crlf)
-    (bind ?max (pregunta-int "¿Cuál es el maximo de ciudades que quereis visitar?" 1 365))
+    (bind ?max (pregunta-int "¿Cuál es el maximo de ciudades que quereis visitar?" 1 (fact-slot-value ?user dias-maximo)))
   )
   (modify ?user (ciudades-minimo ?min) (ciudades-maximo ?max))
   (printout t "Dias seleccionados, se viajará a minimo " ?min " ciudades y maximo " ?max " ciudades" crlf)
@@ -291,7 +296,7 @@
 
  =>
   (assert (preguntas-acabadas))
-  (focus LOGIC)
+    (focus LOGIC)
 	  ; aqui seria un buen momento para cambiar el focus
 )
 
@@ -299,6 +304,7 @@
 (defmodule LOGIC "logica del programa" (import MENU ?ALL))
 
 (defrule LOGIC::escoger-ciudades
+(defrule escoger-ciudades
  (declare (salience 10 ))
 ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max))
 =>
