@@ -1,4 +1,10 @@
-; (defmodule MENU "Inicio del programa")
+(defrule saltar-siguiente-modulo
+ (declare (salience 10))
+  ; (not (preguntado-edad))
+ =>
+ (focus MENU)
+ )
+(defmodule MENU "Inicio del programa")
 ; (focus MENU)
  ; Fa una pregunta sobre una llista d'elements
 
@@ -7,7 +13,7 @@
 ;; (run)
 
 ;; deftemplate has to be at the top
-(deftemplate usuario
+(deftemplate MENU::usuario
   (multislot edades (type INTEGER))
 
   (slot ninos (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
@@ -29,19 +35,19 @@
   (slot tipo-viaje (type STRING) (allowed-strings "descanso" "diversion" "romantico" "trabajo" "aventura" "cultural"))
   )
 
-(deftemplate viaje
+(deftemplate MENU::viaje
   (multislot dias)
   )
 
-(deffacts inicialitzacio
+(deffacts MENU::inicialitzacio
   (usuario)
   )
 
 ;; ###########################################################
-;; ## RULES AND FUNCTIONS
+;; ## FUNCTIONS
 ;; ###########################################################
 
-(deffunction pregunta-llista (?pregunta ?min ?max)
+(deffunction MENU::pregunta-llista (?pregunta ?min ?max)
   (format t "%s: %n" ?pregunta)
  ; Llegim una línea sencera (Ex. "Pasta Marisc Fruita")
  (bind ?resposta (readline))
@@ -60,7 +66,7 @@
 
  ?res
  )
-(deffunction pregunta-float(?pregunta ?min ?max)
+(deffunction MENU::pregunta-float(?pregunta ?min ?max)
   (printout t ?pregunta crlf "Introduzca su respuesta: ")
   (bind ?param (read))
   (while(not (and (or(floatp ?param) (integerp ?param)) (and (>= ?param ?min) (<= ?param ?max)))) do
@@ -71,7 +77,7 @@
   ?param
 )
 
-(deffunction pregunta-int(?pregunta ?min ?max)
+(deffunction MENU::pregunta-int(?pregunta ?min ?max)
   (printout t ?pregunta crlf "Introduzca su respuesta: ")
   (bind ?param (read))
   (while(not (and (integerp ?param) (and (>= ?param ?min) (<= ?param ?max)))) do
@@ -82,7 +88,7 @@
   ?param
 )
 
-(deffunction pregunta-restri(?pregunta $?valores-permitidos)
+(deffunction MENU::pregunta-restri(?pregunta $?valores-permitidos)
   (progn$
   (?var ?valores-permitidos)
   (lowcase ?var))
@@ -94,6 +100,10 @@
   )
   ?respuesta
  )
+
+;; ###########################################################
+;; ## RULES
+;; ###########################################################
 
 ; (defrule preguntar-edad
 ;   (not (preguntado-edad))
@@ -107,7 +117,7 @@
 ;   (assert(preguntado-edad))
 ; )
 
-(defrule preguntar-edades
+(defrule MENU::preguntar-edades
   (not (preguntado-edad))
 ; (declare (salience 5))
  =>
@@ -121,14 +131,14 @@
 )
 
 
-(defrule preguntar-nivel-cultural
+(defrule MENU::preguntar-nivel-cultural
   (not (preguntado-nivel-cultural))
  =>
   (assert(preguntado-nivel-cultural))
 )
 
 ; Esta realmente ya la he hecho en la de la edad?
-(defrule preguntar-con-ninos
+(defrule MENU::preguntar-con-ninos
   (not (preguntado-con-ninos))
  =>
   (assert(preguntado-con-ninos))
@@ -136,13 +146,13 @@
 
 
 ; Esta realmente ya la he hecho en la de los adolescentes?
-(defrule preguntar-con-adolescentes
+(defrule MENU::preguntar-con-adolescentes
   (not (preguntado-con-adolescentes))
  =>
   (assert(preguntado-con-adolescentes))
 )
 
-(defrule preguntar-con-numero-integrantes
+(defrule MENU::preguntar-con-numero-integrantes
   (not (preguntado-con-numero-integrantes))
  =>
 ;  (bind ?nintegrantes (pregunta-int "¿Cuántos integrantes realizareis el viaje?" 1 20))
@@ -155,7 +165,7 @@
   (assert(preguntado-con-numero-integrantes))
 )
 
-(defrule preguntar-tipo-de-viaje
+(defrule MENU::preguntar-tipo-de-viaje
   (not (preguntado-tipo-de-viaje))
   ?user <- (usuario)
  =>
@@ -165,13 +175,13 @@
   (assert(preguntado-tipo-de-viaje))
 )
 
-(defrule preguntar-ciudades-preferidas
+(defrule MENU::preguntar-ciudades-preferidas
   (not (preguntado-ciudades-preferidas))
  =>
   (assert(preguntado-ciudades-preferidas))
 )
 
-(defrule preguntar-dias
+(defrule MENU::preguntar-dias
   (declare (salience 20))
   (not (preguntado-dias))
  ?user <- (usuario)
@@ -187,7 +197,7 @@
   (assert(preguntado-dias))
 )
 
-(defrule preguntar-ndias-ciudad
+(defrule MENU::preguntar-ndias-ciudad
   (not (preguntado-ndiasciudades))
  ?user <- (usuario)
  =>
@@ -202,7 +212,7 @@
   (assert(preguntado-ndiasciudades))
 )
 
-(defrule preguntar-nciudades
+(defrule MENU::preguntar-nciudades
   (not (preguntado-nciudades))
   ?user <- (usuario)
  =>
@@ -217,7 +227,7 @@
   (assert(preguntado-nciudades))
 )
 
-(defrule preguntar-presupuesto
+(defrule MENU::preguntar-presupuesto
   (not (preguntado-presupuesto))
   ?user <- (usuario)
  =>
@@ -226,7 +236,7 @@
   (printout t "Su presupuesto es de " ?presupuesto  "€"crlf)
   (assert(preguntado-presupuesto))
 )
-(defrule preguntar-medios-de-transporte
+(defrule MENU::preguntar-medios-de-transporte
   (not (preguntado-medios-de-transporte))
   ?user <- (usuario)
  =>
@@ -236,7 +246,7 @@
   (assert(preguntado-medios-de-transporte))
 )
 
-(defrule preguntar-calidad-alojamiento
+(defrule MENU::preguntar-calidad-alojamiento
   (not (preguntado-calidad-alojamiento))
   ?user <- (usuario)
  =>
@@ -246,7 +256,7 @@
   (assert(preguntado-calidad-alojamiento))
 )
 
-(defrule preguntar-popularidad-ciudad
+(defrule MENU::preguntar-popularidad-ciudad
   (not (preguntado-popularidad-ciudad))
  =>
   (bind ?ciudades (pregunta-llista "Que ciudades desean visitar" 0 1)) ; 0 y 1 son valores basura de momento, habra que hacer una funcion bien
@@ -254,7 +264,7 @@
   (assert(preguntado-popularidad-ciudad))
 )
 
-(defrule preguntar-duracion-o-calidad
+(defrule MENU::preguntar-duracion-o-calidad
   (not (preguntado-duracion-o-calidad))
   ?user <- (usuario)
  =>
@@ -264,7 +274,7 @@
   (assert(preguntado-duracion-o-calidad))
 )
 
-(defrule acaban-las-preguntas
+(defrule MENU::acaban-las-preguntas
   (preguntado-edad)
   (preguntado-nivel-cultural)
   (preguntado-con-ninos)
@@ -283,33 +293,36 @@
 
  =>
   (assert (preguntas-acabadas))
+  (focus LOGIC)
 	  ; aqui seria un buen momento para cambiar el focus
 )
 
-(defrule escoger-ciudades
- (declare (salience 10 ))
-?user <- (usuario (dias-minimo ?min) (dias-maximo ?max))
-=>
- (bind ?dies  (/ (+ ?min ?max) 2))
-(printout t ?dies crlf)
-  )
 
-(defrule print-user
-  (declare (salience -1))
-?user <- (usuario)
-=>
- ; (print t (?user (dias_minimo)) crlf)
-)
-(defrule no-ciudades-repetidas
-=>
-)
+; (defmodule LOGIC "logica del programa")
+; (defrule LOGIC::escoger-ciudades
+;  ; (declare (salience 10 ))
+; ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max))
+; =>
+;  (bind ?dies  (/ (+ ?min ?max) 2))
+; (printout t ?dies crlf)
+;   )
 
-(defrule alojamiento-en-ciudad
-=>
-)
+; (defrule print-user
+;   (declare (salience -1))
+; ?user <- (usuario)
+; =>
+;  ; (print t (?user (dias_minimo)) crlf)
+; )
+; (defrule no-ciudades-repetidas
+; =>
+; )
 
-(defrule transporte-entre-ciudades
-=>
-)
+; (defrule alojamiento-en-ciudad
+; =>
+; )
+
+; (defrule transporte-entre-ciudades
+; =>
+; )
 
 
