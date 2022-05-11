@@ -306,11 +306,23 @@
 (defrule LOGIC::escoger-ciudades
  (declare (salience 16 ))
 ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max))
-?ciudad <- (is-a Ciudad)
+?ciudad <- (is-a USER)
 =>
   (bind ?dies  (/ (+ ?min ?max) 2))
   (printout t ?dies crlf)
-  (printout t (send ?ciudad ))
+  (printout t "Ciudad: " (send ?ciudad Nombre) crlf)
+)
+
+;---------------------------------------------------------------------------------------
+;                                 MODULO DE INFERENCIA                                 -
+;---------------------------------------------------------------------------------------
+
+(defmodule INFERENCIA "Inferir propiedades de los usuarios con los datos obtenidos" (import MENU ?ALL))
+
+(defrule INFERENCIA::obtenertipousuarios
+  ?user <- (usuario (ninos ?n) (edades ?ed))
+  =>
+  (printout t (length$ ?ed)) 
 )
 
 ; (defrule print-user
