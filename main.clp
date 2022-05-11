@@ -259,7 +259,7 @@
 	  ; aqui seria un buen momento para cambiar el focus
 )
 
-(defrule escojer-ciudades
+(defrule escoger-ciudades
  (declare (salience 10 ))
 ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max))
 =>
