@@ -123,12 +123,13 @@
 
 
 (defrule MENU::preguntar-edades
+  (declare (salience 5))
   (not (preguntado-edad))
-; (declare (salience 5))
+  ?user <- (usuario)
  =>
   (bind ?edades (pregunta-llista "Escriba las edades de los participantes separados por espacios" 0 100))
   (printout t "Su edad es: " ?edades crlf)
-
+  (modify ?user (edades ?edades))
   ; (if (and (>= ?edad 10) (< ?edad 17)) then (printout t "Eres adolescente" crlf))
   ; (if (< ?edad 10) then (printout t "Eres un niño" crlf))
 
@@ -145,25 +146,39 @@
 ; Esta realmente ya la he hecho en la de la edad?
 (defrule MENU::preguntar-con-ninos
   (not (preguntado-con-ninos))
+ ?user <- (usuario (edades ?edades))
  =>
-
+  
   (assert(preguntado-con-ninos))
 )
 
-
+; 12<=x<=20
 ; Esta realmente ya la he hecho en la de los adolescentes?
 (defrule MENU::preguntar-con-adolescentes
   (not (preguntado-con-adolescentes))
+ ?user <- (usuario (edades ?edades))
  =>
+
+; (bind ?i 1)
+;  (while (<= ?i (length$ ?edades))
+;    do
+;    (bind ?edad (nth$ ?i ?edades))
+;    ; (bind ?edad_num (format nil ?edad))
+;    ; (printout t ?edad_num crlf)
+;    (printout t ?edad crlf)
+;    (bind ?i (+ ?i 1))
+;    )
   (assert(preguntado-con-adolescentes))
 )
 
 (defrule MENU::preguntar-con-numero-integrantes
+  (declare(salience 20))
   (not (preguntado-con-numero-integrantes))
  ?user <- (usuario (edades ?edades))
  =>
  (bind ?num_integrantes (length$ ?edades) )
   (modify ?user (numero-integrantes ?num_integrantes))
+  (printout t "PREGUNTA NUMERO" ?num_integrantes crlf)
 ;  (bind ?nintegrantes (pregunta-int "¿Cuántos integrantes realizareis el viaje?" 1 20))
 ;  (if (= ?nintegrantes 1) then (printout t "Es un viaje individual" crlf))
 ;  (if (= ?nintegrantes 2) then (printout t "Es un viaje en pareja" crlf))
