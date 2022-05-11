@@ -14,7 +14,7 @@
   (slot adolescentes (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
   (slot numero-integrantes (type INTEGER) )
 
-    (slot medios-de-transporte (type STRING) (allowed-values "avion" "tren" "barco"))
+  (slot medios-de-transporte (type STRING) (allowed-values "avion" "tren" "barco"))
   (slot dias-minimo (type INTEGER) )
   (slot dias-maximo (type INTEGER) )
   (slot diasporciudad-minimo (type INTEGER) )
@@ -134,6 +134,7 @@
   (assert(preguntado-con-ninos))
 )
 
+
 ; Esta realmente ya la he hecho en la de los adolescentes?
 (defrule preguntar-con-adolescentes
   (not (preguntado-con-adolescentes))
@@ -196,8 +197,7 @@
     (printout t "Maximo no puede ser menor que el minimo" crlf)
     (bind ?max (pregunta-int "¿Cuál es el maximo de dias que quereis de viaje?" 1 365))
   )
-  (modify ?user (diasporciudad-minimo ?min))
-  (modify ?user (diasporciudad-maximo ?max))
+  (modify ?user (diasporciudad-minimo ?min) (diasporciudad-maximo ?max))
   (printout t "Dias seleccionados, se viajará minimo " ?min " dias por ciudad y maximo " ?max " dias por ciudad" crlf)
   (assert(preguntado-ndiasciudades))
 )
@@ -212,8 +212,7 @@
     (printout t "Maximo no puede ser menor que el minimo" crlf)
     (bind ?max (pregunta-int "¿Cuál es el maximo de ciudades que quereis visitar?" 1 365))
   )
-  (modify ?user (ciudades-minimo ?min))
-  (modify ?user (ciudades-maximo ?max))
+  (modify ?user (ciudades-minimo ?min) (ciudades-maximo ?max))
   (printout t "Dias seleccionados, se viajará a minimo " ?min " ciudades y maximo " ?max " ciudades" crlf)
   (assert(preguntado-nciudades))
 )
@@ -227,10 +226,9 @@
   (printout t "Su presupuesto es de " ?presupuesto  "€"crlf)
   (assert(preguntado-presupuesto))
 )
-
 (defrule preguntar-medios-de-transporte
   (not (preguntado-medios-de-transporte))
- ?user <- (usuario)
+  ?user <- (usuario)
  =>
   (bind ?tipoviaje (pregunta-llista "Que medios de transporte se desean evitar" 0 1)) ; 0 y 1 sonvalores basura de momento, habra que hacer una funcion bien
   (modify ?user (medios-de-transporte ?respuesta))
@@ -240,7 +238,7 @@
 
 (defrule preguntar-calidad-alojamiento
   (not (preguntado-calidad-alojamiento))
- ?user <- (usuario)
+  ?user <- (usuario)
  =>
   (bind ?tipocalidadalojamiento (pregunta-int "Que calidad de alojamiento se prefiere (de minimo)" 1 5))
   (modify ?user (calidad-alojamiento ?respuesta))
@@ -258,7 +256,7 @@
 
 (defrule preguntar-duracion-o-calidad
   (not (preguntado-duracion-o-calidad))
- ?user <- (usuario)
+  ?user <- (usuario)
  =>
   (bind ?respuesta (pregunta-restri "Prefiere duracion, calidad o un mixto" (create$ duracion calidad mixto)))
   (modify ?user (duracion-o-calidad ?respuesta))
