@@ -304,13 +304,12 @@
 (defmodule LOGIC "logica del programa" (import MENU ?ALL))
 
 (defrule LOGIC::escoger-ciudades
-(defrule escoger-ciudades
  (declare (salience 10 ))
 ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max))
 =>
  (bind ?dies  (/ (+ ?min ?max) 2))
 (printout t ?dies crlf)
-  )
+)
 
 ; (defrule print-user
 ;   (declare (salience -1))
