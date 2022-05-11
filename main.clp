@@ -309,7 +309,7 @@
 =>
  (bind ?dies  (/ (+ ?min ?max) 2))
 (printout t ?dies crlf)
-  )
+)
 
 ; (defrule print-user
 ;   (declare (salience -1))
