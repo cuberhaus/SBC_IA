@@ -2,13 +2,16 @@
 ; (focus MENU)
  ; Fa una pregunta sobre una llista d'elements
 
+;; (load main.clp)
+;; (reset)
+;; (run)
 
 ;; deftemplate has to be at the top
 (deftemplate usuario
   (multislot edades (type INTEGER))
 
-  (slot ninos (type SYMBOL) (allowed-values TRUE FALSE))
-  (slot adolescentes (type SYMBOL) (allowed-values TRUE FALSE))
+  (slot ninos (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
+  (slot adolescentes (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
   (slot numero-integrantes (type INTEGER) )
 
 
@@ -16,11 +19,15 @@
   (slot dias-maximo (type INTEGER) )
   (slot ciudades-minimo (type INTEGER) )
   (slot ciudades-maximo (type INTEGER) )
-  (slot presupuesto (type INTEGER) )
+  (slot presupuesto (type INTEGER FLOAT) )
 
   (slot calidad-alojamiento (type INTEGER) )
   (slot popularidad-ciudad (type INTEGER) )
   (slot duracion-o-calidad (type STRING) (allowed-strings "duracion" "calidad" "mixto"))
+  )
+
+(deftemplate viaje
+  (multislot dias)
   )
 
 (deffacts inicialitzacio
@@ -50,20 +57,6 @@
 
  ?res
  )
-
-(defrule preguntar-edades
-  (not (preguntado-edad))
-; (declare (salience 5))
- =>
-  (bind ?edades (pregunta-llista "Escriba las edades de los participantes separados por espacios" 0 100))
-  (printout t "Su edad es: " ?edades crlf)
-
-  ; (if (and (>= ?edad 10) (< ?edad 17)) then (printout t "Eres adolescente" crlf))
-  ; (if (< ?edad 10) then (printout t "Eres un niño" crlf))
-
-  (assert(preguntado-edad))
-)
-
 (deffunction pregunta-float(?pregunta ?min ?max)
   (printout t ?pregunta crlf "Introduzca su respuesta: ")
   (bind ?param (read))
@@ -111,6 +104,20 @@
 ;   (assert(preguntado-edad))
 ; )
 
+(defrule preguntar-edades
+  (not (preguntado-edad))
+; (declare (salience 5))
+ =>
+  (bind ?edades (pregunta-llista "Escriba las edades de los participantes separados por espacios" 0 100))
+  (printout t "Su edad es: " ?edades crlf)
+
+  ; (if (and (>= ?edad 10) (< ?edad 17)) then (printout t "Eres adolescente" crlf))
+  ; (if (< ?edad 10) then (printout t "Eres un niño" crlf))
+
+  (assert(preguntado-edad))
+)
+
+
 (defrule preguntar-nivel-cultural
   (not (preguntado-nivel-cultural))
  =>
@@ -139,7 +146,7 @@
 ;  (if (= ?nintegrantes 2) then (printout t "Es un viaje en pareja" crlf))
  ; (if (and (>= ?nintegrantes 3) ( <= ?nintegrantes 20)) then ((bind ?respuesta (pregunta-restri "¿Sois una familia?" (create$ "si" "no")))
  ;                                                             (if (= ?respuesta "si") then (printout t "Viaje en familia" crlf))
- ;                                                             (if (= ?respuesta "no") then (printout t "Viaje en grupo" crlf))
+ ;                                                             (if (= ?respuesta "no") then (printout t "V/iaje en grupo" crlf))
  ;                                                             ))
   (assert(preguntado-con-numero-integrantes))
 )
@@ -252,10 +259,12 @@
 	  ; aqui seria un buen momento para cambiar el focus
 )
 
-(deftemplate viaje
-  (slot presupuesto)
-  (slot duracion)
-  (multislot dias)
+(defrule escojer-ciudades
+ (declare (salience 10 ))
+?user <- (usuario (dias-minimo ?min) (dias-maximo ?max))
+=>
+ (bind ?dies  (/ (+ ?min ?max) 2))
+(printout t ?dies crlf)
   )
 
 (defrule print-user
