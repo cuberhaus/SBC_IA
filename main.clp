@@ -306,9 +306,11 @@
 (defrule LOGIC::escoger-ciudades
  (declare (salience 16 ))
 ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max))
+?ciudad <- (is-a Ciudad)
 =>
- (bind ?dies  (/ (+ ?min ?max) 2))
-(printout t ?dies crlf)
+  (bind ?dies  (/ (+ ?min ?max) 2))
+  (printout t ?dies crlf)
+  (printout t (send ?ciudad ))
 )
 
 ; (defrule print-user
