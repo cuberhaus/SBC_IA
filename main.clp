@@ -107,16 +107,17 @@
   (assert(preguntado-ciudades-preferidas))
 )
 
-(defrule preguntar-dias-minimo
-  (not (preguntado-dias-minimo))
+(defrule preguntar-dias
+  (not (preguntado-dias))
  =>
-  (assert(preguntado-dias-minimo))
-)
-
-(defrule preguntar-dias-maximo
-  (not (preguntado-dias-maximo))
- =>
-  (assert(preguntado-dias-maximo))
+  (bind ?min (pregunta-int "¿Cuál es el minimo de dias que quereis de viaje?" 1 365))
+  (bind ?max (pregunta-int "¿Cuál es el maximo de dias que quereis de viaje?" 1 365))
+  (while (not(<= ?min ?max )) do
+    (printout t "Maximo no puede ser menor que el minimo" crlf)
+    (bind ?max (pregunta-int "¿Cuál es el maximo de dias que quereis de viaje?" 1 365))
+  )
+  (printout t "Dias seleccionados, se viajará minimo " ?min " dias y maximo " ?max " dias" crlf)
+  (assert(preguntado-dias))
 )
 
 (defrule preguntar-ciudades-minimo
@@ -169,8 +170,7 @@
   (preguntado-con-numero-integrantes)
   (preguntado-tipo-de-viaje)
   (preguntado-ciudades-preferidas)
-  (preguntado-dias-minimo)
-  (preguntado-dias-maximo)
+  (preguntado-dias)
   (preguntado-ciudades-minimo)
   (preguntado-ciudades-maximo)
   (preguntado-presupuesto)
