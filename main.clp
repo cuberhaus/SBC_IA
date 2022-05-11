@@ -14,7 +14,7 @@
   (slot adolescentes (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
   (slot numero-integrantes (type INTEGER) )
 
-
+    (slot medios-de-transporte (type STRING) (allowed-values "avion" "tren" "barco"))
   (slot dias-minimo (type INTEGER) )
   (slot dias-maximo (type INTEGER) )
   (slot ciudades-minimo (type INTEGER) )
@@ -206,18 +206,23 @@
   (printout t "Su presupuesto es de " ?presupuesto  "€"crlf)
   (assert(preguntado-presupuesto))
 )
+
 (defrule preguntar-medios-de-transporte
   (not (preguntado-medios-de-transporte))
+ ?user <- (usuario)
  =>
   (bind ?tipoviaje (pregunta-llista "Que medios de transporte se desean evitar" 0 1)) ; 0 y 1 sonvalores basura de momento, habra que hacer una funcion bien
+  (modify ?user (medios-de-transporte ?respuesta))
   (printout t "Se intentaran evitar los siguientes medios de transporte " ?tipoviaje crlf)
   (assert(preguntado-medios-de-transporte))
 )
 
 (defrule preguntar-calidad-alojamiento
   (not (preguntado-calidad-alojamiento))
+ ?user <- (usuario)
  =>
   (bind ?tipocalidadalojamiento (pregunta-int "Que calidad de alojamiento se prefiere (de minimo)" 1 5))
+  (modify ?user (calidad-alojamiento ?respuesta))
   (printout "Se buscaran alojamientos de calidad: " ?tipocalidadalojamiento crlf)
   (assert(preguntado-calidad-alojamiento))
 )
@@ -232,8 +237,10 @@
 
 (defrule preguntar-duracion-o-calidad
   (not (preguntado-duracion-o-calidad))
+ ?user <- (usuario)
  =>
   (bind ?respuesta (pregunta-restri "Prefiere duracion, calidad o un mixto" (create$ duracion calidad mixto)))
+  (modify ?user (duracion-o-calidad ?respuesta))
   (printout t "Se priorizara la: " ?respuesta crlf)
   (assert(preguntado-duracion-o-calidad))
 )
