@@ -7,16 +7,16 @@
  ; Llegim una línea sencera (Ex. "Pasta Marisc Fruita")
  (bind ?resposta (readline))
  ; Separem l'string (Ex. "Pasta" "Marisc" "Fruita")
- (bind ?res (explode ?resposta))
+ (bind ?res (str-explode ?resposta))
  ; Retornem els diferents camps (Ex. "Pasta" "Marisc" "Fruita")
  (bind ?i 1)
- (while (<= ?i (length$ res))
- do
- (bind ?edad (nth$ ?i res))
- (printout t res crlf)
- (bind ?i (+ ?i 1))
- )
-
+ (while (<= ?i (length$ ?res))
+   do
+   (bind ?edad (nth$ ?i ?res))
+   (printout t ?edad crlf)
+   (bind ?i (+ ?i 1))
+   )
+ 
  ?res
  )
 
