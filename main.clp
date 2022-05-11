@@ -14,7 +14,7 @@
   (slot adolescentes (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
   (slot numero-integrantes (type INTEGER) )
 
-  (slot medios-de-transporte (type STRING) (allowed-values "avion" "tren" "barco"))
+  (multislot medios-de-transporte (type STRING) (allowed-values "avion" "tren" "barco"))
   (slot dias-minimo (type INTEGER) )
   (slot dias-maximo (type INTEGER) )
   (slot diasporciudad-minimo (type INTEGER) )
@@ -25,8 +25,8 @@
 
   (slot calidad-alojamiento (type INTEGER) )
   (slot popularidad-ciudad (type INTEGER) )
-  (slot duracion-o-calidad (type STRING) (allowed-strings "duracion" "calidad" "mixto"))
-  (slot tipo-viaje (type STRING) (allowed-strings "descanso" "diversion" "romantico" "trabajo" "aventura" "cultural"))
+  (multislot duracion-o-calidad (type STRING) (allowed-strings "duracion" "calidad" "mixto"))
+  (multislot tipo-viaje (type STRING) (allowed-strings "descanso" "diversion" "romantico" "trabajo" "aventura" "cultural"))
   )
 
 (deftemplate viaje
