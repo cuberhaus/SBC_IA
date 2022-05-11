@@ -32,6 +32,17 @@
   (assert(preguntado-edad))
 )
 
+(deffunction pregunta-float(?pregunta ?min ?max)
+  (printout t ?pregunta crlf "Introduzca su respuesta: ")
+  (bind ?param (read))
+  (while(not (and (floatp ?param) (and (>= ?param ?min) (<= ?param ?max)))) do
+    (printout t "Parámetro en formato incorrecto o fuera de rango" crlf crlf)
+    (printout t ?pregunta crlf "Introduzca su respuesta: ")
+    (bind ?param (read))
+  )
+  ?param
+)
+
 (deffunction pregunta-int(?pregunta ?min ?max)
   (printout t ?pregunta crlf "Introduzca su respuesta: ")
   (bind ?param (read))
@@ -128,21 +139,24 @@
   (assert(preguntado-dias))
 )
 
-(defrule preguntar-ciudades-minimo
-  (not (preguntado-ciudades-minimo))
+(defrule preguntar-nciudades
+  (not (preguntado-nciudades))
  =>
-  (assert(preguntado-ciudades-minimo))
-)
-
-(defrule preguntar-ciudades-maximo
-  (not (preguntado-ciudades-maximo))
- =>
-  (assert(preguntado-ciudades-maximo))
+  (bind ?min (pregunta-int "¿Cuál es el minimo de ciudades que quereis visitar?" 1 365))
+  (bind ?max (pregunta-int "¿Cuál es el maximo de ciudades que quereis visitar?" 1 365))
+  (while (not(<= ?min ?max )) do
+    (printout t "Maximo no puede ser menor que el minimo" crlf)
+    (bind ?max (pregunta-int "¿Cuál es el maximo de ciudades que quereis visitar?" 1 365))
+  )
+  (printout t "Dias seleccionados, se viajará a minimo " ?min " ciudades y maximo " ?max " ciudades" crlf)
+  (assert(preguntado-nciudades))
 )
 
 (defrule preguntar-presupuesto
   (not (preguntado-presupuesto))
  =>
+  (bind ?presupuesto (pregunta-float "De cuanto presupuesto disponeis (en euros €)" 100 100000000))
+  (printout t "Su presupuesto es de " ?presupuesto  "€"crlf)
   (assert(preguntado-presupuesto))
 )
 
@@ -179,8 +193,7 @@
   (preguntado-tipo-de-viaje)
   (preguntado-ciudades-preferidas)
   (preguntado-dias)
-  (preguntado-ciudades-minimo)
-  (preguntado-ciudades-maximo)
+  (preguntado-nciudades)
   (preguntado-presupuesto)
   (preguntado-medios-de-transporte)
   (preguntado-calidad-alojamiento)
