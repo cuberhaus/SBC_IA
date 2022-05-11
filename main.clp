@@ -31,8 +31,8 @@
 ;; ## RULES AND FUNCTIONS
 ;; ###########################################################
 
- (deffunction pregunta-llista (?pregunta ?min ?max)
- (format t "%s: %n" ?pregunta)
+(deffunction pregunta-llista (?pregunta ?min ?max)
+  (format t "%s: %n" ?pregunta)
  ; Llegim una línea sencera (Ex. "Pasta Marisc Fruita")
  (bind ?resposta (readline))
  ; Separem l'string (Ex. "Pasta" "Marisc" "Fruita")
@@ -149,6 +149,7 @@
 
 (defrule preguntar-dias
   (not (preguntado-dias))
+ ?user <- (usuario)
  =>
   (bind ?min (pregunta-int "¿Cuál es el minimo de dias que quereis de viaje?" 1 365))
   (bind ?max (pregunta-int "¿Cuál es el maximo de dias que quereis de viaje?" 1 365))
@@ -156,12 +157,15 @@
     (printout t "Maximo no puede ser menor que el minimo" crlf)
     (bind ?max (pregunta-int "¿Cuál es el maximo de dias que quereis de viaje?" 1 365))
   )
+  (modify ?user (dias-minimo ?min))
+  (modify ?user (dias-maximo ?max))
   (printout t "Dias seleccionados, se viajará minimo " ?min " dias y maximo " ?max " dias" crlf)
   (assert(preguntado-dias))
 )
 
 (defrule preguntar-nciudades
   (not (preguntado-nciudades))
+  ?user <- (usuario)
  =>
   (bind ?min (pregunta-int "¿Cuál es el minimo de ciudades que quereis visitar?" 1 365))
   (bind ?max (pregunta-int "¿Cuál es el maximo de ciudades que quereis visitar?" 1 365))
@@ -169,18 +173,21 @@
     (printout t "Maximo no puede ser menor que el minimo" crlf)
     (bind ?max (pregunta-int "¿Cuál es el maximo de ciudades que quereis visitar?" 1 365))
   )
+  (modify ?user (ciudades-minimo ?min))
+  (modify ?user (ciudades-maximo ?max))
   (printout t "Dias seleccionados, se viajará a minimo " ?min " ciudades y maximo " ?max " ciudades" crlf)
   (assert(preguntado-nciudades))
 )
 
 (defrule preguntar-presupuesto
   (not (preguntado-presupuesto))
+  ?user <- (usuario)
  =>
   (bind ?presupuesto (pregunta-float "De cuanto presupuesto disponeis (en euros €)" 100 100000000))
+  (modify ?user (presupuesto ?presupuesto))
   (printout t "Su presupuesto es de " ?presupuesto  "€"crlf)
   (assert(preguntado-presupuesto))
 )
-
 (defrule preguntar-medios-de-transporte
   (not (preguntado-medios-de-transporte))
  =>
