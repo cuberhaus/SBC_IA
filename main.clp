@@ -43,7 +43,7 @@
   ?param
 )
 
-(deffunction pregunta-restri (?pregunta $?valores-permitidos)
+(deffunction pregunta-restri(?pregunta $?valores-permitidos)
   (progn$
   (?var ?valores-permitidos)
   (lowcase ?var))
@@ -91,19 +91,21 @@
 (defrule preguntar-con-numero-integrantes
   (not (preguntado-con-numero-integrantes))
  =>
-  (bind ?nintegrantes (pregunta-int "¿Cuántos integrantes realizareis el viaje?" 1 20))
-  (if (= ?nintegrantes 1) then (printout t "Es un viaje individual" crlf))
-  (if (= ?nintegrantes 2) then (printout t "Es un viaje en pareja" crlf))
-  (if (and (>= ?nintegrantes 3) ( <= ?nintegrantes 20)) then ((bind ?respuesta (pregunta-restri "¿Sois una familia?" (create$ "si" "no")))
-                                                              (if (= ?respuesta "si") then (printout t "Viaje en familia" crlf))
-                                                              (if (= ?respuesta "no") then (printout t "Viaje en grupo" crlf))
-                                                              )
+;  (bind ?nintegrantes (pregunta-int "¿Cuántos integrantes realizareis el viaje?" 1 20))
+;  (if (= ?nintegrantes 1) then (printout t "Es un viaje individual" crlf))
+;  (if (= ?nintegrantes 2) then (printout t "Es un viaje en pareja" crlf))
+ ; (if (and (>= ?nintegrantes 3) ( <= ?nintegrantes 20)) then ((bind ?respuesta (pregunta-restri "¿Sois una familia?" (create$ "si" "no")))
+ ;                                                             (if (= ?respuesta "si") then (printout t "Viaje en familia" crlf))
+ ;                                                             (if (= ?respuesta "no") then (printout t "Viaje en grupo" crlf))
+ ;                                                             ))
   (assert(preguntado-con-numero-integrantes))
 )
 
 (defrule preguntar-tipo-de-viaje
   (not (preguntado-tipo-de-viaje))
  =>
+  (bind ?tipoviaje (pregunta-restri "Que tipo de viaje se quiere realizar" (create$ descanso diversion romantico trabajo aventura cultural)))
+  (printout t "Se realiza un viaje de tipo " ?tipoviaje crlf)
   (assert(preguntado-tipo-de-viaje))
 )
 
@@ -113,16 +115,17 @@
   (assert(preguntado-ciudades-preferidas))
 )
 
-(defrule preguntar-dias-minimo
-  (not (preguntado-dias-minimo))
+(defrule preguntar-dias
+  (not (preguntado-dias))
  =>
-  (assert(preguntado-dias-minimo))
-)
-
-(defrule preguntar-dias-maximo
-  (not (preguntado-dias-maximo))
- =>
-  (assert(preguntado-dias-maximo))
+  (bind ?min (pregunta-int "¿Cuál es el minimo de dias que quereis de viaje?" 1 365))
+  (bind ?max (pregunta-int "¿Cuál es el maximo de dias que quereis de viaje?" 1 365))
+  (while (not(<= ?min ?max )) do
+    (printout t "Maximo no puede ser menor que el minimo" crlf)
+    (bind ?max (pregunta-int "¿Cuál es el maximo de dias que quereis de viaje?" 1 365))
+  )
+  (printout t "Dias seleccionados, se viajará minimo " ?min " dias y maximo " ?max " dias" crlf)
+  (assert(preguntado-dias))
 )
 
 (defrule preguntar-ciudades-minimo
@@ -175,8 +178,7 @@
   (preguntado-con-numero-integrantes)
   (preguntado-tipo-de-viaje)
   (preguntado-ciudades-preferidas)
-  (preguntado-dias-minimo)
-  (preguntado-dias-maximo)
+  (preguntado-dias)
   (preguntado-ciudades-minimo)
   (preguntado-ciudades-maximo)
   (preguntado-presupuesto)
