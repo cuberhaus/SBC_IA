@@ -2,56 +2,7 @@
 ;;; sbc.clp
 ;;; Translated by owl2clips
 ;;; Translated to CLIPS from ontology sbc.owl
-;;; :Date 02/05/2022 19:43:55
-
-(defclass Viaje
-    (is-a USER)
-    (role concrete)
-    (pattern-match reactive)
-    (multislot esta_formado_por
-        (type INSTANCE)
-        (create-accessor read-write))
-    ;;; Atributo que indica el nombre de la instancia
-    (multislot Nombre
-        (type STRING)
-        (create-accessor read-write))
-)
-
-(defclass Descanso
-    (is-a Viaje)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass Diversion
-    (is-a Viaje)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass Romantico
-    (is-a Viaje)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass Trabajo
-    (is-a Viaje)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass VAventura
-    (is-a Viaje)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass VCultural
-    (is-a Viaje)
-    (role concrete)
-    (pattern-match reactive)
-)
+;;; :Date 11/05/2022 18:38:22
 
 (defclass Transporte
     (is-a USER)
@@ -95,73 +46,6 @@
     (pattern-match reactive)
 )
 
-(defclass Alojamiento
-    (is-a USER)
-    (role concrete)
-    (pattern-match reactive)
-    (slot esta_en
-        (type INSTANCE)
-        (create-accessor read-write))
-    ;;; Atributo que indica si un alojamiento dispone de piscina
-    (multislot Con_piscina
-        (type SYMBOL)
-        (create-accessor read-write))
-    ;;; Atributo que representa la distancia al centro de la ciudad de un alojamiento en dihca ciudad.
-    (multislot Distancia_a_centro
-        (type FLOAT)
-        (create-accessor read-write))
-    ;;; Atributo que indica el nombre de la instancia
-    (multislot Nombre
-        (type STRING)
-        (create-accessor read-write))
-    ;;; Precio de un servicio específico.
-    (multislot precio
-        (type FLOAT)
-        (create-accessor read-write))
-)
-
-(defclass Albergue
-    (is-a Alojamiento)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass Camping
-    (is-a Alojamiento)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass Casa_Rural
-    (is-a Alojamiento)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass Hotel
-    (is-a Alojamiento)
-    (role concrete)
-    (pattern-match reactive)
-    ;;; Atributo que indica quan bueno es un hotel, de 1 a 5.
-    (slot Estrellas
-        (type SYMBOL)
-        (create-accessor read-write))
-    ;;; Atributo que indica si un hotel es exclusivamente para adultos o no.
-    (multislot Para_adultos
-        (type SYMBOL)
-        (create-accessor read-write))
-)
-
-(defclass Resort
-    (is-a Alojamiento)
-    (role concrete)
-    (pattern-match reactive)
-    ;;; Atributo que indica si un hotel es exclusivamente para adultos o no.
-    (multislot Para_adultos
-        (type SYMBOL)
-        (create-accessor read-write))
-)
-
 (defclass Usuario
     (is-a USER)
     (role concrete)
@@ -190,9 +74,6 @@
     (multislot preferencia_viaje
         (type STRING)
         (create-accessor read-write))
-    (multislot numero_dias_viaje)
-        (type INTEGER)
-        (create-accessor read-write)
 )
 
 (defclass Familia
@@ -321,10 +202,129 @@
     (pattern-match reactive)
 )
 
+(defclass Viaje
+    (is-a USER)
+    (role concrete)
+    (pattern-match reactive)
+    (multislot esta_formado_por
+        (type INSTANCE)
+        (create-accessor read-write))
+    ;;; Atributo que indica el nombre de la instancia
+    (multislot Nombre
+        (type STRING)
+        (create-accessor read-write))
+)
+
+(defclass Descanso
+    (is-a Viaje)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass Diversion
+    (is-a Viaje)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass Romantico
+    (is-a Viaje)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass Trabajo
+    (is-a Viaje)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass VAventura
+    (is-a Viaje)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass VCultural
+    (is-a Viaje)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass Alojamiento
+    (is-a USER)
+    (role concrete)
+    (pattern-match reactive)
+    (slot esta_en
+        (type INSTANCE)
+        (create-accessor read-write))
+    ;;; Atributo que indica si un alojamiento dispone de piscina
+    (multislot Con_piscina
+        (type SYMBOL)
+        (create-accessor read-write))
+    ;;; Atributo que representa la distancia al centro de la ciudad de un alojamiento en dihca ciudad.
+    (multislot Distancia_a_centro
+        (type FLOAT)
+        (create-accessor read-write))
+    ;;; Atributo que indica el nombre de la instancia
+    (multislot Nombre
+        (type STRING)
+        (create-accessor read-write))
+    ;;; Precio de un servicio específico.
+    (multislot precio
+        (type FLOAT)
+        (create-accessor read-write))
+)
+
+(defclass Albergue
+    (is-a Alojamiento)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass Camping
+    (is-a Alojamiento)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass Casa_Rural
+    (is-a Alojamiento)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass Hotel
+    (is-a Alojamiento)
+    (role concrete)
+    (pattern-match reactive)
+    ;;; Atributo que indica quan bueno es un hotel, de 1 a 5.
+    (slot Estrellas
+        (type SYMBOL)
+        (create-accessor read-write))
+    ;;; Atributo que indica si un hotel es exclusivamente para adultos o no.
+    (multislot Para_adultos
+        (type SYMBOL)
+        (create-accessor read-write))
+)
+
+(defclass Resort
+    (is-a Alojamiento)
+    (role concrete)
+    (pattern-match reactive)
+    ;;; Atributo que indica si un hotel es exclusivamente para adultos o no.
+    (multislot Para_adultos
+        (type SYMBOL)
+        (create-accessor read-write))
+)
+
 (defclass Ciudad
     (is-a USER)
     (role concrete)
     (pattern-match reactive)
+    (multislot Continente
+        (type STRING)
+        (create-accessor read-write))
     ;;; Atributo que indica el nombre de la instancia
     (multislot Nombre
         (type STRING)
@@ -337,6 +337,7 @@
 
 (definstances instances
     ([Barcelona] of Ciudad
+         (Continente  "Europa")
          (Numero_de_habitantes  1620000)
     )
 

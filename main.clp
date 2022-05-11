@@ -253,7 +253,11 @@
 	  ; aqui seria un buen momento para cambiar el focus
 )
 
-
+(deftemplate viaje
+  (slot presupuesto)
+  (slot duracion)
+  (multislot dias)
+  )
 
 (defrule print-user
   (declare (salience -1))
