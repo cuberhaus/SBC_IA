@@ -248,7 +248,6 @@
   (preguntado-duracion-o-calidad)
 
  =>
-  
   (assert (preguntas-acabadas))
 	  ; aqui seria un buen momento para cambiar el focus
 )
@@ -264,5 +263,17 @@
 ?user <- (usuario)
 =>
  ; (print t (?user (dias_minimo)) crlf)
-
 )
+(defrule no-ciudades-repetidas
+=>
+)
+
+(defrule alojamiento-en-ciudad
+=>
+)
+
+(defrule transporte-entre-ciudades
+=>
+)
+
+
