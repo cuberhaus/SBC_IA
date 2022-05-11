@@ -8,7 +8,7 @@
  (focus MENU)
  )
 ;; defmodule has to go below saltar-siguiente-modulo
-(defmodule MENU "Inicio del programa")
+(defmodule MENU "Inicio del programa" (export ?ALL))
 
 ;; deftemplate has to be at the top
 (deftemplate MENU::usuario
@@ -296,14 +296,15 @@
 )
 
 
-; (defmodule LOGIC "logica del programa")
-; (defrule LOGIC::escoger-ciudades
-;  ; (declare (salience 10 ))
-; ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max))
-; =>
-;  (bind ?dies  (/ (+ ?min ?max) 2))
-; (printout t ?dies crlf)
-;   )
+(defmodule LOGIC "logica del programa" (import MENU ?ALL))
+
+(defrule LOGIC::escoger-ciudades
+ (declare (salience 10 ))
+?user <- (usuario (dias-minimo ?min) (dias-maximo ?max))
+=>
+ (bind ?dies  (/ (+ ?min ?max) 2))
+(printout t ?dies crlf)
+  )
 
 ; (defrule print-user
 ;   (declare (salience -1))
