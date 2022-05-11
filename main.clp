@@ -35,7 +35,7 @@
   ?param
 )
 
-(deffunction pregunta-restri (?pregunta $?valores-permitidos)
+(deffunction pregunta-restri(?pregunta $?valores-permitidos)
   (progn$
   (?var ?valores-permitidos)
   (lowcase ?var))
@@ -83,19 +83,21 @@
 (defrule preguntar-con-numero-integrantes
   (not (preguntado-con-numero-integrantes))
  =>
-  (bind ?nintegrantes (pregunta-int "¿Cuántos integrantes realizareis el viaje?" 1 20))
-  (if (= ?nintegrantes 1) then (printout t "Es un viaje individual" crlf))
-  (if (= ?nintegrantes 2) then (printout t "Es un viaje en pareja" crlf))
-  (if (and (>= ?nintegrantes 3) ( <= ?nintegrantes 20)) then ((bind ?respuesta (pregunta-restri "¿Sois una familia?" (create$ "si" "no")))
-                                                              (if (= ?respuesta "si") then (printout t "Viaje en familia" crlf))
-                                                              (if (= ?respuesta "no") then (printout t "Viaje en grupo" crlf))
-                                                              )
+;  (bind ?nintegrantes (pregunta-int "¿Cuántos integrantes realizareis el viaje?" 1 20))
+;  (if (= ?nintegrantes 1) then (printout t "Es un viaje individual" crlf))
+;  (if (= ?nintegrantes 2) then (printout t "Es un viaje en pareja" crlf))
+ ; (if (and (>= ?nintegrantes 3) ( <= ?nintegrantes 20)) then ((bind ?respuesta (pregunta-restri "¿Sois una familia?" (create$ "si" "no")))
+ ;                                                             (if (= ?respuesta "si") then (printout t "Viaje en familia" crlf))
+ ;                                                             (if (= ?respuesta "no") then (printout t "Viaje en grupo" crlf))
+ ;                                                             ))
   (assert(preguntado-con-numero-integrantes))
 )
 
 (defrule preguntar-tipo-de-viaje
   (not (preguntado-tipo-de-viaje))
  =>
+  (bind ?tipoviaje (pregunta-restri "Que tipo de viaje se quiere realizar" (create$ descanso diversion romantico trabajo aventura cultural)))
+  (printout t "Se realiza un viaje de tipo " ?tipoviaje crlf)
   (assert(preguntado-tipo-de-viaje))
 )
 
