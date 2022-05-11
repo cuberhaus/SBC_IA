@@ -231,7 +231,7 @@
   ?user <- (usuario)
  =>
   (bind ?tipoviaje (pregunta-llista "Que medios de transporte se desean evitar" 0 1)) ; 0 y 1 sonvalores basura de momento, habra que hacer una funcion bien
-  (modify ?user (medios-de-transporte ?respuesta))
+  (modify ?user (medios-de-transporte ?tipoviaje))
   (printout t "Se intentaran evitar los siguientes medios de transporte " ?tipoviaje crlf)
   (assert(preguntado-medios-de-transporte))
 )
@@ -241,7 +241,7 @@
   ?user <- (usuario)
  =>
   (bind ?tipocalidadalojamiento (pregunta-int "Que calidad de alojamiento se prefiere (de minimo)" 1 5))
-  (modify ?user (calidad-alojamiento ?respuesta))
+  (modify ?user (calidad-alojamiento ?tipocalidadalojamiento))
   (printout t "Se buscaran alojamientos de calidad: " ?tipocalidadalojamiento crlf)
   (assert(preguntado-calidad-alojamiento))
 )
