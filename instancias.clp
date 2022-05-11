@@ -72,7 +72,7 @@
          (esta_en  [Roma])
          (Distancia_a_centro  2.4)
          (precio  70)
-
+    )
 
     ([Vanity Hotel Navona] of Hotel
 	 (Estrellas  2)
@@ -113,9 +113,7 @@
 	 (Distancia_a_centro  3.5)
 	 (precio  140)
     )
-
-    )
-
+     
     ([Visita_Louvre] of Visita_museo
          (Duracion_actividad  50)
          (precio  17)
@@ -314,7 +312,6 @@
 	 (Distancia_a_centro  1.1)
 	 (precio  190)
     )
-)
 
     ([Visita_Museo_Infantil] of Visita_museo
          (Duracion_actividad  30)
@@ -326,3 +323,4 @@
          (Duracion_actividad  30)
          (precio  25)
     )
+)
