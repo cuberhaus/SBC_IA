@@ -26,6 +26,7 @@
   (slot calidad-alojamiento (type INTEGER) )
   (slot popularidad-ciudad (type INTEGER) )
   (slot duracion-o-calidad (type STRING) (allowed-strings "duracion" "calidad" "mixto"))
+  (slot tipo-viaje (type STRING) (allowed-strings "descanso" "diversion" "romantico" "trabajo" "aventura" "cultural"))
   )
 
 (deftemplate viaje
@@ -155,9 +156,11 @@
 
 (defrule preguntar-tipo-de-viaje
   (not (preguntado-tipo-de-viaje))
+  ?user <- (usuario)
  =>
   (bind ?tipoviaje (pregunta-restri "Que tipo de viaje se quiere realizar" (create$ descanso diversion romantico trabajo aventura cultural)))
   (printout t "Se realiza un viaje de tipo " ?tipoviaje crlf)
+  (modify ?user (tipo-viaje ?tipoviaje))
   (assert(preguntado-tipo-de-viaje))
 )
 
@@ -178,8 +181,7 @@
     (printout t "Maximo no puede ser menor que el minimo" crlf)
     (bind ?max (pregunta-int "¿Cuál es el maximo de dias que quereis de viaje?" 1 365))
   )
-  (modify ?user (dias-minimo ?min))
-  (modify ?user (dias-maximo ?max))
+  (modify ?user (dias-minimo ?min) (dias-maximo ?max))
   (printout t "Dias seleccionados, se viajará minimo " ?min " dias y maximo " ?max " dias" crlf)
   (assert(preguntado-dias))
 )
