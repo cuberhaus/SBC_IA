@@ -1,16 +1,14 @@
-(defrule saltar-siguiente-modulo
- (declare (salience 10))
-  ; (not (preguntado-edad))
- =>
- (focus MENU)
- )
-(defmodule MENU "Inicio del programa")
-; (focus MENU)
- ; Fa una pregunta sobre una llista d'elements
-
 ;; (load main.clp)
 ;; (reset)
 ;; (run)
+
+(defrule saltar-siguiente-modulo
+ (declare (salience 10))
+ =>
+ (focus MENU)
+ )
+;; defmodule has to go below saltar-siguiente-modulo
+(defmodule MENU "Inicio del programa")
 
 ;; deftemplate has to be at the top
 (deftemplate MENU::usuario
