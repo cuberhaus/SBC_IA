@@ -9,18 +9,21 @@
  ; Separem l'string (Ex. "Pasta" "Marisc" "Fruita")
  (bind ?res (str-explode ?resposta))
  ; Retornem els diferents camps (Ex. "Pasta" "Marisc" "Fruita")
- (bind ?i 1)
- (while (<= ?i (length$ ?res))
-   do
-   (bind ?edad (nth$ ?i ?res))
-   (printout t ?edad crlf)
-   (bind ?i (+ ?i 1))
-   )
+ ; (bind ?i 1)
+ ; (while (<= ?i (length$ ?res))
+ ;   do
+ ;   (bind ?edad (nth$ ?i ?res))
+ ;   (bind ?edad_num (format nil ?edad))
+ ;   ; (printout t ?edad_num crlf)
+ ;   (printout t ?edad crlf)
+ ;   (bind ?i (+ ?i 1))
+ ;   )
  
  ?res
  )
 
 (defrule preguntar-edades
+  ; (declare (salience 5))
   (not (preguntado-edad))
  =>
   (bind ?edades (pregunta-llista "Escriba las edades de los participantes separados por espacios" 0 100))
@@ -128,6 +131,7 @@
 
 (defrule preguntar-dias
   (not (preguntado-dias))
+ ?user <- (usuario)
  =>
   (bind ?min (pregunta-int "¿Cuál es el minimo de dias que quereis de viaje?" 1 365))
   (bind ?max (pregunta-int "¿Cuál es el maximo de dias que quereis de viaje?" 1 365))
@@ -135,12 +139,15 @@
     (printout t "Maximo no puede ser menor que el minimo" crlf)
     (bind ?max (pregunta-int "¿Cuál es el maximo de dias que quereis de viaje?" 1 365))
   )
+  (modify ?user (dias-minimo ?min))
+  (modify ?user (dias-maximo ?max))
   (printout t "Dias seleccionados, se viajará minimo " ?min " dias y maximo " ?max " dias" crlf)
   (assert(preguntado-dias))
 )
 
 (defrule preguntar-nciudades
   (not (preguntado-nciudades))
+  ?user <- (usuario)
  =>
   (bind ?min (pregunta-int "¿Cuál es el minimo de ciudades que quereis visitar?" 1 365))
   (bind ?max (pregunta-int "¿Cuál es el maximo de ciudades que quereis visitar?" 1 365))
@@ -148,14 +155,18 @@
     (printout t "Maximo no puede ser menor que el minimo" crlf)
     (bind ?max (pregunta-int "¿Cuál es el maximo de ciudades que quereis visitar?" 1 365))
   )
+  (modify ?user (ciudades-minimo ?min))
+  (modify ?user (ciudades-maximo ?max))
   (printout t "Dias seleccionados, se viajará a minimo " ?min " ciudades y maximo " ?max " ciudades" crlf)
   (assert(preguntado-nciudades))
 )
 
 (defrule preguntar-presupuesto
   (not (preguntado-presupuesto))
+  ?user <- (usuario)
  =>
   (bind ?presupuesto (pregunta-float "De cuanto presupuesto disponeis (en euros €)" 100 100000000))
+  (modify ?user (presupuesto ?presupuesto))
   (printout t "Su presupuesto es de " ?presupuesto  "€"crlf)
   (assert(preguntado-presupuesto))
 )
