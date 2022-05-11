@@ -18,8 +18,8 @@
 (deftemplate MENU::usuario
   (multislot edades (type INTEGER))
 
-  (slot ninos (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
-  (slot adolescentes (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
+  (slot ninos (type SYMBOL) (allowed-values TRUE FALSE) )
+  (slot adolescentes (type SYMBOL) (allowed-values TRUE FALSE) )
   (slot numero-integrantes (type INTEGER) )
 
   (multislot medios-de-transporte (type STRING) (allowed-values "avion" "tren" "barco"))
