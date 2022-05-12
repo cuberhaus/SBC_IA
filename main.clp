@@ -1,4 +1,3 @@
-
 (defmodule MAIN "MAIN del programa" (export ?ALL))
 
 (defrule saltar-siguiente-modulo
@@ -57,17 +56,6 @@
  ; Separem l'string (Ex. "Pasta" "Marisc" "Fruita")
  (bind ?res (str-explode ?resposta))
  ; Retornem els diferents camps (Ex. "Pasta" "Marisc" "Fruita")
-
-; (bind ?i 1)
- ; (while (<= ?i (length$ ?res))
- ;   do
- ;   (bind ?edad (nth$ ?i ?res))
- ;   (bind ?edad_num (format nil ?edad))
- ;   ; (printout t ?edad_num crlf)
- ;   (printout t ?edad crlf)
- ;   (bind ?i (+ ?i 1))
- ;   )
-
  ?res
  )
 (deffunction MENU::pregunta-float(?pregunta ?min ?max)
