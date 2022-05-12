@@ -44,6 +44,7 @@
 
 (deffacts MENU::inicialitzacio
   (usuario)
+  (viaje)
   )
 
 ;; ###########################################################
@@ -329,6 +330,7 @@
 (defrule INFERENCIA::acabainferencia
   (inferenciatiposasked)
   =>
+  (focus LOGIC)
 	  ; aqui seria un buen momento para cambiar el focus
 )
 
@@ -342,10 +344,13 @@
 (defrule LOGIC::escoger-ciudades
 ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max))
 ?ciudad <- (object (is-a Ciudad))
+?vi <- (viaje)
+;(test (eq ?cont "Europa"))
 =>
-  (bind ?dies  (/ (+ ?min ?max) 2))
-  (printout t ?dies crlf)
+  ;(bind ?dies  (/ (+ ?min ?max) 2))
+  ;(printout t ?dies crlf)
   (bind ?aux (send ?ciudad get-Nombre))
+  (slot-insert$ viaje ciudades 1 ?aux)
   (printout t "Ciudad: " ?aux crlf)
 )
 
