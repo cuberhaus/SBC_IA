@@ -2,7 +2,7 @@
     ([Santiago_de_Compostela] of Ciudad
 	 (Continente  "Europa")
 	 (Numero_de_habitantes  98000)
-    (Nombre "Santiago_de_Compostela")
+      (Nombre "Santiado_de_Compostela")
     )
 
     ([Hostal_Reis_Catolicos] of Hotel

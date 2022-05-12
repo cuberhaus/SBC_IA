@@ -337,15 +337,16 @@
 ;---------------------------------------------------------------------------------------
 
 
-(defmodule LOGIC "logica del programa" (import MENU ?ALL))
+(defmodule LOGIC "logica del programa" (import MENU ?ALL) (import MAIN ?ALL))
 
 (defrule LOGIC::escoger-ciudades
 ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max))
-?ciudad <- (is-a USER)
+?ciudad <- (object (is-a Ciudad))
 =>
   (bind ?dies  (/ (+ ?min ?max) 2))
   (printout t ?dies crlf)
-  (printout t "Ciudad: " (send ?ciudad Nombre) crlf)
+  (bind ?aux (send ?ciudad get-Nombre))
+  (printout t "Ciudad: " ?aux crlf)
 )
 
 
