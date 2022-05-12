@@ -193,7 +193,6 @@
  =>
  (bind ?num_integrantes (length$ ?edades) )
   (modify ?user (numero-integrantes ?num_integrantes))
-  ; (printout t "PREGUNTA NUMERO" ?num_integrantes crlf)
 ;  (bind ?nintegrantes (pregunta-int "¿Cuántos integrantes realizareis el viaje?" 1 20))
 ;  (if (= ?nintegrantes 1) then (printout t "Es un viaje individual" crlf))
 ;  (if (= ?nintegrantes 2) then (printout t "Es un viaje en pareja" crlf))
