@@ -4,7 +4,7 @@
 ;;; Translated to CLIPS from ontology sbc.owl
 ;;; :Date 11/05/2022 21:41:23
 
-(defclass Usuario
+(defclass Usuarioe
     (is-a USER)
     (role concrete)
     (pattern-match reactive)
@@ -35,7 +35,7 @@
 )
 
 (defclass Familia
-    (is-a Usuario)
+    (is-a Usuarioe)
     (role concrete)
     (pattern-match reactive)
     ;;; Atributo que identifica si una familia o grupo contiene adolescentes
@@ -49,7 +49,7 @@
 )
 
 (defclass Grupo
-    (is-a Usuario)
+    (is-a Usuarioe)
     (role concrete)
     (pattern-match reactive)
     ;;; Atributo que identifica si una familia o grupo contiene adolescentes
@@ -67,13 +67,13 @@
 )
 
 (defclass Individuo
-    (is-a Usuario)
+    (is-a Usuarioe)
     (role concrete)
     (pattern-match reactive)
 )
 
 (defclass Pareja
-    (is-a Usuario)
+    (is-a Usuarioe)
     (role concrete)
     (pattern-match reactive)
 )

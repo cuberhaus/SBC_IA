@@ -74,7 +74,7 @@
          (precio  70)
     )
 
-    ([Vanity Hotel Navona] of Hotel
+    ([Vanity_Hotel_Navona] of Hotel
 	 (Estrellas  2)
          (Para_adultos  "false")
 	 (esta_en [Roma])
@@ -106,7 +106,7 @@
 	 (precio  1400)
     )
 
-    ([Hotel Darcet] of Hotel
+    ([Hotel_Darcet] of Hotel
 	 (Estrellas  2)
          (Para_adultos  "false")
 	 (esta_en [Paris])
@@ -130,7 +130,7 @@
          (Numero_de_habitantes  377000)
     )
 
-    ([Grand Hyatt Berlin] of Hotel
+    ([Grand_Hyatt_Berlin] of Hotel
 	 (Estrellas  5)
          (Para_adultos  "false")
 	 (esta_en [Berlin])
@@ -156,12 +156,12 @@
          (Duracion_actividad  30)
          (precio  7)
     )
-    ([Nueva York] of Ciudad
+    ([Nueva_York] of Ciudad
 	 (Continente  "Norteamerica")
          (Numero_de_habitantes  8380000)
     )
 
-    ([The Beekman] of Hotel
+    ([The_Beekman] of Hotel
 	 (Estrellas  5)
          (Para_adultos  "false")
 	 (esta_en [Nueva York])
@@ -169,7 +169,7 @@
 	 (precio  600)
     )
 
-    ([SpringHill Suites] of Hotel
+    ([SpringHill_Suites] of Hotel
 	 (Estrellas  3)
          (Para_adultos  "false")
 	 (esta_en [Nueva York])
@@ -274,7 +274,7 @@
 	 (precio  350)
     )
 
-    ([Legacy_Resort_Hotel_&_Spa] of Resort
+    ([Legacy_Resort_Hotel_and_Spa] of Resort
          (Para_adultos "false")
          (esta_en [San_Diego])
 	 (Distancia_a_centro  5.3)
