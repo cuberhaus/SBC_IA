@@ -406,6 +406,26 @@
   )
 )
 
+(defrule LOGIC::escoger-transporte
+  ?vi <- (viaje (ciudades $?ciu))
+
+=>
+  (bind ?i 1)
+  (while (< ?i (length$ ?ciu)) 
+  ;; bucle hasta < para que no pete con la ultima iter (usamos i y i+1, habra que añadir vuelo del origen a la primera y de la ultima al origen!)
+  do
+    (bind ?ciuA (nth$ ?i ?ciu))
+    (bind ?ciuB (nth$ ?i+1 ?ciu))
+    (bind ?auxA (send $?ciuA get-Nombre))
+    (bind ?auxB (send $?ciuB get-Nombre))
+
+    (bind ?opcionestransporte (find-all-instances ((?inst Transporte) (eq ?inst:parte_de ?auxA) (eq ?inst:va_a ?auxB))))
+      
+  )
+
+
+)
+
 ; (defrule print-user
 ;   (declare (salience -1))
 ; ?user <- (usuario)
