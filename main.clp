@@ -304,18 +304,6 @@
 	  ; aqui seria un buen momento para cambiar el focus
 )
 
-
-(defmodule LOGIC "logica del programa" (import MENU ?ALL))
-
-(defrule LOGIC::escoger-ciudades
-?user <- (usuario (dias-minimo ?min) (dias-maximo ?max))
-?ciudad <- (is-a USER)
-=>
-  (bind ?dies  (/ (+ ?min ?max) 2))
-  (printout t ?dies crlf)
-  (printout t "Ciudad: " (send ?ciudad Nombre) crlf)
-)
-
 ;---------------------------------------------------------------------------------------
 ;                                 MODULO DE INFERENCIA                                 -
 ;---------------------------------------------------------------------------------------
@@ -340,6 +328,24 @@
   =>
 	  ; aqui seria un buen momento para cambiar el focus
 )
+
+;---------------------------------------------------------------------------------------
+;                                   MODULO DE LOGICA                                   -
+;---------------------------------------------------------------------------------------
+
+
+(defmodule LOGIC "logica del programa" (import MENU ?ALL))
+
+(defrule LOGIC::escoger-ciudades
+?user <- (usuario (dias-minimo ?min) (dias-maximo ?max))
+?ciudad <- (is-a USER)
+=>
+  (bind ?dies  (/ (+ ?min ?max) 2))
+  (printout t ?dies crlf)
+  (printout t "Ciudad: " (send ?ciudad Nombre) crlf)
+)
+
+
 ; (defrule print-user
 ;   (declare (salience -1))
 ; ?user <- (usuario)

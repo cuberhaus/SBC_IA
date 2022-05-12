@@ -164,7 +164,7 @@
     ([The_Beekman] of Hotel
 	 (Estrellas  5)
          (Para_adultos  "false")
-	 (esta_en [Nueva York])
+	 (esta_en [Nueva_York])
 	 (Distancia_a_centro  0.2)
 	 (precio  600)
     )
@@ -172,7 +172,7 @@
     ([SpringHill_Suites] of Hotel
 	 (Estrellas  3)
          (Para_adultos  "false")
-	 (esta_en [Nueva York])
+	 (esta_en [Nueva_York])
 	 (Distancia_a_centro  3.6)
 	 (precio  340)
     )
@@ -294,7 +294,7 @@
 
     ([Houston] of Ciudad
 	 (Continente  "Norteamerica")
-	 (Numero_de habitantes  2313000)
+	 (Numero_de_habitantes  2313000)
     )
 
     ([JW_Marriott_Houston_Downtown] of Hotel
