@@ -146,7 +146,7 @@
 ; Esta realmente ya la he hecho en la de la edad?
 (defrule MENU::preguntar-con-ninos
   (not (preguntado-con-ninos))
- ?user <- (usuario (edades ?edades))
+ ?user <- (usuario (edades $?edades))
  =>
   
   (assert(preguntado-con-ninos))
@@ -156,29 +156,31 @@
 ; Esta realmente ya la he hecho en la de los adolescentes?
 (defrule MENU::preguntar-con-adolescentes
   (not (preguntado-con-adolescentes))
- ?user <- (usuario (edades ?edades))
+ ?user <- (usuario (edades $?edades))
  =>
 
-; (bind ?i 1)
-;  (while (<= ?i (length$ ?edades))
-;    do
-;    (bind ?edad (nth$ ?i ?edades))
-;    ; (bind ?edad_num (format nil ?edad))
-;    ; (printout t ?edad_num crlf)
-;    (printout t ?edad crlf)
-;    (bind ?i (+ ?i 1))
-;    )
+(bind ?i 1)
+ (while (<= ?i (length$ ?edades))
+   do
+   (bind ?edad (nth$ ?i ?edades))
+   ; (bind ?edad_num (format nil ?edad))
+   ; (printout t ?edad_num crlf)
+   (if ((<= ?edad 20) and)
+   (printout t ?edad crlf)
+   (bind ?i (+ ?i 1))
+   )
   (assert(preguntado-con-adolescentes))
 )
 
 (defrule MENU::preguntar-con-numero-integrantes
   (declare(salience 20))
   (not (preguntado-con-numero-integrantes))
- ?user <- (usuario (edades ?edades))
+  (preguntado-edad)
+ ?user <- (usuario (edades $?edades))
  =>
  (bind ?num_integrantes (length$ ?edades) )
   (modify ?user (numero-integrantes ?num_integrantes))
-  (printout t "PREGUNTA NUMERO" ?num_integrantes crlf)
+  ; (printout t "PREGUNTA NUMERO" ?num_integrantes crlf)
 ;  (bind ?nintegrantes (pregunta-int "¿Cuántos integrantes realizareis el viaje?" 1 20))
 ;  (if (= ?nintegrantes 1) then (printout t "Es un viaje individual" crlf))
 ;  (if (= ?nintegrantes 2) then (printout t "Es un viaje en pareja" crlf))
@@ -206,7 +208,7 @@
 )
 
 (defrule MENU::preguntar-dias
-  (declare (salience 20))
+  ; (declare (salience 20))
   (not (preguntado-dias))
  ?user <- (usuario)
  =>
@@ -341,7 +343,7 @@
 (defmodule INFERENCIA "Inferir propiedades de los usuarios con los datos obtenidos" (import MENU ?ALL))
 
 (defrule INFERENCIA::obtenertipousuarios
-  ?user <- (usuario (ninos ?n) (edades ?ed))
+  ?user <- (usuario (ninos ?n) (edades $?ed))
   =>
   (printout t (length$ ?ed)) 
 )
