@@ -1,6 +1,3 @@
-;; (load main.clp)
-;; (reset)
-;; (run)
 
 (defmodule MAIN "MAIN del programa" (export ?ALL))
 
@@ -33,12 +30,13 @@
   (slot calidad-alojamiento (type INTEGER) )
   (slot popularidad-ciudad (type INTEGER) )
   (multislot duracion-o-calidad (type STRING) (allowed-strings "duracion" "calidad" "mixto"))
-  (multislot tipo-viaje (type STRING) (allowed-strings "descanso" "diversion" "romantico" "trabajo" "aventura" "cultural"))
+  (multislot tipo-viaje (type STRING)
+	     (allowed-strings "descanso" "diversion" "romantico" "trabajo" "aventura" "cultural"))
   (slot tipo-usuario (type STRING) (allowed-strings "individual" "pareja" "grupo" "familia"))
   )
 
 (deftemplate MENU::viaje
-  (multislot dias)
+  (multislot ciudad_en_dia_i)
   (multislot ciudades)
   )
 
@@ -180,7 +178,8 @@
   (not (preguntado-tipo-de-viaje))
   ?user <- (usuario)
  =>
-  (bind ?tipoviaje (pregunta-restri "Que tipo de viaje se quiere realizar" (create$ descanso diversion romantico trabajo aventura cultural)))
+  (bind ?tipoviaje (pregunta-restri "Que tipo de viaje se quiere realizar"
+				    (create$ descanso diversion romantico trabajo aventura cultural)))
   (printout t "Se realiza un viaje de tipo " ?tipoviaje crlf)
   (modify ?user (tipo-viaje ?tipoviaje))
   (assert(preguntado-tipo-de-viaje))
@@ -251,7 +250,8 @@
   (not (preguntado-medios-de-transporte))
   ?user <- (usuario)
  =>
-  (bind ?tipoviaje (pregunta-llista "Que medios de transporte se desean evitar" 0 1)) ; 0 y 1 sonvalores basura de momento, habra que hacer una funcion bien
+  ; 0 y 1 sonvalores basura de momento, habra que hacer una funcion bien
+  (bind ?tipoviaje (pregunta-llista "Que medios de transporte se desean evitar" 0 1))
   (modify ?user (medios-de-transporte ?tipoviaje))
   (printout t "Se intentaran evitar los siguientes medios de transporte " ?tipoviaje crlf)
   (assert(preguntado-medios-de-transporte))
@@ -270,7 +270,8 @@
 (defrule MENU::preguntar-popularidad-ciudad
   (not (preguntado-popularidad-ciudad))
  =>
-  (bind ?ciudades (pregunta-llista "Que ciudades desean visitar" 0 1)) ; 0 y 1 son valores basura de momento, habra que hacer una funcion bien
+  ; 0 y 1 son valores basura de momento, habra que hacer una funcion bien
+  (bind ?ciudades (pregunta-llista "Que ciudades desean visitar" 0 1))
   (printout t "Se buscaran rutas con las siguientes ciudades: " ?ciudades crlf)
   (assert(preguntado-popularidad-ciudad))
 )
@@ -312,7 +313,8 @@
 ;                                 MODULO DE INFERENCIA                                 -
 ;---------------------------------------------------------------------------------------
 
-(defmodule INFERENCIA "Inferir propiedades de los usuarios con los datos obtenidos" (import MENU ?ALL))
+(defmodule INFERENCIA "Inferir propiedades de los usuarios con los datos obtenidos"
+  (import MENU ?ALL))
 
 (defrule INFERENCIA::obtenertipousuarios
   (not (inferenciatiposasked))
@@ -321,8 +323,10 @@
   (printout t ?num_integrantes crlf) 
   (if (eq ?num_integrantes 1) then (modify ?user (tipo-usuario "individual"))) 
   (if (eq ?num_integrantes 2) then (modify ?user (tipo-usuario "pareja")))
-  (if (and (and (>= ?num_integrantes 3) (<  ?num_integrantes 10)) (eq ?n TRUE)) then (modify ?user (tipo-usuario  "familia")))
-  (if (and (and (>= ?num_integrantes 3) (<  ?num_integrantes 10)) (eq ?n FALSE)) then (modify ?user (tipo-usuario  "grupo")))
+  (if (and (and (>= ?num_integrantes 3) (<  ?num_integrantes 10)) (eq ?n TRUE))
+   then (modify ?user (tipo-usuario  "familia")))
+  (if (and (and (>= ?num_integrantes 3) (<  ?num_integrantes 10)) (eq ?n FALSE))
+   then (modify ?user (tipo-usuario  "grupo")))
   (if (>= ?num_integrantes 10) then then (modify ?user (tipo-usuario  "grupo")))
   (assert (inferenciatiposasked))
 )

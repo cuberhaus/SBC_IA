@@ -1,0 +1,6 @@
+(load sbc.clp)
+(load instancias.clp)
+(load main.clp)
+(reset)
+(run 1)
+(focus LOGIC)
