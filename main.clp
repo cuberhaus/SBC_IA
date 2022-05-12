@@ -324,7 +324,8 @@
 (defrule INFERENCIA::obtenertipousuarios
   ?user <- (usuario (ninos ?n) (edades $?ed))
   =>
-  (printout t (length$ ?ed)) 
+  (bind ?num_integrantes (length$ ?ed) )
+  (printout t ?num_integrantes) 
 )
 
 ; (defrule print-user
