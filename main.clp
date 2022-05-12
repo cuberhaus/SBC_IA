@@ -324,7 +324,7 @@
 
 (defrule INFERENCIA::obtenertipousuarios
   (not (inferenciatiposasked))
-  ?user <- (usuario (ninos ?n) (num_integrantes $num_integrantes))
+  ?user <- (usuario (ninos ?n) (numero-integrantes ?num_integrantes))
   =>
   (printout t ?num_integrantes crlf) 
   (if (eq ?num_integrantes 1) then (modify ?user (tipo-usuario "individual"))) 
