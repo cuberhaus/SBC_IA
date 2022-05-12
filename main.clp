@@ -38,6 +38,7 @@
 (deftemplate MENU::viaje
   (multislot ciudad_en_dia_i)
   (multislot ciudades)
+  (multislot alojamientos)
   )
 
 (deffacts MENU::inicialitzacio
@@ -354,10 +355,30 @@
   ;(bind ?dies  (/ (+ ?min ?max) 2))
   ;(printout t ?dies crlf)
   (bind ?aux (send ?ciudad get-Nombre))
-  (slot-insert$ viaje ciudades 1 ?aux)
+  ;(slot-insert$ viaje ciudades 1 ?aux)
   (printout t "Ciudad: " ?aux crlf)
 )
 
+(defrule LOGIC::escoger-hoteles
+?vi <- (viaje (ciudades $?ciu))
+=>
+(bind ?aux (send $?ciu get-Nombre))
+
+(bind ?i 1)
+(while (<= ?i (length$ ?ciu))
+  do
+  (bind ?ciuaux (nth$ ?i ?ciu))
+  (bind ?alojamientos (find-all-instances ((?inst Alojamiento) (eq ?inst:esta_en ?aux))) )
+  (modify ?vi (alojamientos ?alojamientos))
+
+)
+
+(find-all-instances ((?inst Alojamiento)))
+
+
+
+
+)
 
 ; (defrule print-user
 ;   (declare (salience -1))
