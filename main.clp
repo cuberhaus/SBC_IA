@@ -1,7 +1,3 @@
-; (defmodule MENU "Inicio del programa")
-; (focus MENU)
- ; Fa una pregunta sobre una llista d'elements
-
 ;; (load main.clp)
 ;; (reset)
 ;; (run)
@@ -57,6 +53,7 @@
  ; Separem l'string (Ex. "Pasta" "Marisc" "Fruita")
  (bind ?res (str-explode ?resposta))
  ; Retornem els diferents camps (Ex. "Pasta" "Marisc" "Fruita")
+
 ; (bind ?i 1)
  ; (while (<= ?i (length$ ?res))
  ;   do
@@ -108,20 +105,6 @@
 ;; ## RULES
 ;; ###########################################################
 
-; (defrule preguntar-edad
-;   (not (preguntado-edad))
-;  =>
-;   (bind ?edad (pregunta-int "¿Cuantos años tienes?" 0 100))
-;   (printout t "Su edad es: " ?edad crlf)
-
-;   (if (and (>= ?edad 10) (< ?edad 17)) then (printout t "Eres adolescente" crlf))
-;   (if (< ?edad 10) then (printout t "Eres un niño" crlf))
-
-;   (assert(preguntado-edad))
-; )
-
-
-
 (defrule MENU::preguntar-edades
   (declare (salience 5))
   (not (preguntado-edad))
@@ -130,9 +113,6 @@
   (bind ?edades (pregunta-llista "Escriba las edades de los participantes separados por espacios" 0 100))
   (printout t "Su edad es: " ?edades crlf)
   (modify ?user (edades ?edades))
-  ; (if (and (>= ?edad 10) (< ?edad 17)) then (printout t "Eres adolescente" crlf))
-  ; (if (< ?edad 10) then (printout t "Eres un niño" crlf))
-
   (assert(preguntado-edad))
 )
 
@@ -143,7 +123,6 @@
   (assert(preguntado-nivel-cultural))
 )
 
-; Esta realmente ya la he hecho en la de la edad?
 (defrule MENU::preguntar-con-ninos
   (not (preguntado-con-ninos))
  ?user <- (usuario (edades $?edades))
@@ -155,15 +134,12 @@
    (bind ?edad (nth$ ?i ?edades))
    (if (<= ?edad 12)
        then (modify ?user (ninos TRUE)))
-   ; (printout t ?edad crlf)
    (bind ?i (+ ?i 1))
    )
   
   (assert(preguntado-con-ninos))
 )
 
-; 12<=x<=20
-; Esta realmente ya la he hecho en la de los adolescentes?
 (defrule MENU::preguntar-con-adolescentes
   (declare(salience 20))
   (not (preguntado-con-adolescentes))
@@ -177,7 +153,6 @@
    (bind ?edad (nth$ ?i ?edades))
    (if (and (<= ?edad 20) (>= ?edad 12))
        then (modify ?user (adolescentes TRUE)))
-   ; (printout t ?edad crlf)
    (bind ?i (+ ?i 1))
    )
    
@@ -193,13 +168,6 @@
  =>
  (bind ?num_integrantes (length$ ?edades) )
   (modify ?user (numero-integrantes ?num_integrantes))
-;  (bind ?nintegrantes (pregunta-int "¿Cuántos integrantes realizareis el viaje?" 1 20))
-;  (if (= ?nintegrantes 1) then (printout t "Es un viaje individual" crlf))
-;  (if (= ?nintegrantes 2) then (printout t "Es un viaje en pareja" crlf))
- ; (if (and (>= ?nintegrantes 3) ( <= ?nintegrantes 20)) then ((bind ?respuesta (pregunta-restri "¿Sois una familia?" (create$ "si" "no")))
- ;                                                             (if (= ?respuesta "si") then (printout t "Viaje en familia" crlf))
- ;                                                             (if (= ?respuesta "no") then (printout t "V/iaje en grupo" crlf))
- ;                                                             ))
   (assert(preguntado-con-numero-integrantes))
 )
 
