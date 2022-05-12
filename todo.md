@@ -24,3 +24,4 @@ Preferencias sobre el viaje:
 - [ ] Prefiere visitar ciudades/lugares menos conocidos // falta añadir popularidad de la ciudad
 - [x] Prefiere duracion o calidad
 
+- [ ] Eventos especiales
