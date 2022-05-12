@@ -331,7 +331,7 @@
 
  =>
   (assert (preguntas-acabadas))
-    (focus LOGIC)
+    (focus INFERENCIA)
 	  ; aqui seria un buen momento para cambiar el focus
 )
 
