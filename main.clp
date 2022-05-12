@@ -122,7 +122,6 @@
 ;; ###########################################################
 
 (defrule MENU::preguntar-edades
-  (declare (salience 5))
   (not (preguntado-edad))
   ?user <- (usuario)
  =>
@@ -157,7 +156,6 @@
 )
 
 (defrule MENU::preguntar-con-adolescentes
-  (declare(salience 20))
   (not (preguntado-con-adolescentes))
  ?user <- (usuario (edades $?edades))
   (preguntado-edad)
@@ -177,7 +175,6 @@
 )
 
 (defrule MENU::preguntar-con-numero-integrantes
-  (declare(salience 20))
   (not (preguntado-con-numero-integrantes))
   (preguntado-edad)
  ?user <- (usuario (edades $?edades))
@@ -205,7 +202,6 @@
 )
 
 (defrule MENU::preguntar-dias
-  ; (declare (salience 20))
   (not (preguntado-dias))
  ?user <- (usuario)
  =>
