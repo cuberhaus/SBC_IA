@@ -1,3 +1,7 @@
+;; (load main.clp)
+;; (reset)
+;; (run)
+
 (defmodule MAIN "MAIN del programa" (export ?ALL))
 
 (defrule saltar-siguiente-modulo
@@ -31,7 +35,7 @@
   (multislot duracion-o-calidad (type STRING) (allowed-strings "duracion" "calidad" "mixto"))
   (multislot tipo-viaje (type STRING)
 	     (allowed-strings "descanso" "diversion" "romantico" "trabajo" "aventura" "cultural"))
-  (slot tipo-usuario (type STRING) (allowed-strings "individual" "pareja" "grupo" "familia"))
+   (slot tipo-usuario (type STRING) (allowed-strings "individual" "pareja" "grupo" "familia"))
   )
 
 (deftemplate MENU::viaje
@@ -50,7 +54,7 @@
 
 (deffacts MENU::inicialitzacio
   (usuario)
-  ; (make-instance viaje of Viajes)
+    ; (make-instance viaje of Viajes)
   (viaje)
   )
 
@@ -65,6 +69,17 @@
  ; Separem l'string (Ex. "Pasta" "Marisc" "Fruita")
  (bind ?res (str-explode ?resposta))
  ; Retornem els diferents camps (Ex. "Pasta" "Marisc" "Fruita")
+
+; (bind ?i 1)
+ ; (while (<= ?i (length$ ?res))
+ ;   do
+ ;   (bind ?edad (nth$ ?i ?res))
+ ;   (bind ?edad_num (format nil ?edad))
+ ;   ; (printout t ?edad_num crlf)
+ ;   (printout t ?edad crlf)
+ ;   (bind ?i (+ ?i 1))
+ ;   )
+
  ?res
  )
 (deffunction MENU::pregunta-float(?pregunta ?min ?max)
@@ -176,7 +191,7 @@
   (not (preguntado-tipo-de-viaje))
   ?user <- (usuario)
  =>
-  (bind ?tipoviaje (pregunta-restri "Que tipo de viaje se quiere realizar"
+(bind ?tipoviaje (pregunta-restri "Que tipo de viaje se quiere realizar"
 				    (create$ descanso diversion romantico trabajo aventura cultural)))
   (printout t "Se realiza un viaje de tipo " ?tipoviaje crlf)
   (modify ?user (tipo-viaje ?tipoviaje))
@@ -248,8 +263,8 @@
   (not (preguntado-medios-de-transporte))
   ?user <- (usuario)
  =>
-  ; 0 y 1 sonvalores basura de momento, habra que hacer una funcion bien
-  (bind ?tipoviaje (pregunta-llista "Que medios de transporte se desean evitar" 0 1))
+ ; 0 y 1 sonvalores basura de momento, habra que hacer una funcion bien
+  (bind ?tipoviaje (pregunta-llista "Que medios de transporte se desean evitar" 0 1)) 
   (modify ?user (medios-de-transporte ?tipoviaje))
   (printout t "Se intentaran evitar los siguientes medios de transporte " ?tipoviaje crlf)
   (assert(preguntado-medios-de-transporte))
@@ -312,7 +327,7 @@
 ;---------------------------------------------------------------------------------------
 
 (defmodule INFERENCIA "Inferir propiedades de los usuarios con los datos obtenidos"
-  (import MENU ?ALL))
+ (import MENU ?ALL))
 
 (defrule INFERENCIA::obtenertipousuarios
   (not (inferenciatiposasked))
@@ -351,29 +366,45 @@
 =>
   ;(bind ?dies  (/ (+ ?min ?max) 2))
   ;(printout t ?dies crlf)
- (bind ?llista_ciutats (find-all-instances ((?instancia Ciudad)) TRUE))
-
-  ; (bind ?aux (send ?ciudad get-Nombre))
-  (modify ?vi (ciudades (create$ $?ciudades ?llista_ciutats)) )
-  ; (slot-insert$ viaje ciudades 1 ?aux)
+  (bind ?llista_ciutats (find-all-instances ((?instancia Ciudad)) TRUE))
+  (bind ?aux (send ?ciudad get-Nombre))
+  ;(slot-insert$ viaje ciudades 1 ?aux)
+  (printout t "Ciudad: " ?aux crlf)
 )
 
-; (defrule LOGIC::escoger-hoteles
-; ?vi <- (viaje (ciudades $?ciu))
-; =>
-; (bind ?aux (send $?ciu get-Nombre))
+(defrule LOGIC::escoger-alojamiento
+?vi <- (viaje (ciudades $?ciu))
+=>
+(bind ?aux (send $?ciu get-Nombre))
 
-; (bind ?i 1)
-; (while (<= ?i (length$ ?ciu))
-;   do
-;   (bind ?ciuaux (nth$ ?i ?ciu))
-;   (bind ?alojamientos (find-all-instances ((?inst Alojamiento) (eq ?inst:esta_en ?aux))) )
-;   (modify ?vi (alojamientos ?alojamientos))
+(bind ?i 1)
+(while (<= ?i (length$ ?ciu))
+  do
+  (bind ?ciuaux (nth$ ?i ?ciu))
+  (bind ?alojamientos (find-all-instances ((?inst Alojamiento) (eq ?inst:esta_en ?aux))) )
+  (modify ?vi (alojamientos ?alojamientos))
 
-; )
+)
+)
 
-; (find-all-instances ((?inst Alojamiento)))
-; )
+(defrule LOGIC::escoger-actividades
+  ?vi <- (viaje (ciudades $?ciu))
+  ;Habria que obtener los dias que se está en cada ciudad!!!
+=>
+  (bind ?aux (send $?ciu get-Nombre))
+  (bind ?i 1)
+  (while (<= ?i (length$ ?ciu))
+  do
+    (bind ?ciuactual (nth$ ?i ?ciu))
+    (bind ?j 1)
+    (bind ?diasenciudad 3)   ;;;TEMPORARY FIX!!!!, AQUI VAN LOS DIAS QUE SE ESTA EN ESA CIUDAD!!!!!
+    (while (<= ?j (?diasenciudad))
+    do
+      (bind ?)
+    )
+
+  )
+)
 
 ; (defrule print-user
 ;   (declare (salience -1))
