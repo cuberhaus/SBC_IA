@@ -40,8 +40,17 @@
   (multislot alojamientos)
   )
 
+; (defclass MENU::Viajes
+;   (role concrete)
+;   (pattern-match reactive)
+;   (multislot ciudad_en_dia_i)
+;   (multislot ciudades)
+;   (multislot alojamientos)
+;   )
+
 (deffacts MENU::inicialitzacio
   (usuario)
+  ; (make-instance viaje of Viajes)
   (viaje)
   )
 
@@ -336,37 +345,35 @@
 
 (defrule LOGIC::escoger-ciudades
 ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max))
-?ciudad <- (object (is-a Ciudad))
-?vi <- (viaje)
+; ?ciudad <- (object (is-a Ciudad))
+?vi <- (viaje (ciudades $?ciudades))
 ;(test (eq ?cont "Europa"))
 =>
   ;(bind ?dies  (/ (+ ?min ?max) 2))
   ;(printout t ?dies crlf)
-  (bind ?aux (send ?ciudad get-Nombre))
-  ;(slot-insert$ viaje ciudades 1 ?aux)
-  (printout t "Ciudad: " ?aux crlf)
+ (bind ?llista_ciutats (find-all-instances ((?instancia Ciudad)) TRUE))
+
+  ; (bind ?aux (send ?ciudad get-Nombre))
+  (modify ?vi (ciudades (create$ $?ciudades ?llista_ciutats)) )
+  ; (slot-insert$ viaje ciudades 1 ?aux)
 )
 
-(defrule LOGIC::escoger-hoteles
-?vi <- (viaje (ciudades $?ciu))
-=>
-(bind ?aux (send $?ciu get-Nombre))
+; (defrule LOGIC::escoger-hoteles
+; ?vi <- (viaje (ciudades $?ciu))
+; =>
+; (bind ?aux (send $?ciu get-Nombre))
 
-(bind ?i 1)
-(while (<= ?i (length$ ?ciu))
-  do
-  (bind ?ciuaux (nth$ ?i ?ciu))
-  (bind ?alojamientos (find-all-instances ((?inst Alojamiento) (eq ?inst:esta_en ?aux))) )
-  (modify ?vi (alojamientos ?alojamientos))
+; (bind ?i 1)
+; (while (<= ?i (length$ ?ciu))
+;   do
+;   (bind ?ciuaux (nth$ ?i ?ciu))
+;   (bind ?alojamientos (find-all-instances ((?inst Alojamiento) (eq ?inst:esta_en ?aux))) )
+;   (modify ?vi (alojamientos ?alojamientos))
 
-)
+; )
 
-(find-all-instances ((?inst Alojamiento)))
-
-
-
-
-)
+; (find-all-instances ((?inst Alojamiento)))
+; )
 
 ; (defrule print-user
 ;   (declare (salience -1))
