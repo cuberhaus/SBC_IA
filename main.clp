@@ -18,8 +18,8 @@
 (deftemplate MENU::usuario
   (multislot edades (type INTEGER))
 
-  (slot ninos (type SYMBOL) (allowed-values TRUE FALSE) )
-  (slot adolescentes (type SYMBOL) (allowed-values TRUE FALSE) )
+  (slot ninos (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
+  (slot adolescentes (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
   (slot numero-integrantes (type INTEGER) )
 
   (multislot medios-de-transporte (type STRING) (allowed-values "avion" "tren" "barco"))
@@ -148,6 +148,16 @@
   (not (preguntado-con-ninos))
  ?user <- (usuario (edades $?edades))
  =>
+
+(bind ?i 1)
+ (while (<= ?i (length$ ?edades))
+   do
+   (bind ?edad (nth$ ?i ?edades))
+   (if (<= ?edad 12)
+       then (modify ?user (ninos TRUE)))
+   ; (printout t ?edad crlf)
+   (bind ?i (+ ?i 1))
+   )
   
   (assert(preguntado-con-ninos))
 )
@@ -155,20 +165,23 @@
 ; 12<=x<=20
 ; Esta realmente ya la he hecho en la de los adolescentes?
 (defrule MENU::preguntar-con-adolescentes
+  (declare(salience 20))
   (not (preguntado-con-adolescentes))
  ?user <- (usuario (edades $?edades))
+  (preguntado-edad)
  =>
 
 (bind ?i 1)
  (while (<= ?i (length$ ?edades))
    do
    (bind ?edad (nth$ ?i ?edades))
-   ; (bind ?edad_num (format nil ?edad))
-   ; (printout t ?edad_num crlf)
-   (if ((<= ?edad 20) and)
-   (printout t ?edad crlf)
+   (if (and (<= ?edad 20) (>= ?edad 12))
+       then (modify ?user (adolescentes TRUE)))
+   ; (printout t ?edad crlf)
    (bind ?i (+ ?i 1))
    )
+   
+
   (assert(preguntado-con-adolescentes))
 )
 
