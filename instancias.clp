@@ -180,9 +180,11 @@
          (precio  7)
     (Nombre "Visita_Catedral_Berlin")
     )
+
     ([Nueva_York] of Ciudad
 	 (Continente  "Norteamerica")
          (Numero_de_habitantes  8380000)
+    (Nombre "Nueva_York")
     )
 
     ([The_Beekman] of Hotel
