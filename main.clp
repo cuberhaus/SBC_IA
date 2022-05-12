@@ -31,6 +31,7 @@
   (slot popularidad-ciudad (type INTEGER) )
   (multislot duracion-o-calidad (type STRING) (allowed-strings "duracion" "calidad" "mixto"))
   (multislot tipo-viaje (type STRING) (allowed-strings "descanso" "diversion" "romantico" "trabajo" "aventura" "cultural"))
+  (slot tipo-usuario (type STRING) (allowed-strings "individual" "pareja" "grupo" "familia"))
   )
 
 (deftemplate MENU::viaje
@@ -322,12 +323,23 @@
 (defmodule INFERENCIA "Inferir propiedades de los usuarios con los datos obtenidos" (import MENU ?ALL))
 
 (defrule INFERENCIA::obtenertipousuarios
-  ?user <- (usuario (ninos ?n) (edades $?ed))
+  (not (inferenciatiposasked))
+  ?user <- (usuario (ninos ?n) (num_integrantes $num_integrantes))
   =>
-  (bind ?num_integrantes (length$ ?ed) )
-  (printout t ?num_integrantes) 
+  (printout t ?num_integrantes crlf) 
+  (if (eq ?num_integrantes 1) then (modify ?user (tipo-usuario "individual"))) 
+  (if (eq ?num_integrantes 2) then (modify ?user (tipo-usuario "pareja")))
+  (if (and (and (>= ?num_integrantes 3) (<  ?num_integrantes 10)) (eq ?n TRUE)) then (modify ?user (tipo-usuario  "familia")))
+  (if (and (and (>= ?num_integrantes 3) (<  ?num_integrantes 10)) (eq ?n FALSE)) then (modify ?user (tipo-usuario  "grupo")))
+  (if (>= ?num_integrantes 10) then then (modify ?user (tipo-usuario  "grupo")))
+  (assert (inferenciatiposasked))
 )
 
+(defrule INFERENCIA::acabainferencia
+  (inferenciatiposasked)
+  =>
+	  ; aqui seria un buen momento para cambiar el focus
+)
 ; (defrule print-user
 ;   (declare (salience -1))
 ; ?user <- (usuario)
