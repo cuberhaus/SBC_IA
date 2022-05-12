@@ -2,11 +2,14 @@
 ;; (reset)
 ;; (run)
 
+(defmodule MAIN "MAIN del programa" (export ?ALL))
+
 (defrule saltar-siguiente-modulo
  (declare (salience 10))
  =>
  (focus MENU)
  )
+
 ;; defmodule has to go below saltar-siguiente-modulo
 (defmodule MENU "Inicio del programa" (export ?ALL))
 
