@@ -1,0 +1,22 @@
+Este prototipo inicial genera un itinerario de viaje a partir de las respuestas del usuario a una serie de preguntas. Estas preguntas nos permiten clasificar al usuario y asignarle los destinos, actividades, alojamientos y transportes adecuados.
+
+La solución se genera teniendo en cuenta las restricciones de duración total del viaje, duración de las estancias en las ciudades y número de ciudades a visitar. Los días por ciudad se generan como la media entre el máximo y el mínimo, se asignan todas las ciudades posibles y se asignan todas las actividades posibles en el tiempo disponible para cada ciudad. Se escoge un alojamiento cualquiera para cada ciudad.
+
+Ejemplo de juego de prueba:
+
+CLIPS> 10 15 36 40
+CLIPS> descanso
+CLIPS> 7
+CLIPS> 15
+CLIPS> 1
+CLIPS> 7
+CLIPS> 1
+CLIPS> 10
+CLIPS> 10000
+CLIPS> tren
+CLIPS> 3
+CLIPS> Barcelona
+CLIPS> calidad
+
+Ejemplo de salida para este juego de prueba:
+
