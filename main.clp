@@ -429,20 +429,32 @@
 ;  (escoger-ciudades)
 ; =>
 ;   (bind ?i 1)
+    (bind $?escog_activ (create$ ))
 ;   (while (<= ?i (length$ ?ciu))
 ;   do
 ;     (bind ?ciuactual (nth$ ?i ?ciu))
 ;     (bind ?ciudad_dia (nth$ ?i ?c_dia_i))
 
 ;     (bind ?aux (* ?ciudad_dia 100))
-;     (bind ?actividades (find-instance ((?inst Actividad) (eq ?inst:esta_en ?ciuactual))) )
+;     (bind ?actividades (find-all-instances ((?inst Actividad) (eq ?inst:esta_en ?ciuactual))) )
+      (bind ?j 0)
+      (bind ?k 1)
+      (while (and (<= ?j (?aux)) (<= ?k (length$ ?actividades)))
+      do
+        (bind ?activ (nth$ ?k ?actividades))
+        (bind ?nomactiv (send ?activ get-Nombre))
+        (bind ?tempsactiv (send ?activ get-Duracion_actividad))
+
+        (bind ?suma (+ ?j ?tempsactiv))
+        (if (<= ?suma ?aux) then 
+          (bind $?escog_activ (insert$ $?escog_activ (+ (length$ $?escog_activ) 1 ) ?nomactiv))
+        )
+        (bind ?j ?suma)
+        (bind ?k (+ ?k 1))
+      )
+       (modify ?vi (actividades $?escog_activ))
 ;     ; (bind ?aux (send $?ciuactual get-Nombre))
-;     (bind ?j 1)
-;     (bind ?diasenciudad 3)   ;;;TEMPORARY FIX!!!!, AQUI VAN LOS DIAS QUE SE ESTA EN ESA CIUDAD!!!!!
-;     (while (<= ?j (?diasenciudad))
-;     do
-;       (bind ?)
-;     )
+;     
 
 ;   )
 ; )
