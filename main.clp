@@ -379,14 +379,18 @@
  (escoger-ciudades)
 =>
 (bind ?i 1)
+(bind $?escog_aloj (create$ ))
 (while (<= ?i (length$ ?ciu))
   do
   (bind ?ciuaux (nth$ ?i ?ciu))
-  ; (bind ?aux (send $?ciuaux get-Nombre))
-  (bind ?alojamientos (find-instance ((?inst Alojamiento) (eq ?inst:esta_en ?ciuaux))) )
-  (modify ?vi (alojamientos ?alojamientos))
+  (bind ?aux (send ?ciuaux get-Nombre))
+  
+  (bind ?alojamiento (find-instance ((?inst Alojamiento) (eq ?inst:esta_en ?ciuaux))) )
+  (bind ?aloj_name (send ?alojamiento get-Nombre))
+  (bind $?escog_aloj (insert$ $?escog_aloj (+ (length$ $?escog_aloj) 1 ) ?aloj_name))
 
 )
+  (modify ?vi (alojamientos $?escog_aloj))
 )
 
   ; (multislot ciudad_en_dia_i)
@@ -402,7 +406,7 @@
     (bind ?ciudad_dia (nth$ ?i ?c_dia_i))
 
     (bind ?aux (* ?ciudad_dia 100))
-    (bind ?actividades (find-all-instances ((?inst Actividad) (eq ?inst:esta_en ?ciuactual))) )
+    (bind ?actividades (find-instance ((?inst Actividad) (eq ?inst:esta_en ?ciuactual))) )
     ; (bind ?aux (send $?ciuactual get-Nombre))
     (bind ?j 1)
     (bind ?diasenciudad 3)   ;;;TEMPORARY FIX!!!!, AQUI VAN LOS DIAS QUE SE ESTA EN ESA CIUDAD!!!!!
