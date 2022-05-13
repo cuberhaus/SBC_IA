@@ -42,6 +42,7 @@
   (multislot ciudad_en_dia_i)
   (multislot ciudades)
   (multislot alojamientos)
+  (multislot transporte)
   )
 
 ; (defclass MENU::Viajes
@@ -361,82 +362,98 @@
 	  ; aqui seria un buen momento para cambiar el focus
 )
 
-(defrule LOGIC::escoger-ciudades
-  (not escoger-ciudades)
-?user <- (usuario (dias-minimo ?min) (dias-maximo ?max))
+(defrule LOGIC::escoger-ciudades-rule
+  (not (escoger-ciudades))
+?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax))
 ?vi <- (viaje (ciudades $?ciudades))
 =>
-  ;(bind ?dies  (/ (+ ?min ?max) 2))
+  (bind ?dies  (/ (+ ?min ?max) 2))
+  (bind $?escog_ciudades
   ;(printout t ?dies crlf)
-  (bind ?llista_ciutats (find-all-instances ((?instancia Ciudad)) TRUE))
-  (bind ?aux (send ?ciudad get-Nombre))
-  (printout t "Ciudad: " ?aux crlf)
-  (assert escoger-ciudades)
-)
-
-(defrule LOGIC::escoger-alojamiento
-?vi <- (viaje (ciudades $?ciu))
- (escoger-ciudades)
-=>
-(bind ?i 1)
-(bind $?escog_aloj (create$ ))
-(while (<= ?i (length$ ?ciu))
-  do
-  (bind ?ciuaux (nth$ ?i ?ciu))
-  (bind ?aux (send ?ciuaux get-Nombre))
-  
-  (bind ?alojamiento (find-instance ((?inst Alojamiento) (eq ?inst:esta_en ?ciuaux))) )
-  (bind ?aloj_name (send ?alojamiento get-Nombre))
-  (bind $?escog_aloj (insert$ $?escog_aloj (+ (length$ $?escog_aloj) 1 ) ?aloj_name))
-
-)
-  (modify ?vi (alojamientos $?escog_aloj))
-)
-
-  ; (multislot ciudad_en_dia_i)
-(defrule LOGIC::escoger-actividades
-  ?vi <- (viaje (ciudades $?ciu) (ciudad_en_dia_i $?c_dia_i))
-  ;Habria que obtener los dias que se está en cada ciudad!!!
- (escoger-ciudades)
-=>
-  (bind ?i 1)
-  (while (<= ?i (length$ ?ciu))
-  do
-    (bind ?ciuactual (nth$ ?i ?ciu))
-    (bind ?ciudad_dia (nth$ ?i ?c_dia_i))
-
-    (bind ?aux (* ?ciudad_dia 100))
-    (bind ?actividades (find-instance ((?inst Actividad) (eq ?inst:esta_en ?ciuactual))) )
-    ; (bind ?aux (send $?ciuactual get-Nombre))
-    (bind ?j 1)
-    (bind ?diasenciudad 3)   ;;;TEMPORARY FIX!!!!, AQUI VAN LOS DIAS QUE SE ESTA EN ESA CIUDAD!!!!!
-    (while (<= ?j (?diasenciudad))
+  (bind ?i 0)
+  (while (<= ?i ?dies)
     do
-      (bind ?)
-    )
-
+      (bind ?diasciu (+ (mod (random) ?diasciumax) ?diasciumin))
+      (bind ?ciudad (find-instance ((?inst Ciudad)) TRUE))
+      (bind ?nomciudad (send ?ciudad get-Nombre))
+      (bind $?escog_ciudades (insert$ $?escog_aloj (+ (length$ $?escog_ciudades) 1 ) ?nomciudad))
+      (bind ?i (+ ?i ?diasciu))
   )
-)
+  (modify ?vi (ciudades $?escog_ciudades))
+  ;bind ?llista_ciutats (find-all-instances ((?instancia Ciudad)) TRUE))
+  ;(bind ?aux (send ?ciudad get-Nombre))
+  ;(printout t "Ciudad: " ?aux crlf)
+  (assert (escoger-ciudades))
+) )
 
-(defrule LOGIC::escoger-transporte
-  ?vi <- (viaje (ciudades $?ciu))
+; (defrule LOGIC::escoger-alojamiento
+; ?vi <- (viaje (ciudades $?ciu))
+;  (escoger-ciudades)
+; =>
+; (bind ?i 1)
+; (bind $?escog_aloj (create$ ))
+; (while (<= ?i (length$ ?ciu))
+;   do
+;   (bind ?ciuaux (nth$ ?i ?ciu))
+;   (bind ?aux (send ?ciuaux get-Nombre))
+  
+;   (bind ?alojamiento (find-instance ((?inst Alojamiento) (eq ?inst:esta_en ?ciuaux))) )
+;   (bind ?aloj_name (send ?alojamiento get-Nombre))
+;   (bind $?escog_aloj (insert$ $?escog_aloj (+ (length$ $?escog_aloj) 1 ) ?aloj_name))
 
-=>
-  (bind ?i 1)
-  (while (< ?i (length$ ?ciu)) 
-  ;; bucle hasta < para que no pete con la ultima iter (usamos i y i+1, habra que añadir vuelo del origen a la primera y de la ultima al origen!)
-  do
-    (bind ?ciuA (nth$ ?i ?ciu))
-    (bind ?ciuB (nth$ (+ ?i 1) ?ciu))
-    ; (bind ?auxA (send $?ciuA get-Nombre))
-    ; (bind ?auxB (send $?ciuB get-Nombre))
-
-    (bind ?opcionestransporte (find-instance ((?inst Transporte) (eq ?inst:parte_de ?auxA) (eq ?inst:va_a ?auxB))))
-      
-  )
+;   (bind ?i (+ ?i 1))
+; )
+;   (modify ?vi (alojamientos $?escog_aloj))
+; )
 
 
-)
+; (defrule LOGIC::escoger-actividades
+;   ?vi <- (viaje (ciudades $?ciu) (ciudad_en_dia_i $?c_dia_i))
+;   ;Habria que obtener los dias que se está en cada ciudad!!!
+;  (escoger-ciudades)
+; =>
+;   (bind ?i 1)
+;   (while (<= ?i (length$ ?ciu))
+;   do
+;     (bind ?ciuactual (nth$ ?i ?ciu))
+;     (bind ?ciudad_dia (nth$ ?i ?c_dia_i))
+
+;     (bind ?aux (* ?ciudad_dia 100))
+;     (bind ?actividades (find-instance ((?inst Actividad) (eq ?inst:esta_en ?ciuactual))) )
+;     ; (bind ?aux (send $?ciuactual get-Nombre))
+;     (bind ?j 1)
+;     (bind ?diasenciudad 3)   ;;;TEMPORARY FIX!!!!, AQUI VAN LOS DIAS QUE SE ESTA EN ESA CIUDAD!!!!!
+;     (while (<= ?j (?diasenciudad))
+;     do
+;       (bind ?)
+;     )
+
+;   )
+; )
+
+; (defrule LOGIC::escoger-transporte
+;   ?vi <- (viaje (ciudades $?ciu))
+
+; =>
+;   (bind ?i 1)
+;   (bind $?escog_transporte (create$ ))
+;   (while (< ?i (length$ ?ciu)) 
+;   ;; bucle hasta < para que no pete con la ultima iter (usamos i y i+1, habra que añadir vuelo del origen a la primera y de la ultima al origen!)
+;   do
+;     (bind ?ciuA (nth$ ?i ?ciu))
+;     (bind ?ciuB (nth$ (+ ?i 1) ?ciu))
+;     ; (bind ?auxA (send $?ciuA get-Nombre))
+;     ; (bind ?auxB (send $?ciuB get-Nombre))
+
+;     (bind ?opciontransporte (find-instance ((?inst Transorte) (eq ?inst:parte_de ?auxA) (eq ?inst:va_a ?auxB))) )
+;     (bind ?trans_name (send ?opciontransporte get-Nombre))
+;     (bind $?escog_transporte (insert$ $?escog_transporte (+ (length$ $?escog_transporte) 1 ) ?trans_name)) 
+
+;     (bind ?i (+ ?i 1)) 
+;   )
+;   (modify ?vi (transporte $?escog_transporte))
+
+; )
 
 ; (defrule print-user
 ;   (declare (salience -1))
