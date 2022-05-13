@@ -25,3 +25,5 @@ Preferencias sobre el viaje:
 - [x] Prefiere duracion o calidad
 
 - [ ] Eventos especiales
+
+- Ontologia cambiada directamente desde .clp, tema ciudades cambiar multislot por slot

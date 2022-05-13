@@ -221,7 +221,8 @@
 
 (defrule MENU::preguntar-ndias-ciudad
   (not (preguntado-ndiasciudades))
- ?user <- (usuario)
+(preguntado-dias)
+ ?user <- (usuario (dias-minimo ?dias-minimo) (dias-maximo ?dias-maximo))
  =>
   (bind ?min (pregunta-int "¿Cuál es el minimo de dias que quereis estar en cada ciudad?" 1 (fact-slot-value ?user dias-maximo)))
   (bind ?max (pregunta-int "¿Cuál es el maximo de dias que quereis estar en cada ciudad?" 1 (fact-slot-value ?user dias-maximo)))
@@ -448,7 +449,7 @@
      (bind ?ciuactual (nth$ ?i ?ciu))
      (bind ?nciuactual (send ?ciuactual get-Nombre))
      (bind ?ciudad_dia (nth$ ?i ?c_dia_i))
-    (bind $?escog_activ (insert$ $?escog_activ (+ (length$ $?escog_activ) 1 ) ?nciuactual))
+    (bind $?escog_activ (insert$ $?escog_activ (+ (length$ ?escog_activ) 1 ) ?nciuactual))
 
      (bind ?aux (* ?ciudad_dia 100))
 
@@ -463,7 +464,7 @@
         (printout t ?activ crlf)
         (bind ?suma (+ ?j ?tempsactiv))
         (if (<= ?suma ?aux) then 
-          (bind $?escog_activ (insert$ $?escog_activ (+ (length$ $?escog_activ) 1 ) ?nomactiv))
+          (bind $?escog_activ (insert$ $?escog_activ (+ (length$ ?escog_activ) 1 ) ?nomactiv))
         )
         (bind ?j ?suma)
         (bind ?k (+ ?k 1))
@@ -489,7 +490,7 @@
      ;(bind ?auxA (send $?ciuA get-Nombre))
      ;(bind ?auxB (send $?ciuB get-Nombre))
 
-     (bind ?opciontransporte (find-all-instances ((?inst Transporte)) (and (eq ?inst:parte_de ?ciuA) (eq ?inst:va_a ?ciuB)))) 
+     (bind ?opciontransporte (find-all-instances ((?inst Transporte)) (and (eq ?inst:parte_de ?ciuA) (eq ?inst:va_a ?ciuB))) )
      (bind ?optrans (nth$ 1 ?opciontransporte))
      (bind ?trans_name (send ?optrans get-Nombre))
      (bind $?escog_transporte (insert$ $?escog_transporte (+ (length$ $?escog_transporte) 1 ) ?trans_name)) 
@@ -527,7 +528,7 @@
 (defrule RESULTADOS:printar_viaje-rule
   (not (printar_viaje))
   (printar_plantilla)
-  ?vi <- (viaje (duracion ?d) (ciudades $?ciu) (dias_por_ciudad $?diasciu) (actividades ?activ) (alojamientos ?aloj) (transporte ?trans))
+  ?vi <- (viaje (duracion ?d) (ciudades $?ciu) (dias_por_ciudad $?diasciu) (actividades $?activ) (alojamientos $?aloj) (transporte $?trans))
   =>
   (printout t "Duracion del viaje: " ?d  " dias" crlf crlf)
 
@@ -539,13 +540,15 @@
 
     (bind ?diasporciu (nth ?i ?diasciu))
 
-    (printout t ?nciudad "(" ?diasciu "), " )
+    (printout t ?nciudad "(" ?diasporciu "), " )
+    (bind ?i (+ ?i 1)) 
   )
   (printout t crlf crlf "Visitas: ")
   (bind ?j 1)
   (while (<= ?j (length$ ?activ))
     (bind ?nactiv (nth$ ?j ?activ))
     (printout t ?nactiv ", ")
+     (bind ?j (+ ?j 1)) 
   )
 
   (printout t crlf crlf "Alojamientos: ")
@@ -553,6 +556,7 @@
   (while (<= ?k (length$ ?aloj))
     (bind ?naloj (nth$ ?k ?aloj))
     (printout t ?naloj ", ")
+     (bind ?k (+ ?k 1)) 
   )
 
   (printout t crlf crlf "Transporte: ")
@@ -560,6 +564,8 @@
   (while (<= ?l (length$ ?trans))
     (bind ?ntrans (nth$ ?l ?trans))
     (printout t ?ntrans ", ")
+     (bind ?l (+ ?l 1)) 
   )
+  (printout t crlf)
   (assert (printar_viaje))
 )

@@ -82,10 +82,10 @@
     (is-a USER)
     (role concrete)
     (pattern-match reactive)
-    (multislot parte_de
+    (slot parte_de
         (type INSTANCE)
         (create-accessor read-write))
-    (multislot va_a
+    (slot va_a
         (type INSTANCE)
         (create-accessor read-write))
     ;;; Atributo que indica el nombre de la instancia
@@ -127,11 +127,11 @@
     (multislot las_hacen
         (type INSTANCE)
         (create-accessor read-write))
-    (multislot se_hacen_en
+    (slot se_hacen_en
         (type INSTANCE)
         (create-accessor read-write))
     ;;; Atributo que representa la duración de una actividad respecto al porcentaje que ocupa de un dia, ejemplo:  visita a PortAventura: 100%, visita a un museo: 15%.
-    (multislot Duracion_actividad
+    (slot Duracion_actividad
         (type INTEGER)
         (create-accessor read-write))
     ;;; Atributo que indica el nombre de la instancia
@@ -139,7 +139,7 @@
         (type STRING)
         (create-accessor read-write))
     ;;; Precio de un servicio específico.
-    (multislot precio
+    (slot precio
         (type FLOAT)
         (create-accessor read-write))
 )
