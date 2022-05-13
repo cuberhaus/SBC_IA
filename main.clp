@@ -43,6 +43,8 @@
   (multislot ciudades (type INSTANCE))
   (multislot alojamientos)
   (multislot transporte)
+  (multislot actividades)
+  (slot duracion)
   )
 
 ; (defclass MENU::Viajes
@@ -362,6 +364,7 @@
  ; (escoger-transporte)
  =>
   (assert (logica-acabada))
+  (focus RESULTADOS)
 	  ; aqui seria un buen momento para cambiar el focus
 )
 
@@ -391,7 +394,7 @@
        (bind ?j (+ ?j 1))
        (bind ?nciu (+ ?nciu 1))
   )
-  (modify ?vi (ciudades $?escog_ciudades) (dias_por_ciudad $?escog_dias_ciudades))
+  (modify ?vi (ciudades $?escog_ciudades) (dias_por_ciudad $?escog_dias_ciudades) (duracion ?i))
   ;bind ?llista_ciutats (find-all-instances ((?instancia Ciudad)) TRUE))
   ;(bind ?aux (send ?ciudad get-Nombre))
   (assert (escoger-ciudades))
@@ -434,9 +437,10 @@
 ;   do
 ;     (bind ?ciuactual (nth$ ?i ?ciu))
 ;     (bind ?ciudad_dia (nth$ ?i ?c_dia_i))
-
+      (bind $?escog_activ (insert$ $?escog_activ (+ (length$ $?escog_activ) 1 ) ?ciuactual))
 ;     (bind ?aux (* ?ciudad_dia 100))
 ;     (bind ?actividades (find-all-instances ((?inst Actividad) (eq ?inst:esta_en ?ciuactual))) )
+<<<<<<< HEAD
       ; (bind ?j 0)
       ; (bind ?k 1)
       ; (while (and (<= ?j (?aux)) (<= ?k (length$ ?actividades)))
@@ -453,10 +457,29 @@
       ;   (bind ?k (+ ?k 1))
       ; )
       ;  (modify ?vi (actividades $?escog_activ))
+=======
+      (bind ?j 0)
+      (bind ?k 1)
+      (while (and (<= ?j (?aux)) (<= ?k (length$ ?actividades)))
+      do
+        (bind ?activ (nth$ ?k ?actividades))
+        (bind ?nomactiv (send ?activ get-Nombre))
+        (bind ?tempsactiv (send ?activ get-Duracion_actividad))
+
+        (bind ?suma (+ ?j ?tempsactiv))
+        (if (<= ?suma ?aux) then 
+          (bind $?escog_activ (insert$ $?escog_activ (+ (length$ $?escog_activ) 1 ) ?nomactiv))
+        )
+        (bind ?j ?suma)
+        (bind ?k (+ ?k 1))
+      )
+       
+>>>>>>> bff8605 (asdfasdofkasfopafso)
 ;     ; (bind ?aux (send $?ciuactual get-Nombre))
 ;     
 
 ;   )
+      (modify ?vi (actividades $?escog_activ))
 ; )
 
 ; (defrule LOGIC::escoger-transporte
@@ -501,4 +524,65 @@
 ; =>
 ; )
 
+;---------------------------------------------------------------------------------------
+;                                 MODULO DE RESULTADOS                                 -
+;---------------------------------------------------------------------------------------
 
+(defmodule RESULTADOS "Printar resultados obtenidos" (import MENU ?ALL) (import MAIN ?ALL))
+
+(defrule RESULTADOS::acaba-resultados
+ (printar_plantilla)
+ (printar_viaje)
+ =>
+	  ; aqui seria un buen momento para cambiar el focus
+)
+
+(defrule RESULTADOS:printar_plantilla
+  (not (printar_plantilla))
+  =>
+  (printout t "----------------------------------------------------------------------------------------------" crlf
+              "-                                        VIAJE OBTENIDO                                       -" crlf
+              "----------------------------------------------------------------------------------------------" crlf 
+              crlf
+  )
+  (assert (printar_plantilla))
+)
+
+(defrule RESULTADOS:printar_plantilla
+  (not (printar_viaje))
+  ?vi <- (viaje (duracion ?d) (ciudades $?ciu) (dias_por_ciudad $?diasciu) (actividades ?activ) (alojamientos ?aloj) (transporte ?trans))
+  =>
+  (printout t "Duracion del viaje: " ?d crlf crlf)
+
+  (printout t "Ciudades visitadas: ")
+  (bind ?i 1)
+  (while (<= ?i (length$ ?ciu))
+    (bind ?ciudad (nth$ ?i ?ciu))
+    (bind ?nciudad (send ?ciudad get-Nombre))
+
+    (bind ?diasporciu (nth ?i ?diasciu))
+
+    (printout t ?nciudad "(" ?diasciu "), " )
+  )
+  (printout t crlf crlf "Visitas: ")
+  (bind ?j 1)
+  (while (<= ?j (length$ ?activ))
+    (bind ?nactiv (nth$ ?j ?activ))
+    (printout t ?nactiv ", ")
+  )
+
+  (printout t crlf crlf "Alojamientos: ")
+  (bind ?k 1)
+  (while (<= ?k (length$ ?aloj))
+    (bind ?naloj (nth$ ?k ?aloj))
+    (printout t ?naloj ", ")
+  )
+
+  (printout t crlf crlf "Transporte: ")
+  (bind ?l 1)
+  (while (<= ?l (length$ ?trans))
+    (bind ?ntrans (nth$ ?l ?trans))
+    (printout t ?ntrans ", ")
+  )
+  (assert (printar_viaje))
+)
