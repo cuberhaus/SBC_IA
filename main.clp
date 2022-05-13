@@ -39,7 +39,7 @@
   )
 
 (deftemplate MENU::viaje
-  (multislot ciudad_en_dia_i)
+  (multislot dias_por_ciudad)
   (multislot ciudades)
   (multislot alojamientos)
   (multislot transporte)
@@ -364,47 +364,63 @@
 
 (defrule LOGIC::escoger-ciudades-rule
   (not (escoger-ciudades))
-?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax))
+?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
 ?vi <- (viaje (ciudades $?ciudades))
 =>
   (bind ?dies  (/ (+ ?min ?max) 2))
-  (bind $?escog_ciudades
+  (bind $?escog_ciudades (create$ ))
+  (bind $?escog_dias_ciudades (create$ ))
+  
+  (bind ?llista_ciutats (find-all-instances ((?instancia Ciudad)) TRUE))
   ;(printout t ?dies crlf)
+  
   (bind ?i 0)
-  (while (<= ?i ?dies)
-    do
-      (bind ?diasciu (+ (mod (random) ?diasciumax) ?diasciumin))
-      (bind ?ciudad (find-instance ((?inst Ciudad)) TRUE))
-      (bind ?nomciudad (send ?ciudad get-Nombre))
-      (bind $?escog_ciudades (insert$ $?escog_aloj (+ (length$ $?escog_ciudades) 1 ) ?nomciudad))
-      (bind ?i (+ ?i ?diasciu))
+  (bind ?j 1)
+  (bind ?nciu 0)
+  (while (and (< ?i ?dies) (<= ?j (length$ ?llista_ciutats)) (< ?nciu ?ciumax))
+     do
+       (bind ?diasciu (+ (mod (random) ?diasciumax) ?diasciumin))
+       ;(printout t ?diasciu)
+       (bind ?ciudad (nth$ ?j ?llista_ciutats))
+       (bind ?nomciudad (send ?ciudad get-Nombre))
+
+       (bind ?suma (+ ?diasciu ?i))
+       (if (<= ?suma ?dies) then
+           (bind $?escog_ciudades (insert$ $?escog_ciudades (+ (length$ $?escog_ciudades) 1 ) ?nomciudad))
+           (bind $?escog_dias_ciudades (insert$ $?escog_dias_ciudades (+ (length$ $?escog_dias_ciudades) 1 ) ?diasciu))
+       )
+       (bind ?i (+ ?i ?diasciu))
+       (bind ?j (+ ?j 1))
+       (bind ?nciu (+ ?nciu 1))
   )
-  (modify ?vi (ciudades $?escog_ciudades))
+  (modify ?vi (ciudades $?escog_ciudades) (dias_por_ciudad $?escog_dias_ciudades))
   ;bind ?llista_ciutats (find-all-instances ((?instancia Ciudad)) TRUE))
   ;(bind ?aux (send ?ciudad get-Nombre))
   ;(printout t "Ciudad: " ?aux crlf)
   (assert (escoger-ciudades))
-) )
+) 
 
-; (defrule LOGIC::escoger-alojamiento
-; ?vi <- (viaje (ciudades $?ciu))
-;  (escoger-ciudades)
-; =>
-; (bind ?i 1)
-; (bind $?escog_aloj (create$ ))
-; (while (<= ?i (length$ ?ciu))
-;   do
-;   (bind ?ciuaux (nth$ ?i ?ciu))
-;   (bind ?aux (send ?ciuaux get-Nombre))
-  
-;   (bind ?alojamiento (find-instance ((?inst Alojamiento) (eq ?inst:esta_en ?ciuaux))) )
-;   (bind ?aloj_name (send ?alojamiento get-Nombre))
-;   (bind $?escog_aloj (insert$ $?escog_aloj (+ (length$ $?escog_aloj) 1 ) ?aloj_name))
+ (defrule LOGIC::escoger-alojamiento
+ ?vi <- (viaje (ciudades $?ciu))
+  (escoger-ciudades)
+ =>
+ (bind ?i 1)
+ (bind $?escog_aloj (create$ ))
+ (while (<= ?i (length$ ?ciu))
+   do
+   (bind ?ciuaux (nth$ ?i ?ciu))
+   ;(bind ?aux (send ?ciuaux get-Nombre))
+   (printout t ?ciuaux crlf)
+   (bind ?llista_aloja (find-all-instances ((?inst Hotel)) (eq ?inst:esta_en ?ciuaux)))
+   (bind ?alojamiento (nth$ 1 ?llista_aloja))
+   ;(bind ?aloj_name (send (nth$ 1 (find-instance ((?inst Alojamiento)) (eq ?inst:esta_en ?ciuaux))) get-Nombre))
+   (bind ?aloj_name (send ?alojamiento get-Nombre))
+   (bind $?escog_aloj (insert$ $?escog_aloj (+ (length$ $?escog_aloj) 1 ) ?aloj_name))
 
-;   (bind ?i (+ ?i 1))
-; )
-;   (modify ?vi (alojamientos $?escog_aloj))
-; )
+   (bind ?i (+ ?i 1))
+ )
+   (modify ?vi (alojamientos $?escog_aloj))
+ )
 
 
 ; (defrule LOGIC::escoger-actividades
