@@ -4,18 +4,31 @@ La solución se genera teniendo en cuenta las restricciones de duración total d
 
 Ejemplo de juego de prueba:
 
+"Escriba las edades de los participantes separados por espacios"
 CLIPS> 10 15 36 40
+"Que tipo de viaje se quiere realizar"
 CLIPS> descanso
+"¿Cuál es el minimo de dias que quereis de viaje?"
 CLIPS> 7
+"¿Cuál es el maximo de dias que quereis de viaje?"
 CLIPS> 15
+"¿Cuál es el minimo de dias que quereis estar en cada ciudad?"
 CLIPS> 1
+"¿Cuál es el maximo de dias que quereis estar en cada ciudad?"
 CLIPS> 7
+"¿Cuál es el minimo de ciudades que quereis visitar?"
 CLIPS> 1
+"¿Cuál es el maximo de ciudades que quereis visitar?"
 CLIPS> 10
+"De cuanto presupuesto disponeis (en euros €)"
 CLIPS> 10000
+"Que medios de transporte se desean evitar"
 CLIPS> tren
+"Que calidad de alojamiento se prefiere (de minimo)"
 CLIPS> 3
+"Que ciudades desean visitar"
 CLIPS> Barcelona
+"Prefiere duracion, calidad o un mixto"
 CLIPS> calidad
 
 Ejemplo de salida para este juego de prueba:
