@@ -357,6 +357,9 @@
 
 (defrule LOGIC::acaba-la-logica
  (escoger-ciudades)
+ (escoger-alojamiento)
+ ; (escoger-actividades)
+ ; (escoger-transporte)
  =>
   (assert (logica-acabada))
 	  ; aqui seria un buen momento para cambiar el focus
@@ -370,20 +373,15 @@
   (bind ?dies  (/ (+ ?min ?max) 2))
   (bind $?escog_ciudades (create$ ))
   (bind $?escog_dias_ciudades (create$ ))
-  
   (bind ?llista_ciutats (find-all-instances ((?instancia Ciudad)) TRUE))
-  ;(printout t ?dies crlf)
-  
   (bind ?i 0)
   (bind ?j 1)
   (bind ?nciu 0)
   (while (and (< ?i ?dies) (<= ?j (length$ ?llista_ciutats)) (< ?nciu ?ciumax))
      do
        (bind ?diasciu (+ (mod (random) ?diasciumax) ?diasciumin))
-       ;(printout t ?diasciu)
        (bind ?ciudad (nth$ ?j ?llista_ciutats))
        (bind ?nomciudad (send ?ciudad get-Nombre))
-
        (bind ?suma (+ ?diasciu ?i))
        (if (<= ?suma ?dies) then
            (bind $?escog_ciudades (insert$ $?escog_ciudades (+ (length$ $?escog_ciudades) 1 ) ?nomciudad))
@@ -396,13 +394,13 @@
   (modify ?vi (ciudades $?escog_ciudades) (dias_por_ciudad $?escog_dias_ciudades))
   ;bind ?llista_ciutats (find-all-instances ((?instancia Ciudad)) TRUE))
   ;(bind ?aux (send ?ciudad get-Nombre))
-  ;(printout t "Ciudad: " ?aux crlf)
   (assert (escoger-ciudades))
 ) 
 
  (defrule LOGIC::escoger-alojamiento
  ?vi <- (viaje (ciudades $?ciu))
-  (escoger-ciudades)
+ (escoger-ciudades)
+ (not (escoger-alojamiento))
  =>
  (bind ?i 1)
  (bind $?escog_aloj (create$ ))
@@ -411,15 +409,17 @@
    (bind ?ciuaux (nth$ ?i ?ciu))
    ;(bind ?aux (send ?ciuaux get-Nombre))
    (printout t ?ciuaux crlf)
-   (bind ?llista_aloja (find-all-instances ((?inst Hotel)) (eq ?inst:esta_en ?ciuaux)))
+   (bind ?llista_aloja (find-all-instances ((?inst Alojamiento)) TRUE))
    (bind ?alojamiento (nth$ 1 ?llista_aloja))
    ;(bind ?aloj_name (send (nth$ 1 (find-instance ((?inst Alojamiento)) (eq ?inst:esta_en ?ciuaux))) get-Nombre))
+
    (bind ?aloj_name (send ?alojamiento get-Nombre))
    (bind $?escog_aloj (insert$ $?escog_aloj (+ (length$ $?escog_aloj) 1 ) ?aloj_name))
 
    (bind ?i (+ ?i 1))
  )
    (modify ?vi (alojamientos $?escog_aloj))
+(assert (escoger-alojamiento))
  )
 
 
@@ -429,7 +429,7 @@
 ;  (escoger-ciudades)
 ; =>
 ;   (bind ?i 1)
-    (bind $?escog_activ (create$ ))
+    ; (bind $?escog_activ (create$ ))
 ;   (while (<= ?i (length$ ?ciu))
 ;   do
 ;     (bind ?ciuactual (nth$ ?i ?ciu))
@@ -437,22 +437,22 @@
 
 ;     (bind ?aux (* ?ciudad_dia 100))
 ;     (bind ?actividades (find-all-instances ((?inst Actividad) (eq ?inst:esta_en ?ciuactual))) )
-      (bind ?j 0)
-      (bind ?k 1)
-      (while (and (<= ?j (?aux)) (<= ?k (length$ ?actividades)))
-      do
-        (bind ?activ (nth$ ?k ?actividades))
-        (bind ?nomactiv (send ?activ get-Nombre))
-        (bind ?tempsactiv (send ?activ get-Duracion_actividad))
+      ; (bind ?j 0)
+      ; (bind ?k 1)
+      ; (while (and (<= ?j (?aux)) (<= ?k (length$ ?actividades)))
+      ; do
+      ;   (bind ?activ (nth$ ?k ?actividades))
+      ;   (bind ?nomactiv (send ?activ get-Nombre))
+      ;   (bind ?tempsactiv (send ?activ get-Duracion_actividad))
 
-        (bind ?suma (+ ?j ?tempsactiv))
-        (if (<= ?suma ?aux) then 
-          (bind $?escog_activ (insert$ $?escog_activ (+ (length$ $?escog_activ) 1 ) ?nomactiv))
-        )
-        (bind ?j ?suma)
-        (bind ?k (+ ?k 1))
-      )
-       (modify ?vi (actividades $?escog_activ))
+      ;   (bind ?suma (+ ?j ?tempsactiv))
+      ;   (if (<= ?suma ?aux) then 
+      ;     (bind $?escog_activ (insert$ $?escog_activ (+ (length$ $?escog_activ) 1 ) ?nomactiv))
+      ;   )
+      ;   (bind ?j ?suma)
+      ;   (bind ?k (+ ?k 1))
+      ; )
+      ;  (modify ?vi (actividades $?escog_activ))
 ;     ; (bind ?aux (send $?ciuactual get-Nombre))
 ;     
 
