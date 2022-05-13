@@ -354,44 +354,56 @@
 
 (defmodule LOGIC "logica del programa" (import MENU ?ALL) (import MAIN ?ALL))
 
+(defrule LOGIC::acaba-la-logica
+ (escoger-ciudades)
+ =>
+  (assert (logica-acabada))
+	  ; aqui seria un buen momento para cambiar el focus
+)
+
 (defrule LOGIC::escoger-ciudades
+  (not escoger-ciudades)
 ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max))
-; ?ciudad <- (object (is-a Ciudad))
 ?vi <- (viaje (ciudades $?ciudades))
-;(test (eq ?cont "Europa"))
 =>
   ;(bind ?dies  (/ (+ ?min ?max) 2))
   ;(printout t ?dies crlf)
   (bind ?llista_ciutats (find-all-instances ((?instancia Ciudad)) TRUE))
   (bind ?aux (send ?ciudad get-Nombre))
-  ;(slot-insert$ viaje ciudades 1 ?aux)
   (printout t "Ciudad: " ?aux crlf)
+  (assert escoger-ciudades)
 )
 
 (defrule LOGIC::escoger-alojamiento
 ?vi <- (viaje (ciudades $?ciu))
+ (escoger-ciudades)
 =>
-(bind ?aux (send $?ciu get-Nombre))
-
 (bind ?i 1)
 (while (<= ?i (length$ ?ciu))
   do
   (bind ?ciuaux (nth$ ?i ?ciu))
-  (bind ?alojamientos (find-all-instances ((?inst Alojamiento) (eq ?inst:esta_en ?aux))) )
+  ; (bind ?aux (send $?ciuaux get-Nombre))
+  (bind ?alojamientos (find-instance ((?inst Alojamiento) (eq ?inst:esta_en ?ciuaux))) )
   (modify ?vi (alojamientos ?alojamientos))
 
 )
 )
 
+  ; (multislot ciudad_en_dia_i)
 (defrule LOGIC::escoger-actividades
-  ?vi <- (viaje (ciudades $?ciu))
+  ?vi <- (viaje (ciudades $?ciu) (ciudad_en_dia_i $?c_dia_i))
   ;Habria que obtener los dias que se está en cada ciudad!!!
+ (escoger-ciudades)
 =>
-  (bind ?aux (send $?ciu get-Nombre))
   (bind ?i 1)
   (while (<= ?i (length$ ?ciu))
   do
     (bind ?ciuactual (nth$ ?i ?ciu))
+    (bind ?ciudad_dia (nth$ ?i ?c_dia_i))
+
+    (bind ?aux (* ?ciudad_dia 100))
+    (bind ?actividades (find-all-instances ((?inst Actividad) (eq ?inst:esta_en ?ciuactual))) )
+    ; (bind ?aux (send $?ciuactual get-Nombre))
     (bind ?j 1)
     (bind ?diasenciudad 3)   ;;;TEMPORARY FIX!!!!, AQUI VAN LOS DIAS QUE SE ESTA EN ESA CIUDAD!!!!!
     (while (<= ?j (?diasenciudad))
@@ -411,11 +423,11 @@
   ;; bucle hasta < para que no pete con la ultima iter (usamos i y i+1, habra que añadir vuelo del origen a la primera y de la ultima al origen!)
   do
     (bind ?ciuA (nth$ ?i ?ciu))
-    (bind ?ciuB (nth$ ?i+1 ?ciu))
-    (bind ?auxA (send $?ciuA get-Nombre))
-    (bind ?auxB (send $?ciuB get-Nombre))
+    (bind ?ciuB (nth$ (+ ?i 1) ?ciu))
+    ; (bind ?auxA (send $?ciuA get-Nombre))
+    ; (bind ?auxB (send $?ciuB get-Nombre))
 
-    (bind ?opcionestransporte (find-all-instances ((?inst Transporte) (eq ?inst:parte_de ?auxA) (eq ?inst:va_a ?auxB))))
+    (bind ?opcionestransporte (find-instance ((?inst Transporte) (eq ?inst:parte_de ?auxA) (eq ?inst:va_a ?auxB))))
       
   )
 
