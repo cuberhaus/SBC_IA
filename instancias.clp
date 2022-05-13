@@ -22,14 +22,14 @@
     )
 
     ([Visita_Catedral_Santiago] of Visita_monumento
-         (se_hace_en [Santiago_de_Compostela])
+         (se_hacen_en [Santiago_de_Compostela])
          (Duracion_actividad  30)
          (precio 10)
     (Nombre "Visita_Catedral_Santiago")
     )
 
     ([Casa_Marcelo] of Gastronomica
-         (se_hace_en [Santiago_de_Compostela])
+         (se_hacen_en [Santiago_de_Compostela])
          (Duracion_actividad  15)
          (precio 75)
     (Nombre "Casa_Marcelo")
@@ -61,7 +61,7 @@
 
 
     ([Visita_Sagrada_Familia] of Visita_monumento
-         (se_hace_en [Barcelona])
+         (se_hacen_en [Barcelona])
          (Duracion_actividad  40)
          (precio 25)
     (Nombre "Visita_Sagrada_Familia")
@@ -69,7 +69,7 @@
 
 
     ([PortAventura] of Aventura
-         (se_hace_en [Barcelona])
+         (se_hacen_en [Barcelona])
          (Duracion_actividad  100)
          (precio 50)
     (Nombre "PortAventura")
@@ -100,7 +100,7 @@
     )
 
     ([Visita_Coliseo] of Visita_monumento
-         (se_hace_en [Roma])
+         (se_hacen_en [Roma])
          (Duracion_actividad  30)
          (precio  40)
     (Nombre "Visita_Coliseo")
@@ -108,7 +108,7 @@
 
 
     ([Visita_Museo_Vaticano] of Visita_museo
-         (se_hace_en [Roma])
+         (se_hacen_en [Roma])
          (Duracion_actividad  40)
          (precio  17)
     (Nombre "Visita_Museo_Vaticano")
@@ -139,7 +139,7 @@
     )
      
     ([Visita_Louvre] of Visita_museo
-         (se_hace_en [Paris])
+         (se_hacen_en [Paris])
          (Duracion_actividad  50)
          (precio  17)
 	 (Nombre "Visita_Louvre")
@@ -147,7 +147,7 @@
 
 
     ([Paseo_Campos_Eliseos] of Relax
-         (se_hace_en [Paris])
+         (se_hacen_en [Paris])
          (Duracion_actividad  20)
          (precio 0)
     (Nombre "Paseo_Campos_Eliseos")
@@ -178,7 +178,7 @@
     )
 
     ([Puerta_de_Brandeburgo] of Visita_monumento
-         (se_hace_en [Berlin])
+         (se_hacen_en [Berlin])
          (Duracion_actividad  20)
          (precio  0)
     (Nombre "Puerta_de_Brandeburgo")
@@ -186,7 +186,7 @@
 
 
     ([Visita_Catedral_Berlin] of Visita_monumento
-         (se_hace_en [Berlin])
+         (se_hacen_en [Berlin])
          (Duracion_actividad  30)
          (precio  7)
     (Nombre "Visita_Catedral_Berlin")
@@ -217,7 +217,7 @@
     )
 
     ([Visita_MET] of Visita_museo
-         (se_hace_en [Nueva_York])
+         (se_hacen_en [Nueva_York])
          (Duracion_actividad  40)
          (precio 25)
     (Nombre "Visita_MET")
@@ -225,7 +225,7 @@
 
 
     ([Visita_Central_Park] of Naturaleza
-         (se_hace_en [Nueva_York])
+         (se_hacen_en [Nueva_York])
          (Duracion_actividad  30)
          (precio 0)
     (Nombre "Visita_Central_Park")
@@ -256,7 +256,7 @@
     )
 
     ([Millenium_Park] of Naturaleza
-         (se_hace_en [Chicago])
+         (se_hacen_en [Chicago])
          (Duracion_actividad  30)
          (precio  0)
     (Nombre "Millenium_Park")
@@ -264,7 +264,7 @@
 
 
     ([The_Field_Museum] of Visita_museo
-         (se_hace_en [Chicago])
+         (se_hacen_en [Chicago])
          (Duracion_actividad  30)
          (precio  25)
     (Nombre "The_Field_Museum")
@@ -296,7 +296,7 @@
     )
 
     ([Paseo_de_la_fama] of Visita_monumento
-         (se_hace_en [LA])
+         (se_hacen_en [LA])
          (Duracion_actividad  15)
          (precio  0)
     (Nombre "Paseo_de_la_fama")
@@ -304,7 +304,7 @@
 
 
     ([Santa_Monica] of Naturaleza
-         (se_hace_en [LA])
+         (se_hacen_en [LA])
          (Duracion_actividad  30)
          (precio  0)
     (Nombre "Santa_Monica")
@@ -343,7 +343,7 @@
     )
 
     ([San_Diego_Zoo] of Aventura
-         (se_hace_en [San_Diego])
+         (se_hacen_en [San_Diego])
          (Duracion_actividad  60)
          (precio 70)
     (Nombre "San_Diego_Zoo")
@@ -351,7 +351,7 @@
 
 
     ([Parque_Balboa] of Naturaleza
-         (se_hace_en [San_Diego])
+         (se_hacen_en [San_Diego])
          (Duracion_actividad  20)
          (precio 20)
     (Nombre "Parque_Balboa")
@@ -382,7 +382,7 @@
     )
 
     ([Visita_Museo_Infantil] of Visita_museo
-         (se_hace_en [Houston])
+         (se_hacen_en [Houston])
          (Duracion_actividad  30)
          (precio  25)
     (Nombre "Visita_Museo_Infantil")
@@ -390,7 +390,7 @@
 
 
     ([Visita_Museo_Ciencias_Naturales] of Visita_museo
-         (se_hace_en [Houston])
+         (se_hacen_en [Houston])
          (Duracion_actividad  30)
          (precio  25)
     (Nombre "Visita_Museo_Ciencias_Naturales")
