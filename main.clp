@@ -40,7 +40,7 @@
 
 (deftemplate MENU::viaje
   (multislot dias_por_ciudad)
-  (multislot ciudades)
+  (multislot ciudades (type INSTANCE))
   (multislot alojamientos)
   (multislot transporte)
   )
@@ -384,7 +384,7 @@
        (bind ?nomciudad (send ?ciudad get-Nombre))
        (bind ?suma (+ ?diasciu ?i))
        (if (<= ?suma ?dies) then
-           (bind $?escog_ciudades (insert$ $?escog_ciudades (+ (length$ $?escog_ciudades) 1 ) ?nomciudad))
+           (bind $?escog_ciudades (insert$ $?escog_ciudades (+ (length$ $?escog_ciudades) 1 ) ?ciudad))
            (bind $?escog_dias_ciudades (insert$ $?escog_dias_ciudades (+ (length$ $?escog_dias_ciudades) 1 ) ?diasciu))
        )
        (bind ?i (+ ?i ?diasciu))
@@ -409,7 +409,7 @@
    (bind ?ciuaux (nth$ ?i ?ciu))
    ;(bind ?aux (send ?ciuaux get-Nombre))
    (printout t ?ciuaux crlf)
-   (bind ?llista_aloja (find-all-instances ((?inst Alojamiento)) TRUE))
+   (bind ?llista_aloja (find-all-instances ((?inst Alojamiento)) (eq ?inst:esta_en ?ciuaux)))
    (bind ?alojamiento (nth$ 1 ?llista_aloja))
    ;(bind ?aloj_name (send (nth$ 1 (find-instance ((?inst Alojamiento)) (eq ?inst:esta_en ?ciuaux))) get-Nombre))
 
