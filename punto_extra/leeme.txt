@@ -32,4 +32,16 @@ CLIPS> Barcelona
 CLIPS> calidad
 
 Ejemplo de salida para este juego de prueba:
+----------------------------------------------------------------------------------------------
+-                                        VIAJE OBTENIDO                                       -
+----------------------------------------------------------------------------------------------
 
+Duracion del viaje: 9 dias
+
+Ciudades visitadas: ("Santiago_de_Compostela")(4), ("Barcelona")(5), 
+
+Visitas: Santiago_de_Compostela, Visita_Catedral_Santiago, Casa_Marcelo, Barcelona, Visita_Sagrada_Familia, PortAventura, 
+
+Alojamientos: Casa_de_Afora, Hostal_Reis_Catolicos, 
+
+Transporte: SQC_BCN_avion, 
