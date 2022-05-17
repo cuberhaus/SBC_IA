@@ -11,7 +11,7 @@
 
 ;; deftemplate has to be at the top
 (deftemplate MENU::usuario
-  (multislot edades (type INTEGER))
+  (multislot edades (type INTEGER) (range 0 100))
 
   (slot ninos (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
   (slot adolescentes (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
@@ -24,10 +24,10 @@
   (slot diasporciudad-maximo (type INTEGER) )
   (slot ciudades-minimo (type INTEGER) )
   (slot ciudades-maximo (type INTEGER) )
-  (slot presupuesto (type INTEGER FLOAT) )
+  (slot presupuesto (type INTEGER FLOAT) (range 100 100000000))
 
-  (slot calidad-alojamiento (type INTEGER) )
-  (slot popularidad-ciudad (type INTEGER) )
+  (slot calidad-alojamiento (type INTEGER)  (range 1 5))
+  (slot lugares_poco_conocidos (type SYMBOL) (allowed-values TRUE FALSE))
   (multislot duracion-o-calidad (type STRING) (allowed-strings "duracion" "calidad" "mixto"))
   (multislot tipo-viaje (type STRING)
 	     (allowed-strings "descanso" "diversion" "romantico" "trabajo" "aventura" "cultural"))
@@ -62,6 +62,7 @@
 
  ?res
  )
+
 (deffunction MENU::pregunta-float(?pregunta ?min ?max)
   (printout t ?pregunta crlf "Introduzca su respuesta: ")
   (bind ?param (read))
@@ -96,6 +97,27 @@
   )
   ?respuesta
  )
+
+(deffunction MENU::pregunta (?pregunta $?valores-permitidos)
+   (progn$
+       (?var ?valores-permitidos)
+     (lowcase ?var))
+   (format t "¿%s? (%s) " ?pregunta (implode$ ?valores-permitidos))
+   (bind ?respuesta (read))
+   (while (not (member (lowcase ?respuesta) ?valores-permitidos)) do
+	  (format t "¿%s? (%s) " ?pregunta (implode$ ?valores-permitidos))
+	  (bind ?respuesta (read))
+	  )
+   ?respuesta
+   )
+
+(deffunction MENU::si-o-no-p (?pregunta)
+  (bind ?respuesta (pregunta ?pregunta si no s n))
+  (if (or (eq (lowcase ?respuesta) si) (eq (lowcase ?respuesta) s))
+   then TRUE
+   else FALSE
+ )
+  )
 
 ;; ###########################################################
 ;; ## RULES
@@ -259,10 +281,11 @@
 
 (defrule MENU::preguntar-popularidad-ciudad
   (not (preguntado-popularidad-ciudad))
+  ?user <- (usuario)
  =>
-  ; 0 y 1 son valores basura de momento, habra que hacer una funcion bien
-  (bind ?ciudades (pregunta-llista "Que ciudades desean visitar" 0 1))
-  (printout t "Se buscaran rutas con las siguientes ciudades: " ?ciudades crlf)
+  (bind ?respuesta (si-o-no-p "Prefiere visitar ciudades/lugares poco conocidos")) 
+  (printout t "Respuesta " ?respuesta crlf)
+  (modify ?user (lugares_poco_conocidos ?respuesta))
   (assert(preguntado-popularidad-ciudad))
 )
 
