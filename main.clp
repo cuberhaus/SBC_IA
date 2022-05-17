@@ -454,6 +454,7 @@
 
 (defrule LOGIC::escoger-transporte
    ?vi <- (viaje (ciudades $?ciu))
+   ?u <- (usuario (medios-de-transporte $?trans))
   (escoger-ciudades)
   (not (escoger-transporte))
  =>
@@ -467,7 +468,7 @@
      ;(bind ?auxA (send $?ciuA get-Nombre))
      ;(bind ?auxB (send $?ciuB get-Nombre))
 
-     (bind ?opciontransporte (find-all-instances ((?inst Transporte)) (and (eq ?inst:parte_de ?ciuA) (eq ?inst:va_a ?ciuB))) )
+     (bind ?opciontransporte (find-all-instances ((?inst Transporte)) (and (eq ?inst:parte_de ?ciuA) (and (eq ?inst:va_a ?ciuB) (eq (str-cat (class ?inst)) ?trans))))) 
      (bind ?optrans (nth$ 1 ?opciontransporte))
      (bind ?trans_name (send ?optrans get-Nombre))
      (bind $?escog_transporte (insert$ $?escog_transporte (+ (length$ $?escog_transporte) 1 ) ?trans_name)) 
