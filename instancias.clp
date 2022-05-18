@@ -1,4 +1,457 @@
 (definstances instances
+    ([Venecia] of Ciudad
+	 (Continente  "Europa")
+	 (Numero_de_habitantes  261905)
+      (Nombre "Venecia")
+    )
+
+    ([Hotel_Carlton_On_The_Grand_Canal] of Hotel
+	 (esta_en [Venecia])
+	 (Distancia_a_centro  1.5)
+	 (precio  200)
+    (Nombre "Hotel_Carlton_On_The_Grand_Canal")
+    )
+
+    ([Ca_San_Polo] of Hotel
+	 (esta_en [Venecia])
+	 (Distancia_a_centro  0.9)
+	 (precio  100)
+    (Nombre "Ca_San_Polo")
+    )
+    
+    ([Paseo_en_gondola] of Relax
+         (se_hacen_en [Venecia])
+         (Duracion_actividad  30)
+         (precio 100)
+    (Nombre "Paseo_en_gondola")
+    )
+
+    ([Murano_Burano_Torcello] of Cultural
+         (se_hacen_en [Venecia])
+         (Duracion_actividad  100)
+         (precio 25)
+    (Nombre "Murano_Burano_Torcello")
+    )
+
+     ([Cena_junto_al_canal] of Gastronomica
+         (se_hacen_en [Venecia])
+         (Duracion_actividad  20)
+         (precio 60)
+    (Nombre "Cena_junto_al_canal")
+    )
+
+    ([Granada] of Ciudad
+	 (Continente  "Europa")
+	 (Numero_de_habitantes  232208)
+      (Nombre "Granada")
+    )
+
+    ([Hotel_Andalucia_Center] of Hotel
+	 (esta_en [Granada])
+	 (Distancia_a_centro  6)
+	 (precio  100)
+    (Nombre "Hotel_Andalucia_Center")
+    )
+
+    ([Candil_suite_Realejo] of Hotel
+	 (esta_en [Granada])
+	 (Distancia_a_centro  0.5)
+	 (precio  150)
+    (Nombre "Candil_suite_Realejo")
+    )
+    
+    ([Visita_alhambra] of Cultural
+         (se_hacen_en [Granada])
+         (Duracion_actividad  40)
+         (precio 20)
+    (Nombre "Visita_alhambra")
+    )
+
+    ([Sierra_nevada] of Naturaleza
+         (se_hacen_en [Granada])
+         (Duracion_actividad  100)
+         (precio 85)
+    (Nombre "Murano_Burano_Torcello")
+    )
+
+     ([Cena_en_el_centro] of Gastronomica
+         (se_hacen_en [Granada])
+         (Duracion_actividad  20)
+         (precio 60)
+    (Nombre "Cena_en_el_centro")
+    )
+
+    ([Praga] of Ciudad
+	 (Continente  "Europa")
+	 (Numero_de_habitantes  1309000)
+      (Nombre "Praga")
+    )
+
+    ([Hotel_Royal_Prague] of Hotel
+	 (esta_en [Praga])
+	 (Distancia_a_centro  2.3)
+	 (precio  150)
+    (Nombre "Hotel_Royal_Prague")
+    )
+
+    ([Hotel_Oya] of Hotel
+	 (esta_en [Praga])
+	 (Distancia_a_centro  3.9)
+	 (precio  100)
+    (Nombre "Hotel_Oya")
+    )
+    
+    ([Visita_al_castillo] of Visita_monumento
+         (se_hacen_en [Praga])
+         (Duracion_actividad  20)
+         (precio 7)
+    (Nombre "Visita_al_castillo")
+    )
+
+    ([Crucero_con_cena] of Gastronomica
+         (se_hacen_en [Venecia])
+         (Duracion_actividad  30)
+         (precio 60)
+    (Nombre "Murano_Burano_Torcello")
+    )
+
+    ([Tour_de_pubs] of Gastronomica
+         (se_hacen_en [Venecia])
+         (Duracion_actividad  30)
+         (precio 35)
+    (Nombre "Cena_junto_al_canal")
+    )
+    
+    ([Amsterdam] of Ciudad
+	 (Continente  "Europa")
+	 (Numero_de_habitantes  821752)
+      (Nombre "Amsterdam")
+    )
+
+    ([Joy_hotel] of Hotel
+	 (esta_en [Amsterdam])
+	 (Distancia_a_centro  8.5)
+	 (precio  100)
+    (Nombre "Joy_hotel")
+    )
+
+    ([Innside_Melia_Amsterdam] of Hotel
+	 (esta_en [Amsterdam])
+	 (Distancia_a_centro  4)
+	 (precio  200)
+    (Nombre "Innside_Melia_Amsterdam")
+    )
+    
+    ([Museo_van_gogh] of Visita_museo
+         (se_hacen_en [Amsterdam])
+         (Duracion_actividad  20)
+         (precio 20)
+    (Nombre "Museo_van_gogh")
+    )
+
+    ([Crucero_por_los_canales] of Relax
+         (se_hacen_en [Amsterdam])
+         (Duracion_actividad  100)
+         (precio 20)
+    (Nombre "Murano_Burano_Torcello")
+    )
+
+    ([Paseo_por_el_barrio_rojo] of Relax
+         (se_hacen_en [Amsterdam])
+         (Duracion_actividad  30)
+         (precio 0)
+    (Nombre "Paseo_por_el_barrio_rojo")
+    )
+    
+    
+    ([Kioto] of Ciudad
+	 (Continente  "Asia")
+	 (Numero_de_habitantes  1475000)
+      (Nombre "Kioto")
+    )
+
+    ([Piece_Hostel_Sanjo] of Hotel
+	 (esta_en [Kioto])
+	 (Distancia_a_centro  1.6)
+	 (precio  150)
+    (Nombre "Piece_Hostel_Sanjo")
+    )
+
+    ([Hotel_the_m_kyoto] of Hotel
+	 (esta_en [Kioto])
+	 (Distancia_a_centro  2.2)
+	 (precio  100)
+    (Nombre "Hotel_the_m_kyoto")
+    )
+    
+    ([Espectaculo_Maiko_tradicional] of Cultural
+         (se_hacen_en [Kioto])
+         (Duracion_actividad  40)
+         (precio 80)
+    (Nombre "Espectaculo_Maiko_tradicional")
+    )
+
+    ([Tour_nocturno] of Ocio_Nocturno
+         (se_hacen_en [Kioto])
+         (Duracion_actividad  30)
+         (precio 60)
+    (Nombre "Murano_Burano_Torcello")
+    )
+
+    ([Tour_gastronomico_kioto] of Gastronomica
+         (se_hacen_en [Kioto])
+         (Duracion_actividad  40)
+         (precio 80)
+    (Nombre "Tour_gastronomico_kioto")
+    )
+    
+    ([Tahiti] of Ciudad
+	 (Continente  "Oceania")
+	 (Numero_de_habitantes  275000)
+      (Nombre "Tahiti")
+    )
+
+    ([Intercontiental_tahiti_resort] of Resort
+	 (esta_en [Tahiti])
+	 (Distancia_a_centro  0)
+	 (precio  300)
+    (Nombre "Piece_Hostel_Sanjo")
+    )
+
+    ([Vanira_Lodge] of Casa_Rural
+	 (esta_en [Tahiti])
+	 (Distancia_a_centro  0)
+	 (precio  150)
+    (Nombre "Vanira_Lodge")
+    )
+    
+    ([Excursion_a_moorea] of Naturaleza
+         (se_hacen_en [Tahiti])
+         (Duracion_actividad  100)
+         (precio 100)
+    (Nombre "Excursion_a_moorea")
+    )
+
+    ([Dia_playa] of Relax
+         (se_hacen_en [Tahiti])
+         (Duracion_actividad  100)
+         (precio 10)
+    (Nombre "Dia_playa")
+    )
+
+    ([Tour_gastronomico_moorea] of Gastronomica
+         (se_hacen_en [Tahiti])
+         (Duracion_actividad  50)
+         (precio 120)
+    (Nombre "Tour_gastronomico_moorea")
+    )
+
+    ([Cancun] of Ciudad
+	 (Continente  "America")
+	 (Numero_de_habitantes  888797)
+      (Nombre "Cancun")
+    )
+
+    ([Arrecifes_house] of Hotel
+	 (esta_en [Cancun])
+	 (Distancia_a_centro  5.6)
+	 (precio  200)
+    (Nombre "Arrecifes_house")
+    )
+
+    ([Dreams_visita_cancun_resort] of Resort
+	 (esta_en [Cancun])
+	 (Distancia_a_centro  13.7)
+	 (precio  300)
+    (Nombre "Dreams_visita_cancun_resort")
+    )
+    
+    ([Excursion_chichen_itza] of Visita_monumento
+         (se_hacen_en [Cancun])
+         (Duracion_actividad  100)
+         (precio 30)
+    (Nombre "Excursion_a_moorea")
+    )
+
+    ([Excursion_isla_mujeres] of Relax
+         (se_hacen_en [Cancun])
+         (Duracion_actividad  100)
+         (precio 40)
+    (Nombre "Excursion_isla_mujeres")
+    )
+
+    ([Crucero_cena_barco_pirata] of Gastronomica
+         (se_hacen_en [Cancun])
+         (Duracion_actividad  40)
+         (precio 90)
+    (Nombre "Crucero_cena_barco_pirata")
+    )
+
+    ([Punta_cana] of Ciudad
+	 (Continente  "America")
+	 (Numero_de_habitantes  43982)
+      (Nombre "Punta_cana")
+    )
+
+    ([Best_family_vacation_resort] of Resort
+	 (esta_en [Punta_cana])
+	 (Distancia_a_centro  8)
+	 (precio  300)
+    (Nombre "Best_family_vacation_resort")
+    )
+
+    ([Gran_bavaro_princess] of Hotel
+	 (esta_en [Punta_cana])
+	 (Distancia_a_centro  10.7)
+	 (precio  200)
+    (Nombre "Gran_bavaro_princess")
+    )
+    
+    ([Tour_en_buggy] of Aventura
+         (se_hacen_en [Punta_cana])
+         (Duracion_actividad  40)
+         (precio 40)
+    (Nombre "Tour_en_buggy")
+    )
+
+    ([tour_por_playas] of Relax
+         (se_hacen_en [Punta_cana])
+         (Duracion_actividad  100)
+         (precio 100)
+    (Nombre "tour_por_playas")
+    )
+
+    ([Truck_safari] of Aventura
+         (se_hacen_en [Punta_cana])
+         (Duracion_actividad  80)
+         (precio 80)
+    (Nombre "Truck_safari")
+    )
+
+    ([Las_vegas] of Ciudad
+	 (Continente  "America")
+	 (Numero_de_habitantes  644594)
+      (Nombre "Las_vegas")
+    )
+
+    ([Polo_towers] of Hotel
+	 (esta_en [Las_vegas])
+	 (Distancia_a_centro  1.4)
+	 (precio  200)
+    (Nombre "Polo_towers")
+    )
+
+    ([Sahara_las_vegas] of Hotel
+	 (esta_en [Las_vegas])
+	 (Distancia_a_centro  2.8)
+	 (precio  300)
+    (Nombre "Sahara_las_vegas")
+    )
+    
+    ([Gran_canon] of Excursion
+         (se_hacen_en [Las_vegas])
+         (Duracion_actividad  90)
+         (precio 160)
+    (Nombre "Gran_canon")
+    )
+
+    ([Tour_nocturno] of Ocio_Nocturno
+         (se_hacen_en [Las_vegas])
+         (Duracion_actividad  40)
+         (precio 60)
+    (Nombre "Tour_nocturno")
+    )
+
+    ([Boda_Elvis] of Ocio_Nocturno
+         (se_hacen_en [Las_vegas])
+         (Duracion_actividad  20)
+         (precio 200)
+    (Nombre "Truck_safari")
+    )
+    
+    ([Las_vegas] of Ciudad
+	 (Continente  "America")
+	 (Numero_de_habitantes  644594)
+      (Nombre "Las_vegas")
+    )
+
+    ([Polo_towers] of Hotel
+	 (esta_en [Las_vegas])
+	 (Distancia_a_centro  1.4)
+	 (precio  200)
+    (Nombre "Polo_towers")
+    )
+
+    ([Sahara_las_vegas] of Hotel
+	 (esta_en [Las_vegas])
+	 (Distancia_a_centro  2.8)
+	 (precio  300)
+    (Nombre "Sahara_las_vegas")
+    )
+    
+    ([Gran_canon] of Excursion
+         (se_hacen_en [Las_vegas])
+         (Duracion_actividad  90)
+         (precio 160)
+    (Nombre "Gran_canon")
+    )
+
+    ([Tour_nocturno] of Ocio_Nocturno
+         (se_hacen_en [Las_vegas])
+         (Duracion_actividad  40)
+         (precio 60)
+    (Nombre "Tour_nocturno")
+    )
+
+    ([Boda_Elvis] of Ocio_Nocturno
+         (se_hacen_en [Las_vegas])
+         (Duracion_actividad  20)
+         (precio 200)
+    (Nombre "Truck_safari")
+    )
+
+    ([Miami] of Ciudad
+	 (Continente  "America")
+	 (Numero_de_habitantes  644594)
+      (Nombre "Miami")
+    )
+
+    ([Modern_home] of Hotel
+	 (esta_en [Miami])
+	 (Distancia_a_centro  13.1)
+	 (precio  150)
+    (Nombre "Modern_home")
+    )
+
+    ([Hampton_miami] of Hotel
+	 (esta_en [Miami])
+	 (Distancia_a_centro  4.1)
+	 (precio  250)
+    (Nombre "Hampton_miami")
+    )
+    
+    ([Tour_miami_paseo_barco] of Excursion
+         (se_hacen_en [Miami])
+         (Duracion_actividad  60)
+         (precio 80)
+    (Nombre "Gran_canon")
+    )
+
+    ([Orlando_parques] of Aventura
+         (se_hacen_en [Miami])
+         (Duracion_actividad  200)
+         (precio 60)
+    (Nombre "230")
+    )
+
+    ([Alquiler_yate] of Relax
+         (se_hacen_en [Miami])
+         (Duracion_actividad  70)
+         (precio 1100)
+    (Nombre "Alquiler_yate")
+    )
+    asdads
+
     ([Santiago_de_Compostela] of Ciudad
 	 (Continente  "Europa")
 	 (Numero_de_habitantes  98000)
@@ -1214,4 +1667,5 @@
     (duracion_transporte  40)
     (precio  140)
 )
+
 )
