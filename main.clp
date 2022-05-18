@@ -510,15 +510,10 @@
     ; (slot Nombre
     ; (slot precio
 
-; (deftemplate LOGIC::alojamiento_puntuado
-;   (slot fitness (type SYMBOL) (allowed-strings) "muy bueno" "bueno" "regular" "malo")
-;   (slot alojamiento (type INSTANCE) )
-;   )
 (defrule LOGIC::evaluate-alojamiento
-  ; ?user (usuario ())
-  ; ?aloj <- (object  (is-a Alojamiento) (esta_en ?esta_en)
-		    ; (Con_piscina ?pisc) (Distancia_a_centro ?dist) (Nombre ?nom) (precio ?prec))
-  ?aloj <- (object  (is-a Ciudad) (Nombre ?nom) )
+  ?user (usuario ())
+  ?aloj <- (object  (is-a Alojamiento) (esta_en ?esta_en)
+		    (Con_piscina ?pisc) (Distancia_a_centro ?dist) (Nombre ?nom) (precio ?prec))
 		    
  ; (test ()
 => 
