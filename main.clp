@@ -339,6 +339,7 @@
 (defmodule INFERENCIA "Inferir propiedades de los usuarios con los datos obtenidos"
   (import MENU ?ALL) (import MAIN ?ALL))
 
+
 (defrule INFERENCIA::initialize
  
 => 
@@ -346,7 +347,7 @@
 )
 
 (defrule INFERENCIA::obtenertipousuarios
-  (not (inferenciatiposasked))
+  (not (inferencia_tipo_usuario_asked))
   ?user <- (usuario (ninos ?n) (numero-integrantes ?num_integrantes))
   =>
   (printout t ?num_integrantes crlf) 
@@ -357,7 +358,7 @@
   (if (and (and (>= ?num_integrantes 3) (<  ?num_integrantes 10)) (eq ?n FALSE))
    then (modify ?user (tipo-usuario  "grupo")))
   (if (>= ?num_integrantes 10) then then (modify ?user (tipo-usuario  "grupo")))
-  (assert (inferenciatiposasked))
+  (assert (inferencia_tipo_usuario_asked))
 )
 
 ;(defrule INFERENCIA::longitud_viaje
@@ -436,8 +437,8 @@
 ; (printout t ?ncity)
 ; )
 (defrule INFERENCIA::acabainferencia
-  (inferenciatiposasked)
-  (longitud_viaje)
+  (inferencia_tipo_usuario_asked)
+  ; (longitud_viaje)
   (tipo_viaje_inferido)
   =>
   (focus LOGIC)
