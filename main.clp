@@ -387,35 +387,82 @@
   ?city <- (object  (is-a Ciudad) (Nombre ?nom) )
 =>
   (printout t ?nom crlf)
-  (bind ?ciudadesromanticas (create$ paris venezia))
   (if (eq ?tviaje romantico) then (printout t "fitness romantico")
+    (bind ?ciudadesromanticas (create$ paris venecia barcelona nueva_york granada praga amsterdam kioto))
+    (if (member ?nom ?ciudadesromanticas) (then 
+      ;asignar valor de 100 a fitness
     
-  
+    )
+    (else
+            ;assignar valor de 50 a fitness, se podria filtrar again y llegar hasta 0 quiza
+    
+    )
+    )
   
   )
   (if (eq ?tviaje descanso) then (printout t "fitness para descanso")
-  
-  
+    (bind ?ciudadesdescanso (create$ tahiti cancun punta_cana las_vegas miami))
+    (if (member ?nom ?ciudadsesdescanso) (then 
+      ;asignar valor de 100 a fitness
+    
+    )
+    (else
+            ;assignar valor de 50 a fitness, se podria filtrar again y llegar hasta 0 quiza
+    
+    )
+    )
   
   )
   (if (eq ?tviaje diversion) then (printout t "fitness para diversion")
-  
-  
+    (bind ?ciudadesdiversion (create$ paris venezia))
+    (if (member ?nom ?ciudadesdiversion) (then 
+      ;asignar valor de 100 a fitness
+    
+    )
+    (else
+            ;assignar valor de 50 a fitness, se podria filtrar again y llegar hasta 0 quiza
+    
+    )
+    )
   
   )
   (if (eq ?tviaje trabajo) then (printout t "fitness para trabajo")
-  
-  
+    (bind ?ciudadestrabajo (create$ barcelona nueva_york roma amsterdam paris tokyo))
+    (if (member ?nom ?ciudadestrabajo) (then 
+      ;asignar valor de 100 a fitness
+    
+    )
+    (else
+            ;assignar valor de 50 a fitness, se podria filtrar again y llegar hasta 0 quiza
+    
+    )
+    )
   
   )
   (if (eq ?tviaje aventura) then (printout t "fitness para aventura")
-  
-  
+    (bind ?ciudadesaventura (create$ ))
+    (if (member ?nom ?ciudadesaventura) (then 
+      ;asignar valor de 100 a fitness
+    
+    )
+    (else
+            ;assignar valor de 50 a fitness, se podria filtrar again y llegar hasta 0 quiza
+    
+    )
+    )
   
   )
   (if (eq ?tviaje cultural) then (printout t "fitness cultural")
-  
-  
+    (bind ?ciudadescultural (create$ paris roma barcelona paris granada kioto tokyo))
+    (if (member ?nom ?ciudadescultural) (then 
+      ;asignar valor de 100 a fitness
+    
+    )
+    (else
+            ;assignar valor de 50 a fitness, se podria filtrar again y llegar hasta 0 quiza
+    
+    )
+    )
   
   )
 )
