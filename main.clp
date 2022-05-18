@@ -47,6 +47,11 @@
   (slot duracion)
   )
 
+(deftemplate MENU::alojamiento_puntuado
+  (slot fitness (type SYMBOL) (allowed-strings) "muy bueno" "bueno" "regular" "malo")
+  (slot alojamiento (type INSTANCE) )
+  )
+
 (deffacts MENU::inicialitzacio
   (usuario)
   (viaje)
@@ -336,7 +341,7 @@
 (defrule INFERENCIA::initialize
  
 => 
-(assert (fuck_it 1))
+; (assert (fuck_ t 1))
 )
 
 (defrule INFERENCIA::obtenertipousuarios
@@ -468,7 +473,9 @@
 		    
  ; (test ()
 => 
- (printout t "funciona: " ?nom crlf)
+  (bind ?puntuacion "muy bueno")
+  (assert (alojamiento_puntuado (alojamiento ?aloj ) (fitness ?puntuacion)))
+  (printout t "funciona: " ?nom crlf)
 )
 
  (defrule LOGIC::escoger-alojamiento
