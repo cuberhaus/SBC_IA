@@ -89,15 +89,15 @@
         (type INSTANCE)
         (create-accessor read-write))
     ;;; Atributo que indica el nombre de la instancia
-    (multislot Nombre
+    (slot Nombre
         (type STRING)
         (create-accessor read-write))
     ;;; Atributo que representa la duración de un medio de transporte.
-    (multislot duracion_transporte
+    (slot duracion_transporte
         (type INTEGER)
         (create-accessor read-write))
     ;;; Precio de un servicio específico.
-    (multislot precio
+    (slot precio
         (type FLOAT)
         (create-accessor read-write))
 )

@@ -34,5 +34,6 @@ Preferencias sobre el viaje: (implementar)
 - Restricciones de experto
 - [ ] Eventos especiales
 - [ ] Viajes cortos (mismo continente)
+
 - [ ] Conjuntos de ciudades segun el tipo de viaje (romantico, descanso...)
 - [ ] Inferir tipos de viaje: pareja -> romantico, con niños -> not descanso

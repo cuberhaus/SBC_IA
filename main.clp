@@ -17,7 +17,7 @@
   (slot adolescentes (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
   (slot numero-integrantes (type INTEGER) )
 
-  (multislot medios-de-transporte (type STRING) (allowed-values "avion" "tren" "barco"))
+  (multislot medios-de-transporte (type STRING) (allowed-values "Avion" "Tren" "Barco"))
   (slot dias-minimo (type INTEGER) )
   (slot dias-maximo (type INTEGER) )
   (slot diasporciudad-minimo (type INTEGER) )
@@ -31,10 +31,12 @@
   (multislot duracion-o-calidad (type STRING) (allowed-strings "duracion" "calidad" "mixto"))
   (multislot tipo-viaje (type STRING)
 	     (allowed-strings "descanso" "diversion" "romantico" "trabajo" "aventura" "cultural"))
-   (slot tipo-usuario (type STRING) (allowed-strings "individual" "pareja" "grupo" "familia"))
+  (slot tipo-usuario (type STRING) (allowed-strings "individual" "pareja" "grupo" "familia"))
   )
 
 (deftemplate MENU::viaje
+  (multislot ciudades_pendientes_asignar)
+  (slot continentes (type SYMBOL) (allowed-values TRUE FALSE) )
   (multislot dias_por_ciudad)
   (multislot ciudades (type INSTANCE))
   (multislot alojamientos)
@@ -327,8 +329,13 @@
 ;---------------------------------------------------------------------------------------
 
 (defmodule INFERENCIA "Inferir propiedades de los usuarios con los datos obtenidos"
- (import MENU ?ALL))
+  (import MENU ?ALL))
 
+(defrule INFERENCIA::initialize
+ 
+=> 
+(assert (fuck_it 1))
+)
 (defrule INFERENCIA::obtenertipousuarios
   (not (inferenciatiposasked))
   ?user <- (usuario (ninos ?n) (numero-integrantes ?num_integrantes))
@@ -344,8 +351,30 @@
   (assert (inferenciatiposasked))
 )
 
+(defrule INFERENCIA::longitud_viaje
+  ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
+  ?vi <- (viaje (continentes $?cont))
+
+  (not(longitud_viaje)) 
+=>
+
+  (if (< ?max 6) then (bind $?cont TRUE ) else (bind $?cont FALSE) )
+
+           ; (bind $?escog_ciudades (insert$ $?escog_ciudades (+ (length$ $?escog_ciudades) 1 ) ?ciudad))
+)
+
+(defrule INFERENCIA::fuck_it
+  (fuck_it ?x != 10)
+  ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
+  ?vi <- (viaje (continentes $?cont))
+ ?ciudad <- 
+=>
+
+)
+
 (defrule INFERENCIA::acabainferencia
   (inferenciatiposasked)
+  (longitud_viaje)
   =>
   (focus LOGIC)
 	  ; aqui seria un buen momento para cambiar el focus
@@ -475,32 +504,35 @@
       (assert (escoger-actividades))
 )
 
-(defrule LOGIC::escoger-transporte
-   ?vi <- (viaje (ciudades $?ciu))
-   ?u <- (usuario (medios-de-transporte $?trans))
-  (escoger-ciudades)
-  (not (escoger-transporte))
- =>
-   (bind ?i 1)
-   (bind $?escog_transporte (create$ ))
-   (while (< ?i (length$ ?ciu)) 
-   ;; bucle hasta < para que no pete con la ultima iter (usamos i y i+1, habra que añadir vuelo del origen a la primera y de la ultima al origen!)
-   do
-     (bind ?ciuA (nth$ ?i ?ciu))
-     (bind ?ciuB (nth$ (+ ?i 1) ?ciu))
-     ;(bind ?auxA (send $?ciuA get-Nombre))
-     ;(bind ?auxB (send $?ciuB get-Nombre))
+; (defrule LOGIC::escoger-transporte
+;    ?vi <- (viaje (ciudades $?ciu))
+;    ?u <- (usuario (medios-de-transporte $?trans))
+;   (escoger-ciudades)
+;   (not (escoger-transporte))
+;  =>
+;    (bind ?i 1)
+;    (bind $?escog_transporte (create$ ))
+;    (while (< ?i (length$ ?ciu)) 
+;    ;; bucle hasta < para que no pete con la ultima iter (usamos i y i+1, habra que añadir vuelo del origen a la primera y de la ultima al origen!)
+;    do
+;      (bind ?ciuA (nth$ ?i ?ciu))
+;      (bind ?ciuB (nth$ (+ ?i 1) ?ciu))
+;      ;(bind ?auxA (send $?ciuA get-Nombre))
+;      ;(bind ?auxB (send $?ciuB get-Nombre))
 
-     (bind ?opciontransporte (find-all-instances ((?inst Transporte)) (and (eq ?inst:parte_de ?ciuA) (and (eq ?inst:va_a ?ciuB) (eq (str-cat (class ?inst)) ?trans))))) 
-     (bind ?optrans (nth$ 1 ?opciontransporte))
-     (bind ?trans_name (send ?optrans get-Nombre))
-     (bind $?escog_transporte (insert$ $?escog_transporte (+ (length$ $?escog_transporte) 1 ) ?trans_name)) 
+;      (bind ?opciontransporte (find-all-instances ((?inst Transporte)) (and (eq ?inst:parte_de ?ciuA) (eq ?inst:va_a ?ciuB) (not(eq (str-cat (class ?inst)) ?trans))))) 
 
-     (bind ?i (+ ?i 1)) 
-   )
-   (modify ?vi (transporte $?escog_transporte))
-   (assert (escoger-transporte))
- )
+;      (do-for-instance ((?trans Transporte)) TRUE  (printout t (str-cat (class ?trans)) crlf ) )
+     
+;      (bind ?optrans (nth$ 1 ?opciontransporte))
+;      (bind ?trans_name (send ?optrans get-Nombre))
+;      (bind $?escog_transporte (insert$ $?escog_transporte (+ (length$ $?escog_transporte) 1 ) ?trans_name)) 
+
+;      (bind ?i (+ ?i 1)) 
+;    )
+;    (modify ?vi (transporte $?escog_transporte))
+;    (assert (escoger-transporte))
+;  )
 
 ;---------------------------------------------------------------------------------------
 ;                                 MODULO DE RESULTADOS                                 -
