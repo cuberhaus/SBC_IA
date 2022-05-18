@@ -38,6 +38,7 @@
 
 (deftemplate MENU::viaje
   (multislot ciudades_pendientes_asignar)
+  (multislot fitness_ciudades)
   (slot continentes (type SYMBOL) (allowed-values TRUE FALSE) )
   (multislot dias_por_ciudad)
   (multislot ciudades (type INSTANCE))
@@ -390,6 +391,12 @@
   (assert (tipo_viaje_inferido))
 )
 
+(defrule INFERENCIA::fitness_ciudades
+?user <- (usuario (tipo-viaje ?tviaje) )
+?city <- (object (is-a Ciudad) (Nombre ?ncity))
+=>
+(printout t ?ncity)
+)
 
 (defrule INFERENCIA::acabainferencia
   (inferenciatiposasked)
@@ -399,6 +406,7 @@
   (focus LOGIC)
 	  ; aqui seria un buen momento para cambiar el focus
 )
+
 
 ;---------------------------------------------------------------------------------------
 ;                                   MODULO DE LOGICA                                   -
