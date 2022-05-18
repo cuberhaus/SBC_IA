@@ -337,7 +337,7 @@
 ;---------------------------------------------------------------------------------------
 
 (defmodule INFERENCIA "Inferir propiedades de los usuarios con los datos obtenidos"
-  (import MENU ?ALL))
+  (import MENU ?ALL) (import MAIN ?ALL))
 
 (defrule INFERENCIA::initialize
  
@@ -381,6 +381,44 @@
 ;
 ;)
 
+(defrule INFERENCIA::fitness_ciudades
+  ?user <- (usuario (tipo-viaje ?tviaje) )
+  ?city <- (object  (is-a Ciudad) (Nombre ?nom) )
+=>
+  (printout t ?nom crlf)
+  (bind ?ciudadesromanticas (create$ paris venezia))
+  (if (eq ?tviaje romantico) then (printout t "fitness romantico")
+    
+  
+  
+  )
+  (if (eq ?tviaje descanso) then (printout t "fitness para descanso")
+  
+  
+  
+  )
+  (if (eq ?tviaje diversion) then (printout t "fitness para diversion")
+  
+  
+  
+  )
+  (if (eq ?tviaje trabajo) then (printout t "fitness para trabajo")
+  
+  
+  
+  )
+  (if (eq ?tviaje aventura) then (printout t "fitness para aventura")
+  
+  
+  
+  )
+  (if (eq ?tviaje cultural) then (printout t "fitness cultural")
+  
+  
+  
+  )
+)
+
 (defrule INFERENCIA::inferir_tipo_viaje
   ?user <- (usuario (tipo-usuario ?tuser))
   (not (tipo_viaje_inferido))
@@ -391,13 +429,6 @@
   (assert (tipo_viaje_inferido))
 )
 
-(defrule INFERENCIA::fitness_ciudades
-?user <- (usuario (tipo-viaje ?tviaje) )
-?city <- (object (is-a Ciudad) (Nombre ?ncity))
-=>
-(printout t ?ncity)
-)
-
 (defrule INFERENCIA::acabainferencia
   (inferenciatiposasked)
   (longitud_viaje)
@@ -406,7 +437,6 @@
   (focus LOGIC)
 	  ; aqui seria un buen momento para cambiar el focus
 )
-
 
 ;---------------------------------------------------------------------------------------
 ;                                   MODULO DE LOGICA                                   -
