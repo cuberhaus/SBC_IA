@@ -31,6 +31,8 @@
   (multislot duracion-o-calidad (type STRING) (allowed-strings "duracion" "calidad" "mixto"))
   (multislot tipo-viaje (type STRING)
 	     (allowed-strings "descanso" "diversion" "romantico" "trabajo" "aventura" "cultural"))
+  (multislot not-tipo-viaje (type STRING)
+	     (allowed-strings "descanso" "diversion" "romantico" "trabajo" "aventura" "cultural"))
   (slot tipo-usuario (type STRING) (allowed-strings "individual" "pareja" "grupo" "familia"))
   )
 
@@ -336,6 +338,7 @@
 => 
 (assert (fuck_it 1))
 )
+
 (defrule INFERENCIA::obtenertipousuarios
   (not (inferenciatiposasked))
   ?user <- (usuario (ninos ?n) (numero-integrantes ?num_integrantes))
@@ -351,26 +354,26 @@
   (assert (inferenciatiposasked))
 )
 
-(defrule INFERENCIA::longitud_viaje
-  ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
-  ?vi <- (viaje (continentes $?cont))
+; (defrule INFERENCIA::longitud_viaje
+;   ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
+;   ?vi <- (viaje (continentes $?cont))
 
-  (not(longitud_viaje)) 
-=>
+;   (not(longitud_viaje)) 
+; =>
 
-  (if (< ?max 6) then (bind $?cont TRUE ) else (bind $?cont FALSE) )
+;   (if (< ?max 6) then (bind $?cont TRUE ) else (bind $?cont FALSE) )
 
-           ; (bind $?escog_ciudades (insert$ $?escog_ciudades (+ (length$ $?escog_ciudades) 1 ) ?ciudad))
-)
+;            ; (bind $?escog_ciudades (insert$ $?escog_ciudades (+ (length$ $?escog_ciudades) 1 ) ?ciudad))
+; )
 
-(defrule INFERENCIA::fuck_it
-  (fuck_it ?x != 10)
-  ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
-  ?vi <- (viaje (continentes $?cont))
- ?ciudad <- 
-=>
+; (defrule INFERENCIA::fuck_it
+;   (fuck_it ?x != 10)
+;   ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
+;   ?vi <- (viaje (continentes $?cont))
+;  ?ciudad <- 
+; =>
 
-)
+; )
 
 (defrule INFERENCIA::acabainferencia
   (inferenciatiposasked)
@@ -439,6 +442,22 @@
   ;(bind ?aux (send ?ciudad get-Nombre))
   (assert (escoger-ciudades))
 ) 
+    ; (slot esta_en
+    ; (slot Con_piscina
+    ; (slot Distancia_a_centro
+    ; (slot Nombre
+    ; (slot precio
+
+(defrule LOGIC::evaluate-alojamiento
+  ; ?user (usuario ())
+  ; ?aloj <- (object  (is-a Alojamiento) (esta_en ?esta_en)
+		    ; (Con_piscina ?pisc) (Distancia_a_centro ?dist) (Nombre ?nom) (precio ?prec))
+  ?aloj <- (object  (is-a Ciudad) (Nombre ?nom) )
+		    
+ ; (test ()
+=> 
+ (printout t "funciona: " ?nom crlf)
+)
 
  (defrule LOGIC::escoger-alojamiento
  ?vi <- (viaje (ciudades $?ciu))

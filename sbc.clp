@@ -259,19 +259,19 @@
         (type INSTANCE)
         (create-accessor read-write))
     ;;; Atributo que indica si un alojamiento dispone de piscina
-    (multislot Con_piscina
+    (slot Con_piscina
         (type SYMBOL)
         (create-accessor read-write))
     ;;; Atributo que representa la distancia al centro de la ciudad de un alojamiento en dihca ciudad.
-    (multislot Distancia_a_centro
+    (slot Distancia_a_centro
         (type FLOAT)
         (create-accessor read-write))
     ;;; Atributo que indica el nombre de la instancia
-    (multislot Nombre
+    (slot Nombre
         (type STRING)
         (create-accessor read-write))
     ;;; Precio de un servicio específico.
-    (multislot precio
+    (slot precio
         (type FLOAT)
         (create-accessor read-write))
 )
