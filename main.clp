@@ -351,30 +351,43 @@
   (assert (inferenciatiposasked))
 )
 
-(defrule INFERENCIA::longitud_viaje
-  ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
-  ?vi <- (viaje (continentes $?cont))
+;(defrule INFERENCIA::longitud_viaje
+;  ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
+;  ?vi <- (viaje (continentes $?cont))
 
-  (not(longitud_viaje)) 
-=>
+;  (not(longitud_viaje)) 
+;=>
 
-  (if (< ?max 6) then (bind $?cont TRUE ) else (bind $?cont FALSE) )
+;  (if (< ?max 6) then (bind $?cont TRUE ) else (bind $?cont FALSE) )
 
            ; (bind $?escog_ciudades (insert$ $?escog_ciudades (+ (length$ $?escog_ciudades) 1 ) ?ciudad))
+;)
+
+;(defrule INFERENCIA::fuck_it
+;  (fuck_it ?x != 10)
+;  ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
+;  ?vi <- (viaje (continentes $?cont))
+; ?ciudad <- 
+;=>
+;
+;)
+
+(defrule INFERENCIA::inferir_tipo_viaje
+  ?user <- (usuario (tipo-usuario ?tuser))
+  (not (tipo_viaje_inferido))
+  =>
+  (if (eq ?tuser "individual") then (printout t "No será romantico"))
+  (if (eq ?tuser "pareja") then (printout t "será romanatico")) 
+  (if (eq ?tuser "familia") then (printout t "No será de descanso"))
+  (assert (tipo_viaje_inferido))
 )
 
-(defrule INFERENCIA::fuck_it
-  (fuck_it ?x != 10)
-  ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
-  ?vi <- (viaje (continentes $?cont))
- ?ciudad <- 
-=>
 
-)
 
 (defrule INFERENCIA::acabainferencia
   (inferenciatiposasked)
   (longitud_viaje)
+  (tipo_viaje_inferido)
   =>
   (focus LOGIC)
 	  ; aqui seria un buen momento para cambiar el focus
