@@ -49,7 +49,7 @@
   )
 
 (deftemplate MENU::alojamiento_puntuado
-  (slot fitness (type SYMBOL) (allowed-strings) "muy bueno" "bueno" "regular" "malo")
+  (slot fitness (type STRING) (allowed-strings "muy bueno" "bueno" "regular" "malo") )
   (slot alojamiento (type INSTANCE) )
   )
 
@@ -391,12 +391,12 @@
   (assert (tipo_viaje_inferido))
 )
 
-(defrule INFERENCIA::fitness_ciudades
-?user <- (usuario (tipo-viaje ?tviaje) )
-?city <- (object (is-a Ciudad) (Nombre ?ncity))
-=>
-(printout t ?ncity)
-)
+; (defrule INFERENCIA::fitness_ciudades
+; ?user <- (usuario (tipo-viaje ?tviaje) )
+; ?city <- (object (is-a Ciudad) (Nombre ?ncity))
+; =>
+; (printout t ?ncity)
+; )
 
 (defrule INFERENCIA::acabainferencia
   (inferenciatiposasked)
@@ -473,6 +473,10 @@
     ; (slot Nombre
     ; (slot precio
 
+; (deftemplate LOGIC::alojamiento_puntuado
+;   (slot fitness (type SYMBOL) (allowed-strings) "muy bueno" "bueno" "regular" "malo")
+;   (slot alojamiento (type INSTANCE) )
+;   )
 (defrule LOGIC::evaluate-alojamiento
   ; ?user (usuario ())
   ; ?aloj <- (object  (is-a Alojamiento) (esta_en ?esta_en)
