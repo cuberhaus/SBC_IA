@@ -555,17 +555,18 @@
 (assert (alojamiento_puntuado (alojamiento ?aloj) ) )
 )
 
+  ; (assert (alojamiento_puntuado (alojamiento ?aloj ) (fitness ?puntuacion)))
+
 (defrule LOGIC::evaluate-alojamiento
-  ?user (usuario (ninos ?nin) (adolescentes ?adol) (duracion-o-calidad ?dur_o_cal) )
+  ?user <- (usuario (ninos ?nin) (adolescentes ?adol) (duracion-o-calidad ?dur_o_cal) )
   ?aloj <- (object  (is-a Alojamiento) (esta_en ?esta_en)
 		    (Con_piscina ?pisc) (Distancia_a_centro ?dist) (Nombre ?nom) (precio ?prec))
   ?aloj_punt <- (alojamiento_puntuado (alojamiento ?aloj_punt) (fitness ?fit))	    
- ; (test (eq ?aloj ?aloj_punt))
+ (test (eq ?aloj ?aloj_punt))
 => 
   (bind ?puntuacion (+ ?fit 10) ) 
-  ; (assert (alojamiento_puntuado (alojamiento ?aloj ) (fitness ?puntuacion)))
   (modify ?aloj_punt (fitness ?puntuacion))
-  (printout t "funciona: " ?nom crlf)
+  ; (printout t "funciona: " ?nom crlf)
 )
 
  (defrule LOGIC::escoger-alojamiento
