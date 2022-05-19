@@ -28,8 +28,8 @@
 
   (slot calidad-alojamiento (type INTEGER)  (range 1 5))
   (slot lugares_poco_conocidos (type SYMBOL) (allowed-values TRUE FALSE))
-  (multislot duracion-o-calidad (type STRING) (allowed-strings "duracion" "calidad" "mixto"))
-  (multislot tipo-viaje (type STRING)
+  (slot duracion-o-calidad (type STRING) (allowed-strings "duracion" "calidad" "mixto"))
+  (slot tipo-viaje (type STRING)
 	     (allowed-strings "descanso" "diversion" "romantico" "trabajo" "aventura" "cultural"))
   (multislot not-tipo-viaje (type STRING)
 	     (allowed-strings "descanso" "diversion" "romantico" "trabajo" "aventura" "cultural"))
@@ -49,7 +49,7 @@
   )
 
 (deftemplate MENU::alojamiento_puntuado
-  (slot fitness (type STRING) (allowed-strings "muy bueno" "bueno" "regular" "malo") )
+  (slot fitness (type INTEGER) (range 0 100) (default 0))
   (slot alojamiento (type INSTANCE) )
   )
 
@@ -383,167 +383,87 @@
 ;)
 
 (deftemplate MENU::ciudad_puntuada
-  (slot fitness (type STRING) (allowed-strings "muy bueno" "bueno" "regular" "malo") )
+  (slot fitness (type INTEGER) (range 0 100) (default 0))
   (slot ciudad (type INSTANCE) )
   )
 
 (defrule INFERENCIA::ciudades_romanticas
   ?user <- (usuario (tipo-viaje ?tviaje) )
   ?city <- (object  (is-a Ciudad) (Nombre ?nom) )
-  (test (eq ?tviaje romantico))
+  (test (eq ?tviaje "romantico"))
  =>
-  (bind ?ciudadesromanticas (create$ paris venecia barcelona nueva_york granada praga amsterdam kioto))
-    (if (member (lowcase ?nom) ?ciudadesromanticas) (then 
-					   (assert (ciudad_puntuada (ciudad ?city ) (fitness "muy bueno")))
-					   ))
+  (bind ?puntuacion 10)
+  (bind ?ciudadesromanticas (create$ "paris" "venecia" "barcelona" "nueva_york" "granada" "praga" "amsterdam" "kioto"))
+  (if (member (lowcase ?nom) ?ciudadesromanticas)
+      then (assert (ciudad_puntuada (ciudad ?city ) (fitness ?puntuacion)))
+	    )
   )
 
 (defrule INFERENCIA::ciudades_descanso
   ?user <- (usuario (tipo-viaje ?tviaje) )
   ?city <- (object  (is-a Ciudad) (Nombre ?nom) )
-(test (eq ?tviaje descanso))
+(test (eq ?tviaje "descanso"))
 =>
-    (bind ?ciudadesdescanso (create$ tahiti cancun punta_cana las_vegas miami))
-    (if (member (lowcase ?nom) ?ciudadsesdescanso) (then 
-						    (assert (ciudad_puntuada (ciudad ?city ) (fitness "muy bueno")))
-    ))
+  (bind ?puntuacion 10)
+    (bind ?ciudades_descanso (create$ tahiti cancun punta_cana las_vegas miami))
+    (if (member (lowcase ?nom) ?ciudades_descanso) then 
+						    (assert (ciudad_puntuada (ciudad ?city ) (fitness ?puntuacion)))
+    )
   )
 
 (defrule INFERENCIA::ciudades_diversion
   ?user <- (usuario (tipo-viaje ?tviaje) )
   ?city <- (object  (is-a Ciudad) (Nombre ?nom) )
-(test (eq ?tviaje diversion))
+(test (eq ?tviaje "diversion"))
 =>
+  (bind ?puntuacion 10)
     (bind ?ciudadesdiversion (create$ paris venezia))
-  (if (member (lowcase ?nom) ?ciudadesdiversion) (then 
-						  (assert (ciudad_puntuada (ciudad ?city ) (fitness "muy bueno")))
-						    )
+  (if (member (lowcase ?nom) ?ciudadesdiversion) then 
+						  (assert (ciudad_puntuada (ciudad ?city ) (fitness ?puntuacion)))
+						    
   )
   )
 
 (defrule INFERENCIA::ciudades_trabajo
   ?user <- (usuario (tipo-viaje ?tviaje) )
   ?city <- (object  (is-a Ciudad) (Nombre ?nom) )
-  (test (eq ?tviaje trabajo))
+  (test (eq ?tviaje "trabajo"))
+  ; (test (eq ?tviaje trabajo))
  =>
+  (bind ?puntuacion 10)
   (bind ?ciudadestrabajo (create$ barcelona nueva_york roma amsterdam paris tokyo))
-  (if (member (lowcase ?nom) ?ciudadestrabajo) (then 
-				      (assert (ciudad_puntuada (ciudad ?city ) (fitness "muy bueno")))
-				      )
+  (if (member (lowcase ?nom) ?ciudadestrabajo) then 
+				      (assert (ciudad_puntuada (ciudad ?city ) (fitness ?puntuacion)))
+				      
   )
   )
 
 (defrule INFERENCIA::ciudades_aventura
   ?user <- (usuario (tipo-viaje ?tviaje) )
   ?city <- (object  (is-a Ciudad) (Nombre ?nom) )
-  (test (eq ?tviaje aventura))
+  (test (eq ?tviaje "aventura"))
  =>
+  (bind ?puntuacion 10)
   (bind ?ciudadesaventura (create$ ))
-  (if (member (lowcase ?nom) ?ciudadesaventura) (then 
-				       (assert (ciudad_puntuada (ciudad ?city ) (fitness "muy bueno")))
-				       )
+  (if (member (lowcase ?nom) ?ciudadesaventura) then 
+				       (assert (ciudad_puntuada (ciudad ?city ) (fitness ?puntuacion)))
+				       
   )
   )
 
 (defrule INFERENCIA::ciudades_cultural
   ?user <- (usuario (tipo-viaje ?tviaje) )
   ?city <- (object  (is-a Ciudad) (Nombre ?nom) )
-  (test (eq ?tviaje cultural))
+  (test (eq ?tviaje "cultural"))
 =>
+  (bind ?puntuacion 10)
   (bind ?ciudadescultural (create$ paris roma barcelona paris granada kioto tokyo))
-  (if (member (lowcase ?nom) ?ciudadescultural) (then 
-				       (assert (ciudad_puntuada (ciudad ?city ) (fitness "muy bueno")))
-				       )
+  (if (member (lowcase ?nom) ?ciudadescultural) then 
+				       (assert (ciudad_puntuada (ciudad ?city ) (fitness ?puntuacion)))
+				       
   )
   )
 
-; (defrule INFERENCIA::fitness_ciudades
-;   ?user <- (usuario (tipo-viaje ?tviaje) )
-;   ?city <- (object  (is-a Ciudad) (Nombre ?nom) )
-; ; (test (eq ?tviaje romantico))
-; =>
-;   (printout t ?nom crlf)
-;   (if (eq ?tviaje romantico) then (printout t "fitness romantico")
-;     (bind ?ciudadesromanticas (create$ paris venecia barcelona nueva_york granada praga amsterdam kioto))
-;     (if (member ?nom ?ciudadesromanticas) (then 
-					   
-; 					   (assert (ciudad_puntuada (ciudad ?aloj ) (fitness "muy bueno")))
-;       ;asignar valor de 100 a fitness
-;     )
-;     (else
-;             ;assignar valor de 50 a fitness, se podria filtrar again y llegar hasta 0 quiza
-; 					   (assert (ciudad_puntuada (ciudad ?aloj ) (fitness "regular")))
-    
-;     )
-;     )
-  
-;   )
-;   (if (eq ?tviaje descanso) then (printout t "fitness para descanso")
-;     (bind ?ciudadesdescanso (create$ tahiti cancun punta_cana las_vegas miami))
-;     (if (member ?nom ?ciudadsesdescanso) (then 
-;       ;asignar valor de 100 a fitness
-    
-;     )
-;     (else
-;             ;assignar valor de 50 a fitness, se podria filtrar again y llegar hasta 0 quiza
-    
-;     )
-;     )
-  
-;   )
-;   (if (eq ?tviaje diversion) then (printout t "fitness para diversion")
-;     (bind ?ciudadesdiversion (create$ paris venezia))
-;     (if (member ?nom ?ciudadesdiversion) (then 
-;       ;asignar valor de 100 a fitness
-    
-;     )
-;     (else
-;             ;assignar valor de 50 a fitness, se podria filtrar again y llegar hasta 0 quiza
-    
-;     )
-;     )
-  
-;   )
-;   (if (eq ?tviaje trabajo) then (printout t "fitness para trabajo")
-;     (bind ?ciudadestrabajo (create$ barcelona nueva_york roma amsterdam paris tokyo))
-;     (if (member ?nom ?ciudadestrabajo) (then 
-;       ;asignar valor de 100 a fitness
-    
-;     )
-;     (else
-;             ;assignar valor de 50 a fitness, se podria filtrar again y llegar hasta 0 quiza
-    
-;     )
-;     )
-  
-;   )
-;   (if (eq ?tviaje aventura) then (printout t "fitness para aventura")
-;     (bind ?ciudadesaventura (create$ ))
-;     (if (member ?nom ?ciudadesaventura) (then 
-;       ;asignar valor de 100 a fitness
-    
-;     )
-;     (else
-;             ;assignar valor de 50 a fitness, se podria filtrar again y llegar hasta 0 quiza
-    
-;     )
-;     )
-  
-;   )
-;   (if (eq ?tviaje cultural) then (printout t "fitness cultural")
-;     (bind ?ciudadescultural (create$ paris roma barcelona paris granada kioto tokyo))
-;     (if (member ?nom ?ciudadescultural) (then 
-;       ;asignar valor de 100 a fitness
-    
-;     )
-;     (else
-;             ;assignar valor de 50 a fitness, se podria filtrar again y llegar hasta 0 quiza
-    
-;     )
-;     )
-  
-;   )
-; )
 
 (defrule INFERENCIA::inferir_tipo_viaje
   ?user <- (usuario (tipo-usuario ?tuser))
@@ -585,7 +505,6 @@
  =>
   (assert (logica-acabada))
   (focus RESULTADOS)
-	  ; aqui seria un buen momento para cambiar el focus
 )
 
 (defrule LOGIC::escoger-ciudades-rule
@@ -629,21 +548,23 @@
   ;(bind ?aux (send ?ciudad get-Nombre))
   (assert (escoger-ciudades))
 ) 
-    ; (slot esta_en
-    ; (slot Con_piscina
-    ; (slot Distancia_a_centro
-    ; (slot Nombre
-    ; (slot precio
+
+(defrule LOGIC::initialize_alojamiento_puntuado
+ ?aloj <- (object (is-a Alojamiento))
+=>
+(assert (alojamiento_puntuado (alojamiento ?aloj) ) )
+)
 
 (defrule LOGIC::evaluate-alojamiento
-  ?user (usuario ())
+  ?user (usuario (ninos ?nin) (adolescentes ?adol) (duracion-o-calidad ?dur_o_cal) )
   ?aloj <- (object  (is-a Alojamiento) (esta_en ?esta_en)
 		    (Con_piscina ?pisc) (Distancia_a_centro ?dist) (Nombre ?nom) (precio ?prec))
-		    
- ; (test ()
+  ?aloj_punt <- (alojamiento_puntuado (alojamiento ?aloj_punt) (fitness ?fit))	    
+ ; (test (eq ?aloj ?aloj_punt))
 => 
-  (bind ?puntuacion "muy bueno")
-  (assert (alojamiento_puntuado (alojamiento ?aloj ) (fitness ?puntuacion)))
+  (bind ?puntuacion (+ ?fit 10) ) 
+  ; (assert (alojamiento_puntuado (alojamiento ?aloj ) (fitness ?puntuacion)))
+  (modify ?aloj_punt (fitness ?puntuacion))
   (printout t "funciona: " ?nom crlf)
 )
 
