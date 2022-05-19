@@ -340,11 +340,11 @@
   (import MENU ?ALL) (import MAIN ?ALL))
 
 
-(defrule INFERENCIA::initialize
+; (defrule INFERENCIA::initialize
  
-=> 
-; (assert (fuck_ t 1))
-)
+; => 
+; ; (assert (fuck_ t 1))
+; )
 
 (defrule INFERENCIA::obtenertipousuarios
   (not (inferencia_tipo_usuario_asked))
@@ -486,7 +486,7 @@
   ; (longitud_viaje)
   (tipo_viaje_inferido)
   =>
-  (focus LOGIC)
+  ; (focus LOGIC)
 	  ; aqui seria un buen momento para cambiar el focus
 )
 
@@ -543,6 +543,7 @@
        )
        
   )
+  (printout t $?escog_ciudades crlf)
   (modify ?vi (ciudades $?escog_ciudades) (dias_por_ciudad $?escog_dias_ciudades) (duracion ?tomodify))
   ;bind ?llista_ciutats (find-all-instances ((?instancia Ciudad)) TRUE))
   ;(bind ?aux (send ?ciudad get-Nombre))
