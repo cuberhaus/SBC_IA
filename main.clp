@@ -596,10 +596,14 @@
 (assert (escoger-alojamiento))
  )
 
+(defrule LOGIC::escoger-actividades
+  ?vi <- (viaje (ciudades $?ciu) (dias_por_ciudad $?c_dia_i))
+  ?todosv <- (object (is-a Ciudad) (Nombre ?nomc))
+  (test (member ?nomc $?ciu))
 
- (defrule LOGIC::escoger-actividades
-   ?vi <- (viaje (ciudades $?ciu) (dias_por_ciudad $?c_dia_i))
-  (escoger-ciudades)
+  ?activ <- (object (is-a Actividad) (Nombre ?nactiv))
+  
+
   (not (escoger-actividades))
  =>
    (bind ?i 1)
@@ -634,6 +638,43 @@
       (modify ?vi (actividades $?escog_activ))
       (assert (escoger-actividades))
 )
+ ;(defrule LOGIC::escoger-actividades
+ ;  ?vi <- (viaje (ciudades $?ciu) (dias_por_ciudad $?c_dia_i))
+ ; (escoger-ciudades)
+ ; (not (escoger-actividades))
+ ;=>
+ ;  (bind ?i 1)
+ ;  (bind $?escog_activ (create$ ))
+ ;  (while (<= ?i (length$ ?ciu))
+ ;  do
+ ;    (bind ?ciuactual (nth$ ?i ?ciu))
+ ;    (bind ?nciuactual (send ?ciuactual get-Nombre))
+ ;    (bind ?ciudad_dia (nth$ ?i ?c_dia_i))
+ ;   (bind $?escog_activ (insert$ $?escog_activ (+ (length$ ?escog_activ) 1 ) ?nciuactual))
+
+ ;    (bind ?aux (* ?ciudad_dia 100))
+
+ ;     (bind ?actividades (find-all-instances ((?inst Actividad)) (eq ?inst:se_hacen_en ?ciuactual)) )
+ ;     (bind ?j 0)
+ ;     (bind ?k 1)
+ ;     (while (and (<= ?j ?aux) (<= ?k (length$ ?actividades)))
+ ;     do
+ ;       (bind ?activ (nth$ ?k ?actividades))
+ ;       (bind ?nomactiv (send ?activ get-Nombre))
+ ;       (bind ?tempsactiv (send ?activ get-Duracion_actividad))
+ ;       (printout t ?activ crlf)
+ ;       (bind ?suma (+ ?j ?tempsactiv))
+ ;       (if (<= ?suma ?aux) then 
+ ;         (bind $?escog_activ (insert$ $?escog_activ (+ (length$ ?escog_activ) 1 ) ?nomactiv))
+ ;       )
+ ;       (bind ?j ?suma)
+ ;       (bind ?k (+ ?k 1))
+ ;     )
+ ;     (bind ?i (+ ?i 1))   
+ ;  )
+ ;     (modify ?vi (actividades $?escog_activ))
+ ;     (assert (escoger-actividades))
+ ; )
 
 (defrule LOGIC::assertsciudades
   (declare (salience 25))
