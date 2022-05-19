@@ -1,4 +1,81 @@
 (definstances instances
+    
+    ([Santiago_de_Compostela] of Ciudad
+	 (Continente  "Europa")
+	 (Numero_de_habitantes  98000)
+      (Nombre "Santiago_de_Compostela")
+    )
+
+    ([Hostal_Reis_Catolicos] of Hotel
+	 (Estrellas  5)
+	 (Para_adultos  "false")
+	 (esta_en  [Barcelona])
+         (Distancia_a_centro  0.0)
+         (precio  300)
+    (Nombre "Hostal_Reis_Catolicos")
+    )
+
+    ([Casa_de_Afora] of Casa_Rural
+	 (esta_en [Santiago_de_Compostela])
+	 (Distancia_a_centro  2.9)
+	 (precio  150)
+    (Nombre "Casa_de_Afora")
+    )
+
+    ([Visita_Catedral_Santiago] of Visita_monumento
+         (se_hacen_en [Santiago_de_Compostela])
+         (Duracion_actividad  30)
+         (precio 10)
+    (Nombre "Visita_Catedral_Santiago")
+    )
+
+    ([Casa_Marcelo] of Gastronomica
+         (se_hacen_en [Santiago_de_Compostela])
+         (Duracion_actividad  15)
+         (precio 75)
+    (Nombre "Casa_Marcelo")
+    )
+
+    ([Barcelona] of Ciudad
+	 (Continente  "Europa")
+         (Numero_de_habitantes  1620000)
+    (Nombre "Barcelona")
+    )
+
+    ([Bird_House] of Hotel
+         (Estrellas  3)
+         (Para_adultos  "false")
+         (esta_en  [Barcelona])
+         (Distancia_a_centro  1.0)
+         (precio  60)
+    (Nombre "Bird_House")
+    )
+
+    ([Hotel_Vela] of Hotel
+         (Estrellas  5)
+         (Para_adultos  "false")
+         (esta_en  [Barcelona])
+         (Distancia_a_centro  3.3)
+         (precio  200)
+    (Nombre "Hotel_Vela")
+    )
+
+
+    ([Visita_Sagrada_Familia] of Visita_monumento
+         (se_hacen_en [Barcelona])
+         (Duracion_actividad  40)
+         (precio 25)
+    (Nombre "Visita_Sagrada_Familia")
+    )
+
+
+    ([PortAventura] of Aventura
+         (se_hacen_en [Barcelona])
+         (Duracion_actividad  100)
+         (precio 50)
+    (Nombre "PortAventura")
+    )
+
     ([Venecia] of Ciudad
 	 (Continente  "Europa")
 	 (Numero_de_habitantes  261905)
@@ -449,82 +526,6 @@
          (Duracion_actividad  70)
          (precio 1100)
     (Nombre "Alquiler_yate")
-    )
-
-    ([Santiago_de_Compostela] of Ciudad
-	 (Continente  "Europa")
-	 (Numero_de_habitantes  98000)
-      (Nombre "Santiago_de_Compostela")
-    )
-
-    ([Hostal_Reis_Catolicos] of Hotel
-	 (Estrellas  5)
-	 (Para_adultos  "false")
-	 (esta_en  [Barcelona])
-         (Distancia_a_centro  0.0)
-         (precio  300)
-    (Nombre "Hostal_Reis_Catolicos")
-    )
-
-    ([Casa_de_Afora] of Casa_Rural
-	 (esta_en [Santiago_de_Compostela])
-	 (Distancia_a_centro  2.9)
-	 (precio  150)
-    (Nombre "Casa_de_Afora")
-    )
-
-    ([Visita_Catedral_Santiago] of Visita_monumento
-         (se_hacen_en [Santiago_de_Compostela])
-         (Duracion_actividad  30)
-         (precio 10)
-    (Nombre "Visita_Catedral_Santiago")
-    )
-
-    ([Casa_Marcelo] of Gastronomica
-         (se_hacen_en [Santiago_de_Compostela])
-         (Duracion_actividad  15)
-         (precio 75)
-    (Nombre "Casa_Marcelo")
-    )
-
-    ([Barcelona] of Ciudad
-	 (Continente  "Europa")
-         (Numero_de_habitantes  1620000)
-    (Nombre "Barcelona")
-    )
-
-    ([Bird_House] of Hotel
-         (Estrellas  3)
-         (Para_adultos  "false")
-         (esta_en  [Barcelona])
-         (Distancia_a_centro  1.0)
-         (precio  60)
-    (Nombre "Bird_House")
-    )
-
-    ([Hotel_Vela] of Hotel
-         (Estrellas  5)
-         (Para_adultos  "false")
-         (esta_en  [Barcelona])
-         (Distancia_a_centro  3.3)
-         (precio  200)
-    (Nombre "Hotel_Vela")
-    )
-
-
-    ([Visita_Sagrada_Familia] of Visita_monumento
-         (se_hacen_en [Barcelona])
-         (Duracion_actividad  40)
-         (precio 25)
-    (Nombre "Visita_Sagrada_Familia")
-    )
-
-
-    ([PortAventura] of Aventura
-         (se_hacen_en [Barcelona])
-         (Duracion_actividad  100)
-         (precio 50)
-    (Nombre "PortAventura")
     )
 
     ([Roma] of Ciudad

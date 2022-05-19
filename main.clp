@@ -486,7 +486,7 @@
   ; (longitud_viaje)
   (tipo_viaje_inferido)
   =>
-  ; (focus LOGIC)
+   (focus LOGIC)
 	  ; aqui seria un buen momento para cambiar el focus
 )
 
@@ -635,10 +635,13 @@
    (test (member ?nomc3 $?ciu))
    ?u <- (usuario (medios-de-transporte $?trans))
    ?transporte <- (object (is-a Transporte) (Nombre ?nomt) (va_a ?va) (parte_de ?parte))
-   ;(test (and (eq ?nomc2 ?parte) (eq ?nomc3 ?va)))
+   (test (and (eq ?nomc2 (str-cat ?va)) (eq ?nomc3 (str-cat ?parte))))
   =>
   ;(printout t "holi")
-  (printout t ?va "    " ?parte)
+  (bind ?xd (eq ?nomc2 ?parte))
+  (printout t (lowcase (class ?transporte)) crlf)
+  ;(printout t ?xd crlf)
+  ;(printout t (instance-name ?va) "    " (instance-name ?parte))
   (printout t ?nomc2 "   and   " ?nomc3 "   and   " ?nomt crlf)
   ;(assert (escoger-transporte))
 )
