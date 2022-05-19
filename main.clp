@@ -405,8 +405,8 @@
 (test (eq ?tviaje "descanso"))
 =>
     (bind ?puntuacion 10)
-    (bind ?ciudadesdescanso (create$ tahiti cancun punta_cana las_vegas miami))
-    (if (member (lowcase ?nom) ?ciudadsesdescanso) then 
+    (bind ?ciudades_descanso (create$ tahiti cancun punta_cana las_vegas miami))
+    (if (member (lowcase ?nom) ?ciudades_descanso) then 
 						    (assert (ciudad_puntuada (ciudad ?city ) (fitness ?puntuacion)))
     )
 )
@@ -497,16 +497,6 @@
 
 (defmodule LOGIC "logica del programa" (import MENU ?ALL) (import MAIN ?ALL))
 
-(defrule LOGIC::acaba-la-logica
- (escoger-ciudades)
- (escoger-alojamiento)
- (escoger-actividades)
- (escoger-transporte)
- =>
-  (assert (logica-acabada))
-  (focus RESULTADOS)
-)
-
 (defrule LOGIC::escoger-ciudades-rule
   (not (escoger-ciudades))
 ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
@@ -527,7 +517,7 @@
        (bind ?nomciudad (send ?ciudad get-Nombre))
        (bind ?suma (+ ?diasciu ?i))
        (if (<= ?suma ?dies) then
-           (bind $?escog_ciudades (insert$ $?escog_ciudades (+ (length$ $?escog_ciudades) 1 ) ?ciudad))
+           (bind $?escog_ciudades (insert$ $?escog_ciudades (+ (length$ $?escog_ciudades) 1 ) ?nomciudad))
            (bind $?escog_dias_ciudades (insert$ $?escog_dias_ciudades (+ (length$ $?escog_dias_ciudades) 1 ) ?diasciu))
 
            (bind ?i (+ ?i ?diasciu))
@@ -567,7 +557,7 @@
 => 
   (bind ?puntuacion (+ ?fit 10) ) 
   (modify ?aloj_punt (fitness ?puntuacion))
-  ; (printout t "funciona: " ?nom crlf)
+  (printout t "funciona: " ?nom crlf)
 )
 
  (defrule LOGIC::escoger-alojamiento
@@ -635,13 +625,24 @@
 )
 
 (defrule LOGIC::escoger-transporte
-   ?vi <- (viaje (ciudades ?ciu))
+  (declare (salience 25))
+  (escoger-ciudades)
+   ?vi <- (viaje (ciudades $?ciu))
+   ?todosv <- (object (is-a Ciudad) (Nombre ?nomc2))
+   ?todosv2 <- (object (is-a Ciudad) (Nombre ?nomc3))
+   (test (not(eq ?nomc2 ?nomc3)))
+   (test (member ?nomc2 $?ciu))
+   (test (member ?nomc3 $?ciu))
    ?u <- (usuario (medios-de-transporte $?trans))
-   ?trans <- (object (is-a Transporte) (Nombre ?nomt))
-   (escoger-ciudades)
+   ?transporte <- (object (is-a Transporte) (Nombre ?nomt) (va_a ?va) (parte_de ?parte))
+   ;(test (and (eq ?nomc2 ?parte) (eq ?nomc3 ?va)))
   =>
-    (printout t ?ciu "    " ?nomt)
-    (assert (escoger-transporte))
+  ;(printout t "holi")
+  (printout t ?va "    " ?parte)
+  (printout t ?nomc2 "   and   " ?nomc3 "   and   " ?nomt crlf)
+  ;(assert (escoger-transporte))
+)
+
 ;  )
 
 ; (defrule LOGIC::escoger-transporte
@@ -674,6 +675,15 @@
 ;    (assert (escoger-transporte))
 ;  )
 
+(defrule LOGIC::acaba-la-logica
+ (escoger-ciudades)
+ (escoger-alojamiento)
+ (escoger-actividades)
+ (escoger-transporte)
+ =>
+  (assert (logica-acabada))
+  (focus RESULTADOS)
+)
 ;---------------------------------------------------------------------------------------
 ;                                 MODULO DE RESULTADOS                                 -
 ;---------------------------------------------------------------------------------------
