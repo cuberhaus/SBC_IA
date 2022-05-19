@@ -53,6 +53,11 @@
   (slot alojamiento (type INSTANCE) )
   )
 
+(deftemplate MENU::nextciudad
+  (slot desde (type STRING))
+  (slot hacia (type STRING))
+  )
+
 (deffacts MENU::inicialitzacio
   (usuario)
   (viaje)
@@ -624,15 +629,37 @@
       (assert (escoger-actividades))
 )
 
-(defrule LOGIC::escoger-transporte
+(defrule LOGIC::assertsciudades
   (declare (salience 25))
   (escoger-ciudades)
+  (not (assertsciudades))
+  ?vi <- (viaje (ciudades $?ciu))
+  =>
+  (bind ?i 1)
+  (while (< ?i (length$ ?ciu)) 
+    ;; bucle hasta < para que no pete con la ultima iter (usamos i y i+1, habra que añadir vuelo del origen a la primera y de la ultima al origen!)
+  do
+      (bind ?ciuA (nth$ ?i ?ciu))
+      (bind ?ciuB (nth$ (+ ?i 1) ?ciu))
+      (assert (nextciudad (desde ?ciuA) (hacia ?ciuB)))
+      (bind ?i (+ ?i 1)) 
+  )
+  (assert (assertsciudades))
+)
+
+(defrule LOGIC::escoger-transporte
+  (declare (salience 24))
+  (escoger-ciudades)
+  (assertsciudades)
    ?vi <- (viaje (ciudades $?ciu))
    ?todosv <- (object (is-a Ciudad) (Nombre ?nomc2))
    ?todosv2 <- (object (is-a Ciudad) (Nombre ?nomc3))
    (test (not(eq ?nomc2 ?nomc3)))
    (test (member ?nomc2 $?ciu))
    (test (member ?nomc3 $?ciu))
+
+   ?next <- (nextciudad (desde ?c1) (hacia ?c2))
+   (test (and (eq ?c1 ?nomc2) (eq ?c2 ?nomc3)))
    ?u <- (usuario (medios-de-transporte $?trans))
    ?transporte <- (object (is-a Transporte) (Nombre ?nomt) (va_a ?va) (parte_de ?parte))
    (test (and (eq ?nomc2 (str-cat ?va)) (eq ?nomc3 (str-cat ?parte))))
@@ -684,6 +711,7 @@
  (escoger-alojamiento)
  (escoger-actividades)
  (escoger-transporte)
+ (assertsciudades)
  =>
   (assert (logica-acabada))
   (focus RESULTADOS)
