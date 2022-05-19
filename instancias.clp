@@ -450,7 +450,6 @@
          (precio 1100)
     (Nombre "Alquiler_yate")
     )
-    asdads
 
     ([Santiago_de_Compostela] of Ciudad
 	 (Continente  "Europa")
