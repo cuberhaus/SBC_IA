@@ -553,6 +553,7 @@
 ) 
 
 (defrule LOGIC::initialize_alojamiento_puntuado
+  (declare (salience 10))
  ?aloj <- (object (is-a Alojamiento))
 =>
 (assert (alojamiento_puntuado (alojamiento ?aloj) ) )
@@ -560,59 +561,106 @@
 
   ; (assert (alojamiento_puntuado (alojamiento ?aloj ) (fitness ?puntuacion)))
 
+; (defrule LOGIC::evaluate-alojamiento
+;   ?user <- (usuario (ninos ?nin) (adolescentes ?adol) (duracion-o-calidad ?dur_o_cal) )
+;   ?aloj <- (object  (is-a Alojamiento) (esta_en ?esta_en)
+; 		    (Con_piscina ?pisc) (Distancia_a_centro ?dist) (Nombre ?nom) (precio ?prec))
+;   ?aloj_punt <- (alojamiento_puntuado (alojamiento ?aloj_punt) (fitness ?fit))	    
+;  (test (eq ?aloj ?aloj_punt))
+; => 
+;   (bind ?puntuacion (+ ?fit 10) ) 
+;   (modify ?aloj_punt (fitness ?puntuacion))
+;   (printout t "funciona: " ?nom crlf)
+; )
+; (defrule LOGIC::evaluate-alojamiento
+;   ?user <- (usuario (ninos ?nin) (adolescentes ?adol) (duracion-o-calidad ?dur_o_cal) )
+;   ?aloj <- (object  (is-a Alojamiento) (esta_en ?esta_en)
+; 		    (Con_piscina ?pisc) (Distancia_a_centro ?dist) (Nombre ?nom) (precio ?prec))
+;   ?aloj_punt <- (alojamiento_puntuado (alojamiento ?aloj_punt) (fitness ?fit))	    
+;  (test (eq ?aloj ?aloj_punt))
+; => 
+;   (bind ?puntuacion (+ ?fit 10) ) 
+;   (modify ?aloj_punt (fitness ?puntuacion))
+;   (printout t "funciona: " ?nom crlf)
+; )
+; (defrule LOGIC::evaluate-alojamiento
+;   ?user <- (usuario (ninos ?nin) (adolescentes ?adol) (duracion-o-calidad ?dur_o_cal) )
+;   ?aloj <- (object  (is-a Alojamiento) (esta_en ?esta_en)
+; 		    (Con_piscina ?pisc) (Distancia_a_centro ?dist) (Nombre ?nom) (precio ?prec))
+;   ?aloj_punt <- (alojamiento_puntuado (alojamiento ?aloj_punt) (fitness ?fit))	    
+;  (test (eq ?aloj ?aloj_punt))
+; => 
+;   (bind ?puntuacion (+ ?fit 10) ) 
+;   (modify ?aloj_punt (fitness ?puntuacion))
+;   (printout t "funciona: " ?nom crlf)
+; )
+; (defrule LOGIC::evaluate-alojamiento
+;   ?user <- (usuario (ninos ?nin) (adolescentes ?adol) (duracion-o-calidad ?dur_o_cal) )
+;   ?aloj <- (object  (is-a Alojamiento) (esta_en ?esta_en)
+; 		    (Con_piscina ?pisc) (Distancia_a_centro ?dist) (Nombre ?nom) (precio ?prec))
+;   ?aloj_punt <- (alojamiento_puntuado (alojamiento ?aloj_punt) (fitness ?fit))	    
+;  (test (eq ?aloj ?aloj_punt))
+; => 
+;   (bind ?puntuacion (+ ?fit 10) ) 
+;   (modify ?aloj_punt (fitness ?puntuacion))
+;   (printout t "funciona: " ?nom crlf)
+; )
 (defrule LOGIC::evaluate-alojamiento
-  ?user <- (usuario (ninos ?nin) (adolescentes ?adol) (duracion-o-calidad ?dur_o_cal) )
-  ?aloj <- (object  (is-a Alojamiento) (esta_en ?esta_en)
-		    (Con_piscina ?pisc) (Distancia_a_centro ?dist) (Nombre ?nom) (precio ?prec))
-  ?aloj_punt <- (alojamiento_puntuado (alojamiento ?aloj_punt) (fitness ?fit))	    
- (test (eq ?aloj ?aloj_punt))
+  ; (declare (salience 40))
+  (escoger-ciudades)
+  ; ?user <- (usuario)
+  ?aloj <- (object  (is-a Alojamiento) (Distancia_a_centro ?dist) (Nombre ?nom) )
+  ?aloj_punt <- (alojamiento_puntuado (alojamiento ?aloj2) (fitness ?fit))	    
+ ; (test (eq (str-cat ?aloj) (str-cat ?aloj_punt)))
+ (test (eq ?aloj ?aloj2))
 => 
   (bind ?puntuacion (+ ?fit 10) ) 
   (modify ?aloj_punt (fitness ?puntuacion))
-  (printout t "funciona: " ?nom crlf)
+  (printout t "funciona: " ?aloj ?aloj_punt crlf)
 )
 
- (defrule LOGIC::escoger-alojamiento
- ?vi <- (viaje (ciudades $?ciu))
- (escoger-ciudades)
- (not (escoger-alojamiento))
- =>
- (bind ?i 1)
- (bind $?escog_aloj (create$ ))
- (while (<= ?i (length$ ?ciu))
-   do
-   (bind ?ciuaux (nth$ ?i ?ciu))
-   ;(bind ?aux (send ?ciuaux get-Nombre))
-   ;(printout t ?ciuaux crlf)
-   (bind ?llista_aloja (find-all-instances ((?inst Alojamiento)) (eq ?inst:esta_en ?ciuaux)))
-   (bind ?alojamiento (nth$ 1 ?llista_aloja))
-   ;(bind ?aloj_name (send (nth$ 1 (find-instance ((?inst Alojamiento)) (eq ?inst:esta_en ?ciuaux))) get-Nombre))
+;  (defrule LOGIC::escoger-alojamiento
+;  ?vi <- (viaje (ciudades $?ciu))
+;  (escoger-ciudades)
+;  (not (escoger-alojamiento))
+;  =>
+;  (bind ?i 1)
+;  (bind $?escog_aloj (create$ ))
+;  (while (<= ?i (length$ ?ciu))
+;    do
+;    (bind ?ciuaux (nth$ ?i ?ciu))
+;    ;(bind ?aux (send ?ciuaux get-Nombre))
+;    ;(printout t ?ciuaux crlf)
+;    (bind ?llista_aloja (find-all-instances ((?inst Alojamiento)) (eq ?inst:esta_en ?ciuaux)))
+;    (bind ?alojamiento (nth$ 1 ?llista_aloja))
+;    ;(bind ?aloj_name (send (nth$ 1 (find-instance ((?inst Alojamiento)) (eq ?inst:esta_en ?ciuaux))) get-Nombre))
 
-   (bind ?aloj_name (send ?alojamiento get-Nombre))
-   (bind $?escog_aloj (insert$ $?escog_aloj (+ (length$ $?escog_aloj) 1 ) ?aloj_name))
+;    (bind ?aloj_name (send ?alojamiento get-Nombre))
+;    (bind $?escog_aloj (insert$ $?escog_aloj (+ (length$ $?escog_aloj) 1 ) ?aloj_name))
 
-   (bind ?i (+ ?i 1))
- )
-   (modify ?vi (alojamientos $?escog_aloj))
-(assert (escoger-alojamiento))
- )
+;    (bind ?i (+ ?i 1))
+;  )
+;    (modify ?vi (alojamientos $?escog_aloj))
+; (assert (escoger-alojamiento))
+;   (printout t "funciona: " ?nom crlf)
+;  )
 
-(defrule LOGIC::escoger-actividades
-  ?vi <- (viaje (estructura $?estrc) (actividades $?actividade))
-  ?est <- (estructura (ciudad ?c) (dias ?d) (ocupacion ?o))
-  (test (member ?est $?estrc))
-  ?todosv <- (object (is-a Ciudad) (Nombre ?nomc))
-  (test (member ?c $?ciu))
+; (defrule LOGIC::escoger-actividades
+;   ?vi <- (viaje (estructura $?estrc) (actividades $?actividade))
+;   ?est <- (estructura (ciudad ?c) (dias ?d) (ocupacion ?o))
+;   (test (member ?est $?estrc))
+;   ?todosv <- (object (is-a Ciudad) (Nombre ?nomc))
+;   (test (member ?c $?ciu))
 
-  ?activ <- (object (is-a Actividad) (Nombre ?nactiv) (Duracion_actividad ?duracion) (se_hacen_en ?nhacen))
-  (test (<= (* ?d 100) (+ ?o ?duracion)))
-  (test (eq ?nomc (member class ?nhacen)))
+;   ?activ <- (object (is-a Actividad) (Nombre ?nactiv) (Duracion_actividad ?duracion) (se_hacen_en ?nhacen))
+;   (test (<= (* ?d 100) (+ ?o ?duracion)))
+;   (test (eq ?nomc (member class ?nhacen)))
   
- =>
-  (bind ?o (+ ?o ?duracion))
-  (bind $?actividade (insert$ $?actividade (+ (length$ ?actividade) 1 ) ?nactiv))
+;  =>
+;   (bind ?o (+ ?o ?duracion))
+;   (bind $?actividade (insert$ $?actividade (+ (length$ ?actividade) 1 ) ?nactiv))
   
-)
+; )
  ;(defrule LOGIC::escoger-actividades
  ;  ?vi <- (viaje (ciudades $?ciu) (dias_por_ciudad $?c_dia_i))
  ; (escoger-ciudades)
