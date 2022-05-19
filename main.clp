@@ -404,12 +404,12 @@
   ?city <- (object  (is-a Ciudad) (Nombre ?nom) )
 (test (eq ?tviaje "descanso"))
 =>
-  (bind ?puntuacion 10)
-    (bind ?ciudades_descanso (create$ tahiti cancun punta_cana las_vegas miami))
-    (if (member (lowcase ?nom) ?ciudades_descanso) then 
+    (bind ?puntuacion 10)
+    (bind ?ciudadesdescanso (create$ tahiti cancun punta_cana las_vegas miami))
+    (if (member (lowcase ?nom) ?ciudadsesdescanso) then 
 						    (assert (ciudad_puntuada (ciudad ?city ) (fitness ?puntuacion)))
     )
-  )
+)
 
 (defrule INFERENCIA::ciudades_diversion
   ?user <- (usuario (tipo-viaje ?tviaje) )
@@ -633,6 +633,16 @@
       (modify ?vi (actividades $?escog_activ))
       (assert (escoger-actividades))
 )
+
+(defrule LOGIC::escoger-transporte
+   ?vi <- (viaje (ciudades ?ciu))
+   ?u <- (usuario (medios-de-transporte $?trans))
+   ?trans <- (object (is-a Transporte) (Nombre ?nomt))
+   (escoger-ciudades)
+  =>
+    (printout t ?ciu "    " ?nomt)
+    (assert (escoger-transporte))
+;  )
 
 ; (defrule LOGIC::escoger-transporte
 ;    ?vi <- (viaje (ciudades $?ciu))
