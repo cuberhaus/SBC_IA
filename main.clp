@@ -36,9 +36,15 @@
   (slot tipo-usuario (type STRING) (allowed-strings "individual" "pareja" "grupo" "familia"))
   )
 
+(deftemplate MENU::estructura
+  (slot ciudad)
+  (slot dias)
+  )
+
 (deftemplate MENU::viaje
   ; (multislot ciudades_pendientes_asignar)
   ; (multislot fitness_ciudades)
+  (multislot estructura)
   (slot continentes (type SYMBOL) (allowed-values TRUE FALSE) )
   (multislot dias_por_ciudad)
   (multislot ciudades (type INSTANCE))
