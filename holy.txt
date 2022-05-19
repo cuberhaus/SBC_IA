@@ -1,0 +1,18 @@
+(load sbc.clp)
+(load instancias.clp)
+(load main.clp)
+(reset)
+(run)
+10 20 30 40
+descanso
+8
+10
+1
+2
+4
+10
+10000
+tren
+2
+si
+calidad
