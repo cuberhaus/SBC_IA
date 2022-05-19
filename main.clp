@@ -636,6 +636,7 @@
    ?u <- (usuario (medios-de-transporte $?trans))
    ?transporte <- (object (is-a Transporte) (Nombre ?nomt) (va_a ?va) (parte_de ?parte))
    (test (and (eq ?nomc2 (str-cat ?va)) (eq ?nomc3 (str-cat ?parte))))
+   (test (not( member (lowcase (class ?transporte)) $?trans)))
   =>
   ;(printout t "holi")
   (bind ?xd (eq ?nomc2 ?parte))
