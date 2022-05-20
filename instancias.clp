@@ -4607,5 +4607,119 @@
     (precio  50)
 )
 
+([BCN_ROM_barco] of Barco
+    (parte_de  [Barcelona])
+    (va_a  [Roma])
+    (Nombre  "BCN_ROM_barco")
+    (duracion_transporte  80)
+    (precio  60)
+)
+
+
+([ROM_BCN_barco] of Barco
+    (parte_de  [Roma])
+    (va_a  [Barcelona])
+    (Nombre  "ROM_BCN_barco")
+    (duracion_transporte  80)
+    (precio  60)
+)
+
+([VEN_BCN_barco] of Barco
+    (parte_de  [Venecia])
+    (va_a  [Barcelona])
+    (Nombre  "VEN_BCN_barco")
+    (duracion_transporte  75)
+    (precio  60)
+)
+
+([BCN_VEN_barco] of Barco
+    (parte_de  [Barcelona])
+    (va_a  [Venecia])
+    (Nombre  "BCN_VEN_barco")
+    (duracion_transporte  75)
+    (precio  60)
+)
+
+([VEN_ROM_barco] of Barco
+    (parte_de  [Venecia])
+    (va_a  [Roma])
+    (Nombre  "VEN_ROM_barco")
+    (duracion_transporte  40)
+    (precio  40)
+)
+
+([ROM_VEN_barco] of Barco
+    (parte_de  [Roma])
+    (va_a  [Venecia])
+    (Nombre  "ROM_VEN_barco")
+    (duracion_transporte  40)
+    (precio  40)
+)
+
+
+([VEN_GRA_barco] of Barco
+    (parte_de  [Venecia])
+    (va_a  [Granada])
+    (Nombre  "VEN_GRA_barco")
+    (duracion_transporte  80)
+    (precio  50)
+)
+
+([GRA_VEN_barco] of Barco
+    (parte_de  [Granada])
+    (va_a  [Venecia])
+    (Nombre  "GRA_VEN_barco")
+    (duracion_transporte  80)
+    (precio  50)
+)
+
+
+([GRA_SQC_barco] of Barco
+    (parte_de  [Granada])
+    (va_a  [Santiago_de_Compostela])
+    (Nombre  "GRA_SQC_barco")
+    (duracion_transporte  70)
+    (precio  50)
+)
+
+([SQC_GRA_barco] of Barco
+    (parte_de  [Santiago_de_Compostela])
+    (va_a  [Granada])
+    (Nombre  "SQC_GRA_barco")
+    (duracion_transporte  70)
+    (precio  50)
+)
+
+([GRA_BCN_barco] of Barco
+    (parte_de  [Granada])
+    (va_a  [Barcelona])
+    (Nombre  "GRA_BCN_barco")
+    (duracion_transporte  65)
+    (precio  40)
+)
+
+([BCN_GRA_barco] of Barco
+    (parte_de  [Barcelona])
+    (va_a  [Granada])
+    (Nombre  "BCN_GRA_barco")
+    (duracion_transporte  65)
+    (precio  40)
+)
+
+([GRA_ROM_barco] of Barco
+    (parte_de  [Granada])
+    (va_a  [Roma])
+    (Nombre  "GRA_ROM_barco")
+    (duracion_transporte  75)
+    (precio  45)
+)
+
+([ROM_GRA_barco] of Barco
+    (parte_de  [Roma])
+    (va_a  [Granada])
+    (Nombre  "ROM_GRA_barco")
+    (duracion_transporte  75)
+    (precio  45)
+)
 
 )
