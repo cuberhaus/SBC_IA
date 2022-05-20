@@ -1738,7 +1738,7 @@
 
 ([VEN_PAR_avion] of Avion
     (parte_de  [Venecia])
-    (va_a  [dest])
+    (va_a  [Paris])
     (Nombre  "VEN_PAR_avion")
     (duracion_transporte  20)
     (precio  70)
@@ -1754,7 +1754,7 @@
 
 ([VEN_BER_avion] of Avion
     (parte_de  [Venecia])
-    (va_a  [dest])
+    (va_a  [Berlin])
     (Nombre  "VEN_BER_avion")
     (duracion_transporte  20)
     (precio  70)
@@ -2044,7 +2044,7 @@
 
 ([MIA_PAR_avion] of Avion
     (parte_de  [Miami])
-    (va_a  [dest])
+    (va_a  [Paris])
     (Nombre  "MIA_PAR_avion")
     (duracion_transporte  75)
     (precio  230)
@@ -2060,7 +2060,7 @@
 
 ([MIA_BER_avion] of Avion
     (parte_de  [Miami])
-    (va_a  [dest])
+    (va_a  [Berlin])
     (Nombre  "MIA_BER_avion")
     (duracion_transporte  75)
     (precio  190)
@@ -2334,7 +2334,7 @@
 
 ([VEG_PAR_avion] of Avion
     (parte_de  [Las_vegas])
-    (va_a  [dest])
+    (va_a  [Paris])
     (Nombre  "VEG_PAR_avion")
     (duracion_transporte  70)
     (precio  170)
@@ -2350,7 +2350,7 @@
 
 ([VEG_BER_avion] of Avion
     (parte_de  [Las_vegas])
-    (va_a  [dest])
+    (va_a  [Berlin])
     (Nombre  "VEG_BER_avion")
     (duracion_transporte  75)
     (precio  160)
@@ -2608,7 +2608,7 @@
 
 ([PUN_PAR_avion] of Avion
     (parte_de  [Punta_cana])
-    (va_a  [dest])
+    (va_a  [Paris])
     (Nombre  "PUN_PAR_avion")
     (duracion_transporte  85)
     (precio  650)
@@ -2624,7 +2624,7 @@
 
 ([PUN_BER_avion] of Avion
     (parte_de  [Punta_cana])
-    (va_a  [dest])
+    (va_a  [Berlin])
     (Nombre  "PUN_BER_avion")
     (duracion_transporte  85)
     (precio  600)
@@ -2866,7 +2866,7 @@
 
 ([CAN_PAR_avion] of Avion
     (parte_de  [Cancun])
-    (va_a  [dest])
+    (va_a  [Paris])
     (Nombre  "CAN_PAR_avion")
     (duracion_transporte  80)
     (precio  700)
@@ -2882,7 +2882,7 @@
 
 ([CAN_BER_avion] of Avion
     (parte_de  [Cancun])
-    (va_a  [dest])
+    (va_a  [Berlin])
     (Nombre  "CAN_BER_avion")
     (duracion_transporte  80)
     (precio  650)
@@ -3108,7 +3108,7 @@
 
 ([TAH_PAR_avion] of Avion
     (parte_de  [Tahiti])
-    (va_a  [dest])
+    (va_a  [Paris])
     (Nombre  "TAH_PAR_avion")
     (duracion_transporte  90)
     (precio  850)
@@ -3124,7 +3124,7 @@
 
 ([TAH_BER_avion] of Avion
     (parte_de  [Tahiti])
-    (va_a  [dest])
+    (va_a  [Berlin])
     (Nombre  "TAH_BER_avion")
     (duracion_transporte  100)
     (precio  850)
@@ -3334,7 +3334,7 @@
 
 ([KIO_PAR_avion] of Avion
     (parte_de  [Kioto])
-    (va_a  [dest])
+    (va_a  [Paris])
     (Nombre  "KIO_PAR_avion")
     (duracion_transporte  100)
     (precio  450)
@@ -3350,7 +3350,7 @@
 
 ([KIO_BER_avion] of Avion
     (parte_de  [Kioto])
-    (va_a  [dest])
+    (va_a  [Berlin])
     (Nombre  "KIO_BER_avion")
     (duracion_transporte  100)
     (precio  480)
@@ -3544,7 +3544,7 @@
 
 ([AMS_PAR_avion] of Avion
     (parte_de  [Amsterdam])
-    (va_a  [dest])
+    (va_a  [Paris])
     (Nombre  "AMS_PAR_avion")
     (duracion_transporte  15)
     (precio  60)
@@ -3560,7 +3560,7 @@
 
 ([AMS_BER_avion] of Avion
     (parte_de  [Amsterdam])
-    (va_a  [dest])
+    (va_a  [Berlin])
     (Nombre  "AMS_BER_avion")
     (duracion_transporte  20)
     (precio  60)
@@ -3737,7 +3737,7 @@
 
 ([PRA_PAR_avion] of Avion
     (parte_de  [Praga])
-    (va_a  [dest])
+    (va_a  [Paris])
     (Nombre  "PRA_PAR_avion")
     (duracion_transporte  25)
     (precio  70)
@@ -3753,7 +3753,7 @@
 
 ([PRA_BER_avion] of Avion
     (parte_de  [Praga])
-    (va_a  [dest])
+    (va_a  [Berlin])
     (Nombre  "PRA_BER_avion")
     (duracion_transporte  25)
     (precio  70)
@@ -3915,7 +3915,7 @@
 
 ([GRA_PAR_avion] of Avion
     (parte_de  [Granada])
-    (va_a  [dest])
+    (va_a  [Paris])
     (Nombre  "GRA_PAR_avion")
     (duracion_transporte  20)
     (precio  75)
@@ -3931,7 +3931,7 @@
 
 ([GRA_BER_avion] of Avion
     (parte_de  [Granada])
-    (va_a  [dest])
+    (va_a  [Berlin])
     (Nombre  "GRA_BER_avion")
     (duracion_transporte  25)
     (precio  80)
@@ -4025,5 +4025,587 @@
     (duracion_transporte  75)
     (precio  190)
 )
+
+([SQC_BCN_tren] of Tren
+    (parte_de  [Santiago_de_Compostela])
+    (va_a  [Barcelona])
+    (Nombre  "SQC_BCN_tren")
+    (duracion_transporte  70)
+    (precio  30)
+)
+
+
+([BCN_SQC_tren] of Tren
+    (parte_de  [Barcelona])
+    (va_a  [Santiago_de_Compostela])
+    (Nombre  "BCN_SQC_tren")
+    (duracion_transporte  70)
+    (precio  30)
+)
+
+([SQC_PAR_tren] of Tren
+    (parte_de  [Santiago_de_Compostela])
+    (va_a  [Paris])
+    (Nombre  "SQC_PAR_tren")
+    (duracion_transporte  90)
+    (precio  50)
+)
+
+
+([PAR_SQC_tren] of Tren
+    (parte_de  [Paris])
+    (va_a  [Santiago_de_Compostela])
+    (Nombre  "PAR_SQC_tren")
+    (duracion_transporte  90)
+    (precio  50)
+)
+
+
+([SQC_BER_tren] of Tren
+    (parte_de  [Santiago_de_Compostela])
+    (va_a  [Berlin])
+    (Nombre  "SQC_BER_tren")
+    (duracion_transporte  90)
+    (precio  60)
+)
+
+
+([BER_SQC_tren] of Tren
+    (parte_de  [Berlin])
+    (va_a  [Santiago_de_Compostela])
+    (Nombre  "BER_SQC_tren")
+    (duracion_transporte  90)
+    (precio  60)
+)
+
+
+([BCN_ROM_tren] of Tren
+    (parte_de  [Barcelona])
+    (va_a  [Roma])
+    (Nombre  "BCN_ROM_tren")
+    (duracion_transporte  90)
+    (precio  50)
+)
+
+
+([ROM_BCN_tren] of Tren
+    (parte_de  [Roma])
+    (va_a  [Barcelona])
+    (Nombre  "ROM_BCN_tren")
+    (duracion_transporte  90)
+    (precio  50)
+)
+
+
+([BCN_PAR_tren] of Tren
+    (parte_de  [Barcelona])
+    (va_a  [Paris])
+    (Nombre  "BCN_PAR_tren")
+    (duracion_transporte  75)
+    (precio  40)
+)
+
+
+([PAR_BCN_tren] of Tren
+    (parte_de  [Paris])
+    (va_a  [Barcelona])
+    (Nombre  "PAR_BCN_tren")
+    (duracion_transporte  75)
+    (precio  40)
+)
+
+
+([BCN_BER_tren] of Tren
+    (parte_de  [Barcelona])
+    (va_a  [Berlin])
+    (Nombre  "BCN_BER_tren")
+    (duracion_transporte  70)
+    (precio  50)
+)
+
+
+([BER_BCN_tren] of Tren
+    (parte_de  [Berlin])
+    (va_a  [Barcelona])
+    (Nombre  "BER_BCN_tren")
+    (duracion_transporte  70)
+    (precio  50)
+)
+
+
+([ROM_PAR_tren] of Tren
+    (parte_de  [Roma])
+    (va_a  [Paris])
+    (Nombre  "ROM_PAR_tren")
+    (duracion_transporte  70)
+    (precio  50)
+)
+
+
+([PAR_ROM_tren] of Tren
+    (parte_de  [Paris])
+    (va_a  [Roma])
+    (Nombre  "PAR_ROM_tren")
+    (duracion_transporte  70)
+    (precio  50)
+)
+
+
+([ROM_BER_tren] of Tren
+    (parte_de  [Roma])
+    (va_a  [Berlin])
+    (Nombre  "ROM_BER_tren")
+    (duracion_transporte  70)
+    (precio  50)
+)
+
+
+([BER_ROM_tren] of Tren
+    (parte_de  [Berlin])
+    (va_a  [Roma])
+    (Nombre  "BER_ROM_tren")
+    (duracion_transporte  70)
+    (precio  50)
+)
+
+
+([PAR_BER_tren] of Tren
+    (parte_de  [Paris])
+    (va_a  [Berlin])
+    (Nombre  "PAR_BER_tren")
+    (duracion_transporte  5)
+    (precio  40)
+)
+
+
+([BER_PAR_tren] of Tren
+    (parte_de  [Berlin])
+    (va_a  [Paris])
+    (Nombre  "BER_PAR_tren")
+    (duracion_transporte  5)
+    (precio  40)
+)
+
+
+([VEN_SQC_tren] of Tren
+    (parte_de  [Venecia])
+    (va_a  [Santiago_de_Compostela])
+    (Nombre  "VEN_SQC_tren")
+    (duracion_transporte  80)
+    (precio  55)
+)
+
+([SQC_VEN_tren] of Tren
+    (parte_de  [Santiago_de_Compostela])
+    (va_a  [Venecia])
+    (Nombre  "SQC_VEN_tren")
+    (duracion_transporte  80)
+    (precio  55)
+)
+
+([VEN_BCN_tren] of Tren
+    (parte_de  [Venecia])
+    (va_a  [Barcelona])
+    (Nombre  "VEN_BCN_tren")
+    (duracion_transporte  75)
+    (precio  50)
+)
+
+([BCN_VEN_tren] of Tren
+    (parte_de  [Barcelona])
+    (va_a  [Venecia])
+    (Nombre  "BCN_VEN_tren")
+    (duracion_transporte  75)
+    (precio  50)
+)
+
+([VEN_ROM_tren] of Tren
+    (parte_de  [Venecia])
+    (va_a  [Roma])
+    (Nombre  "VEN_ROM_tren")
+    (duracion_transporte  20)
+    (precio  20)
+)
+
+([ROM_VEN_tren] of Tren
+    (parte_de  [Roma])
+    (va_a  [Venecia])
+    (Nombre  "ROM_VEN_tren")
+    (duracion_transporte  20)
+    (precio  20)
+)
+
+([VEN_PAR_tren] of Tren
+    (parte_de  [Venecia])
+    (va_a  [dest])
+    (Nombre  "VEN_PAR_tren")
+    (duracion_transporte  70)
+    (precio  40)
+)
+
+([PAR_VEN_tren] of Tren
+    (parte_de  [Paris])
+    (va_a  [Venecia])
+    (Nombre  "PAR_VEN_tren")
+    (duracion_transporte  70)
+    (precio  40)
+)
+
+([VEN_BER_tren] of Tren
+    (parte_de  [Venecia])
+    (va_a  [dest])
+    (Nombre  "VEN_BER_tren")
+    (duracion_transporte  70)
+    (precio  50)
+)
+
+([BER_VEN_tren] of Tren
+    (parte_de  [Berlin])
+    (va_a  [Venecia])
+    (Nombre  "BER_VEN_tren")
+    (duracion_transporte  70)
+    (precio  50)
+)
+
+
+
+([VEN_GRA_tren] of Tren
+    (parte_de  [Venecia])
+    (va_a  [Granada])
+    (Nombre  "VEN_GRA_tren")
+    (duracion_transporte  90)
+    (precio  50)
+)
+
+([GRA_VEN_tren] of Tren
+    (parte_de  [Granada])
+    (va_a  [Venecia])
+    (Nombre  "GRA_VEN_tren")
+    (duracion_transporte  90)
+    (precio  50)
+)
+
+([VEN_PRA_tren] of Tren
+    (parte_de  [Venecia])
+    (va_a  [Praga])
+    (Nombre  "VEN_PRA_tren")
+    (duracion_transporte  25)
+    (precio  40)
+)
+
+([PRA_VEN_tren] of Tren
+    (parte_de  [Praga])
+    (va_a  [Venecia])
+    (Nombre  "PRA_VEN_tren")
+    (duracion_transporte  25)
+    (precio  40)
+)
+
+([VEN_AMS_tren] of Tren
+    (parte_de  [Venecia])
+    (va_a  [Amsterdam])
+    (Nombre  "VEN_AMS_tren")
+    (duracion_transporte  25)
+    (precio  55)
+)
+
+([AMS_VEN_tren] of Tren
+    (parte_de  [Amsterdam])
+    (va_a  [Venecia])
+    (Nombre  "AMS_VEN_tren")
+    (duracion_transporte  25)
+    (precio  55)
+)
+
+([AMS_SQC_tren] of Tren
+    (parte_de  [Amsterdam])
+    (va_a  [Santiago_de_Compostela])
+    (Nombre  "AMS_SQC_tren")
+    (duracion_transporte  80)
+    (precio  55)
+)
+
+([SQC_AMS_tren] of Tren
+    (parte_de  [Santiago_de_Compostela])
+    (va_a  [Amsterdam])
+    (Nombre  "SQC_AMS_tren")
+    (duracion_transporte  80)
+    (precio  55)
+)
+
+([AMS_BCN_tren] of Tren
+    (parte_de  [Amsterdam])
+    (va_a  [Barcelona])
+    (Nombre  "AMS_BCN_tren")
+    (duracion_transporte  70)
+    (precio  60)
+)
+
+([BCN_AMS_tren] of Tren
+    (parte_de  [Barcelona])
+    (va_a  [Amsterdam])
+    (Nombre  "BCN_AMS_tren")
+    (duracion_transporte  70)
+    (precio  60)
+)
+
+([AMS_ROM_tren] of Tren
+    (parte_de  [Amsterdam])
+    (va_a  [Roma])
+    (Nombre  "AMS_ROM_tren")
+    (duracion_transporte  25)
+    (precio  50)
+)
+
+([ROM_AMS_tren] of Tren
+    (parte_de  [Roma])
+    (va_a  [Amsterdam])
+    (Nombre  "ROM_AMS_tren")
+    (duracion_transporte  25)
+    (precio  50)
+)
+
+([AMS_PAR_tren] of Tren
+    (parte_de  [Amsterdam])
+    (va_a  [dest])
+    (Nombre  "AMS_PAR_tren")
+    (duracion_transporte  70)
+    (precio  40)
+)
+
+([PAR_AMS_tren] of Tren
+    (parte_de  [Paris])
+    (va_a  [Amsterdam])
+    (Nombre  "PAR_AMS_tren")
+    (duracion_transporte  70)
+    (precio  40)
+)
+
+([AMS_BER_tren] of Tren
+    (parte_de  [Amsterdam])
+    (va_a  [dest])
+    (Nombre  "AMS_BER_tren")
+    (duracion_transporte  75)
+    (precio  40)
+)
+
+([BER_AMS_tren] of Tren
+    (parte_de  [Berlin])
+    (va_a  [Amsterdam])
+    (Nombre  "BER_AMS_tren")
+    (duracion_transporte  75)
+    (precio  40)
+)
+
+
+([AMS_GRA_tren] of Tren
+    (parte_de  [Amsterdam])
+    (va_a  [Granada])
+    (Nombre  "AMS_GRA_tren")
+    (duracion_transporte  80)
+    (precio  60)
+)
+
+([GRA_AMS_tren] of Tren
+    (parte_de  [Granada])
+    (va_a  [Amsterdam])
+    (Nombre  "GRA_AMS_tren")
+    (duracion_transporte  80)
+    (precio  60)
+)
+
+([AMS_PRA_tren] of Tren
+    (parte_de  [Amsterdam])
+    (va_a  [Praga])
+    (Nombre  "AMS_PRA_tren")
+    (duracion_transporte  60)
+    (precio  40)
+)
+
+([PRA_AMS_tren] of Tren
+    (parte_de  [Praga])
+    (va_a  [Amsterdam])
+    (Nombre  "PRA_AMS_tren")
+    (duracion_transporte  60)
+    (precio  40)
+)
+
+([PRA_SQC_tren] of Tren
+    (parte_de  [Praga])
+    (va_a  [Santiago_de_Compostela])
+    (Nombre  "PRA_SQC_tren")
+    (duracion_transporte  90)
+    (precio  60)
+)
+
+([SQC_PRA_tren] of Tren
+    (parte_de  [Santiago_de_Compostela])
+    (va_a  [Praga])
+    (Nombre  "SQC_PRA_tren")
+    (duracion_transporte  90)
+    (precio  60)
+)
+
+([PRA_BCN_tren] of Tren
+    (parte_de  [Praga])
+    (va_a  [Barcelona])
+    (Nombre  "PRA_BCN_tren")
+    (duracion_transporte  80)
+    (precio  60)
+)
+
+([BCN_PRA_tren] of Tren
+    (parte_de  [Barcelona])
+    (va_a  [Praga])
+    (Nombre  "BCN_PRA_tren")
+    (duracion_transporte  80)
+    (precio  60)
+)
+
+([PRA_ROM_tren] of Tren
+    (parte_de  [Praga])
+    (va_a  [Roma])
+    (Nombre  "PRA_ROM_tren")
+    (duracion_transporte  70)
+    (precio  60)
+)
+
+([ROM_PRA_tren] of Tren
+    (parte_de  [Roma])
+    (va_a  [Praga])
+    (Nombre  "ROM_PRA_tren")
+    (duracion_transporte  70)
+    (precio  60)
+)
+
+([PRA_PAR_tren] of Tren
+    (parte_de  [Praga])
+    (va_a  [dest])
+    (Nombre  "PRA_PAR_tren")
+    (duracion_transporte  65)
+    (precio  50)
+)
+
+([PAR_PRA_tren] of Tren
+    (parte_de  [Paris])
+    (va_a  [Praga])
+    (Nombre  "PAR_PRA_tren")
+    (duracion_transporte  65)
+    (precio  50)
+)
+
+([PRA_BER_tren] of Tren
+    (parte_de  [Praga])
+    (va_a  [dest])
+    (Nombre  "PRA_BER_tren")
+    (duracion_transporte  55)
+    (precio  50)
+)
+
+([BER_PRA_tren] of Tren
+    (parte_de  [Berlin])
+    (va_a  [Praga])
+    (Nombre  "BER_PRA_tren")
+    (duracion_transporte  55)
+    (precio  50)
+)
+
+([PRA_GRA_tren] of Tren
+    (parte_de  [Praga])
+    (va_a  [Granada])
+    (Nombre  "PRA_GRA_tren")
+    (duracion_transporte  100)
+    (precio  50)
+)
+
+([GRA_PRA_tren] of Tren
+    (parte_de  [Granada])
+    (va_a  [Praga])
+    (Nombre  "GRA_PRA_tren")
+    (duracion_transporte  100)
+    (precio  50)
+)
+
+
+([GRA_SQC_tren] of Tren
+    (parte_de  [Granada])
+    (va_a  [Santiago_de_Compostela])
+    (Nombre  "GRA_SQC_tren")
+    (duracion_transporte  70)
+    (precio  30)
+)
+
+([SQC_GRA_tren] of Tren
+    (parte_de  [Santiago_de_Compostela])
+    (va_a  [Granada])
+    (Nombre  "SQC_GRA_tren")
+    (duracion_transporte  70)
+    (precio  30)
+)
+
+([GRA_BCN_tren] of Tren
+    (parte_de  [Granada])
+    (va_a  [Barcelona])
+    (Nombre  "GRA_BCN_tren")
+    (duracion_transporte  70)
+    (precio  30)
+)
+
+([BCN_GRA_tren] of Tren
+    (parte_de  [Barcelona])
+    (va_a  [Granada])
+    (Nombre  "BCN_GRA_tren")
+    (duracion_transporte  70)
+    (precio  30)
+)
+
+([GRA_ROM_tren] of Tren
+    (parte_de  [Granada])
+    (va_a  [Roma])
+    (Nombre  "GRA_ROM_tren")
+    (duracion_transporte  75)
+    (precio  45)
+)
+
+([ROM_GRA_tren] of Tren
+    (parte_de  [Roma])
+    (va_a  [Granada])
+    (Nombre  "ROM_GRA_tren")
+    (duracion_transporte  75)
+    (precio  45)
+)
+
+([GRA_PAR_tren] of Tren
+    (parte_de  [Granada])
+    (va_a  [Paris])
+    (Nombre  "GRA_PAR_tren")
+    (duracion_transporte  80)
+    (precio  55)
+)
+
+([PAR_GRA_tren] of Tren
+    (parte_de  [Paris])
+    (va_a  [Granada])
+    (Nombre  "PAR_GRA_tren")
+    (duracion_transporte  80)
+    (precio  55)
+)
+
+([GRA_BER_tren] of Tren
+    (parte_de  [Granada])
+    (va_a  [Berlin])
+    (Nombre  "GRA_BER_tren")
+    (duracion_transporte  100)
+    (precio  50)
+)
+
+([BER_GRA_tren] of Tren
+    (parte_de  [Berlin])
+    (va_a  [Granada])
+    (Nombre  "BER_GRA_tren")
+    (duracion_transporte  100)
+    (precio  50)
+)
+
 
 )
