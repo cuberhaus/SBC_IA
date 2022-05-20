@@ -524,6 +524,11 @@
 
 (defmodule LOGIC "logica del programa" (import MENU ?ALL) (import MAIN ?ALL))
 
+(deftemplate LOGIC::fix_aloj
+  (slot nom_ciudad (type STRING) ) 
+  ; (slot con_alojamiento (type INTEGER))
+  )
+
 ; (defrule LOGIC::escoger-ciudades-rule
 ; ?vi <- (viaje (ciudades $?ciudades))
 ; ;?todosv <- (object (is-a Ciudad) (Nombre ?nomc))
@@ -611,8 +616,8 @@
           (assert (estructura (ciudad ?nomciudad) (dias ?diasciu) (ocupacion 0) ))
            (bind ?i (+ ?i ?diasciu))
            (bind ?j (+ ?j 1))
-            (bind ?nciu (+ ?nciu 1))
-
+           (bind ?nciu (+ ?nciu 1))
+	    
            (bind ?tomodify ?i)
        )
        (if (> ?suma ?dies) then 
@@ -658,7 +663,6 @@
 ;  (printout t "funciona: " ?aloj2 crlf)
 ; )
 
-
 (defrule LOGIC::escoger-alojamiento
   (declare (salience 9) )
   (escoger-ciudades)
@@ -666,6 +670,10 @@
   ?todosv <- (object (is-a Ciudad) (Nombre ?nomc2))
   ?vi <- (viaje (alojamientos $?alojs) (ciudades $?ciu) (coste ?costev))
   (test (member ?nomc2 $?ciu))
+  (not (exists (fix_aloj (nom_ciudad ?nomc2))))
+  ; ?unif <- (fix_aloj (nom_ciudad ?nc1) )
+  ; (test (not (eq ?nc1 ?nomc2) ))
+  ; (test (= ?i 1))
   ?aloj <- (object (is-a Alojamiento) (Nombre ?nom) (Estrellas ?est) (precio ?costea) (esta_en ?ciu2))
   ?aloj_p <- (alojamiento_puntuado (alojamiento-nom ?nom_p) (fitness ?fit))
   (test (eq ?nom ?nom_p))
@@ -677,7 +685,9 @@
 
    (test (<= (+ ?costev ?costea) ?pres))
  =>
-  (printout t ?nomc2 " : " (str-cat ?ciu2) ?est crlf)
+  ; (printout t ?nomc2 " : " (str-cat ?ciu2) ?est crlf)
+
+  (assert (fix_aloj (nom_ciudad ?nomc2) ))
   (bind $?aux (insert$ $?alojs (+ (length$ ?alojs) 1 ) ?nom_p))
   (modify ?vi (alojamientos ?aux) (coste (+ ?costev ?costea)))
    )
