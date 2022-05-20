@@ -524,69 +524,21 @@
 
 (defmodule LOGIC "logica del programa" (import MENU ?ALL) (import MAIN ?ALL))
 
-(defrule LOGIC::escoger-ciudades-rule
-?vi <- (viaje (ciudades $?ciudades))
-;?todosv <- (object (is-a Ciudad) (Nombre ?nomc))
-?ciupunt <- (ciudad_puntuada (fitness ?fit) (ciudad ?nom))
-?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
-; ?vi <- (viaje (ciudades $?ciudades) )
-(test (>= ?fit 40))
-=>
-  (printout t ?nom " amb fitness: " ?fit)
-
-
-
-
-
-
-  (bind ?dies  (/ (+ ?min ?max) 2))
-  (bind $?escog_ciudades (create$ ))
-  (bind $?escog_dias_ciudades (create$ ))
-  (bind ?llista_ciutats (find-all-instances ((?instancia Ciudad)) TRUE))
-  (bind ?i 0)
-  (bind ?tomodify 0)
-  (bind ?j 1)
-  (bind ?nciu 0)
-  (while (and (< ?i ?dies) (<= ?j (length$ ?llista_ciutats)) (< ?nciu ?ciumax))
-     do
-       (bind ?diasciu (+ (mod (random) ?diasciumax) ?diasciumin))
-       (bind ?ciudad (nth$ ?j ?llista_ciutats))
-       (bind ?nomciudad (send ?ciudad get-Nombre))
-       (bind ?suma (+ ?diasciu ?i))
-       (if (<= ?suma ?dies) then
-           (bind $?escog_ciudades (insert$ $?escog_ciudades (+ (length$ $?escog_ciudades) 1 ) ?nomciudad))
-           (bind $?escog_dias_ciudades (insert$ $?escog_dias_ciudades (+ (length$ $?escog_dias_ciudades) 1 ) ?diasciu))
-
-	   ;(bind ?estruct (assert (estructura (dias ?diasciu) (ciudad ?nomciudad) (ocupacion 0) )) )
-     ;(bind $?est (insert$ $?est (+ (length$ $?est) 1 ) ?estruct))
-          (printout t ?nomciudad)
-          (assert (estructura (ciudad ?nomciudad) (dias ?diasciu) (ocupacion 0) ))
-           (bind ?i (+ ?i ?diasciu))
-           (bind ?j (+ ?j 1))
-            (bind ?nciu (+ ?nciu 1))
-
-           (bind ?tomodify ?i)
-       )
-       (if (> ?suma ?dies) then 
-        (bind ?i (+ ?i ?diasciu))
-       (bind ?j (+ ?j 1))
-       (bind ?nciu (+ ?nciu 1))
-       )
-       
-  )
-  (printout t $?escog_ciudades crlf)
-  (modify ?vi (ciudades $?escog_ciudades) (dias_por_ciudad $?escog_dias_ciudades) (duracion ?tomodify))
-  ;bind ?llista_ciutats (find-all-instances ((?instancia Ciudad)) TRUE))
-  ;(bind ?aux (send ?ciudad get-Nombre))
-  (assert (escoger-ciudades))
-)
-
 ; (defrule LOGIC::escoger-ciudades-rule
-;   (not (escoger-ciudades))
-; ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
 ; ?vi <- (viaje (ciudades $?ciudades))
+; ;?todosv <- (object (is-a Ciudad) (Nombre ?nomc))
+; ?ciupunt <- (ciudad_puntuada (fitness ?fit) (ciudad ?nom))
+; ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
 ; ; ?vi <- (viaje (ciudades $?ciudades) )
+; (test (>= ?fit 40))
 ; =>
+;   (printout t ?nom " amb fitness: " ?fit)
+
+
+
+
+
+
 ;   (bind ?dies  (/ (+ ?min ?max) 2))
 ;   (bind $?escog_ciudades (create$ ))
 ;   (bind $?escog_dias_ciudades (create$ ))
@@ -627,7 +579,55 @@
 ;   ;bind ?llista_ciutats (find-all-instances ((?instancia Ciudad)) TRUE))
 ;   ;(bind ?aux (send ?ciudad get-Nombre))
 ;   (assert (escoger-ciudades))
-; ) 
+; )
+
+(defrule LOGIC::escoger-ciudades-rule
+  (not (escoger-ciudades))
+?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
+?vi <- (viaje (ciudades $?ciudades))
+; ?vi <- (viaje (ciudades $?ciudades) )
+=>
+  (bind ?dies  (/ (+ ?min ?max) 2))
+  (bind $?escog_ciudades (create$ ))
+  (bind $?escog_dias_ciudades (create$ ))
+  (bind ?llista_ciutats (find-all-instances ((?instancia Ciudad)) TRUE))
+  (bind ?i 0)
+  (bind ?tomodify 0)
+  (bind ?j 1)
+  (bind ?nciu 0)
+  (while (and (< ?i ?dies) (<= ?j (length$ ?llista_ciutats)) (< ?nciu ?ciumax))
+     do
+       (bind ?diasciu (+ (mod (random) ?diasciumax) ?diasciumin))
+       (bind ?ciudad (nth$ ?j ?llista_ciutats))
+       (bind ?nomciudad (send ?ciudad get-Nombre))
+       (bind ?suma (+ ?diasciu ?i))
+       (if (<= ?suma ?dies) then
+           (bind $?escog_ciudades (insert$ $?escog_ciudades (+ (length$ $?escog_ciudades) 1 ) ?nomciudad))
+           (bind $?escog_dias_ciudades (insert$ $?escog_dias_ciudades (+ (length$ $?escog_dias_ciudades) 1 ) ?diasciu))
+
+	   ;(bind ?estruct (assert (estructura (dias ?diasciu) (ciudad ?nomciudad) (ocupacion 0) )) )
+     ;(bind $?est (insert$ $?est (+ (length$ $?est) 1 ) ?estruct))
+          (printout t ?nomciudad)
+          (assert (estructura (ciudad ?nomciudad) (dias ?diasciu) (ocupacion 0) ))
+           (bind ?i (+ ?i ?diasciu))
+           (bind ?j (+ ?j 1))
+            (bind ?nciu (+ ?nciu 1))
+
+           (bind ?tomodify ?i)
+       )
+       (if (> ?suma ?dies) then 
+        (bind ?i (+ ?i ?diasciu))
+       (bind ?j (+ ?j 1))
+       (bind ?nciu (+ ?nciu 1))
+       )
+       
+  )
+  (printout t $?escog_ciudades crlf)
+  (modify ?vi (ciudades $?escog_ciudades) (dias_por_ciudad $?escog_dias_ciudades) (duracion ?tomodify))
+  ;bind ?llista_ciutats (find-all-instances ((?instancia Ciudad)) TRUE))
+  ;(bind ?aux (send ?ciudad get-Nombre))
+  (assert (escoger-ciudades))
+) 
 
 (defrule LOGIC::initialize_alojamiento_puntuado
   (declare (salience 10))
@@ -660,39 +660,53 @@
 
 
 (defrule LOGIC::escoger-alojamiento
+  (declare (salience 9) )
   (escoger-ciudades)
   (not (escoger-alojamiento))
+  ?todosv <- (object (is-a Ciudad) (Nombre ?nomc2))
   ?vi <- (viaje (alojamientos $?alojs) (ciudades $?ciu) (coste ?costev))
-  ?aloj <- (object (is-a Alojamiento) (Nombre ?nom))
-  ?aloj_p <- (alojamiento_puntuado (alojamiento-nom ?nom_p))
-(test (member ?
+  (test (member ?nomc2 $?ciu))
+  ?aloj <- (object (is-a Alojamiento) (Nombre ?nom) (Estrellas ?est) (precio ?costea) (esta_en ?ciu2))
+  ?aloj_p <- (alojamiento_puntuado (alojamiento-nom ?nom_p) (fitness ?fit))
+  (test (eq ?nom ?nom_p))
+  (test (not (member ?nom $?alojs) ) )
+  ?u <- (usuario (presupuesto ?pres) (calidad-alojamiento ?cal))
+  (test (>= ?fit 10) )
+  (test (>= ?est ?cal) )
+  (test (eq ?nomc2 (str-cat ?ciu2) ))
+
+   (test (<= (+ ?costev ?costea) ?pres))
+ =>
+  (printout t ?nomc2 " : " (str-cat ?ciu2) ?est crlf)
+  (bind $?aux (insert$ $?alojs (+ (length$ ?alojs) 1 ) ?nom_p))
+  (modify ?vi (alojamientos ?aux) (coste (+ ?costev ?costea)))
    )
 
- (defrule LOGIC::escoger-alojamiento
- ?vi <- (viaje (ciudades $?ciu))
- (escoger-ciudades)
- (not (escoger-alojamiento))
- =>
- (bind ?i 1)
- (bind $?escog_aloj (create$ ))
- (while (<= ?i (length$ ?ciu))
-   do
-   (bind ?ciuaux (nth$ ?i ?ciu))
-   ;(bind ?aux (send ?ciuaux get-Nombre))
-   ;(printout t ?ciuaux crlf)
-   (bind ?llista_aloja (find-all-instances ((?inst Alojamiento)) (eq ?inst:esta_en ?ciuaux)))
-   (bind ?alojamiento (nth$ 1 ?llista_aloja))
-   ;(bind ?aloj_name (send (nth$ 1 (find-instance ((?inst Alojamiento)) (eq ?inst:esta_en ?ciuaux))) get-Nombre))
+;  (defrule LOGIC::escoger-alojamiento
+;  ?vi <- (viaje (ciudades $?ciu))
+;  (escoger-ciudades)
+;  (not (escoger-alojamiento))
+;  =>
+;  (bind ?i 1)
+;  (bind $?escog_aloj (create$ ))
+;  (while (<= ?i (length$ ?ciu))
+;    do
+;    (bind ?ciuaux (nth$ ?i ?ciu))
+;    ;(bind ?aux (send ?ciuaux get-Nombre))
+;    ;(printout t ?ciuaux crlf)
+;    (bind ?llista_aloja (find-all-instances ((?inst Alojamiento)) (eq ?inst:esta_en ?ciuaux)))
+;    (bind ?alojamiento (nth$ 1 ?llista_aloja))
+;    ;(bind ?aloj_name (send (nth$ 1 (find-instance ((?inst Alojamiento)) (eq ?inst:esta_en ?ciuaux))) get-Nombre))
 
-   (bind ?aloj_name (send ?alojamiento get-Nombre))
-   (bind $?escog_aloj (insert$ $?escog_aloj (+ (length$ $?escog_aloj) 1 ) ?aloj_name))
+;    (bind ?aloj_name (send ?alojamiento get-Nombre))
+;    (bind $?escog_aloj (insert$ $?escog_aloj (+ (length$ $?escog_aloj) 1 ) ?aloj_name))
 
-   (bind ?i (+ ?i 1))
- )
-   (modify ?vi (alojamientos $?escog_aloj))
-(assert (escoger-alojamiento))
-  (printout t "funciona: " ?nom crlf)
- )
+;    (bind ?i (+ ?i 1))
+;  )
+;    (modify ?vi (alojamientos $?escog_aloj))
+; (assert (escoger-alojamiento))
+;   (printout t "funciona: " ?nom crlf)
+;  )
 
  (defrule LOGIC::escoger-actividades
    (escoger-ciudades)

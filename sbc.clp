@@ -276,7 +276,7 @@
         (create-accessor read-write))
     ;;; Atributo que indica quan bueno es un hotel, de 1 a 5.
     (slot Estrellas
-        (type SYMBOL)
+        (type INTEGER)
         (create-accessor read-write))
 )
 
