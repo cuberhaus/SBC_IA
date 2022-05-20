@@ -37,15 +37,15 @@
   )
 
 (deftemplate MENU::estructura
-  (slot ciudad)
-  (slot dias)
-  (slot ocupacion)
+  (multislot ciudad (type STRING))
+  (slot dias (type INTEGER))
+  (slot ocupacion (type INTEGER))
   )
 
 (deftemplate MENU::viaje
   ; (multislot ciudades_pendientes_asignar)
   ; (multislot fitness_ciudades)
-  (multislot estructura)
+  ;(multislot estructura)
   (slot continentes (type SYMBOL) (allowed-values TRUE FALSE) )
   (multislot dias_por_ciudad)
   (multislot ciudades (type INSTANCE))
@@ -53,6 +53,7 @@
   (multislot transporte)
   (multislot actividades)
   (slot duracion)
+  (slot coste (type INTEGER))
   )
 
 (deftemplate MENU::alojamiento_puntuado
@@ -512,7 +513,7 @@
 (defrule LOGIC::escoger-ciudades-rule
   (not (escoger-ciudades))
 ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
-?vi <- (viaje (ciudades $?ciudades) (estructura $?est))
+?vi <- (viaje (ciudades $?ciudades))
 ; ?vi <- (viaje (ciudades $?ciudades) )
 =>
   (bind ?dies  (/ (+ ?min ?max) 2))
@@ -533,9 +534,10 @@
            (bind $?escog_ciudades (insert$ $?escog_ciudades (+ (length$ $?escog_ciudades) 1 ) ?nomciudad))
            (bind $?escog_dias_ciudades (insert$ $?escog_dias_ciudades (+ (length$ $?escog_dias_ciudades) 1 ) ?diasciu))
 
-	   (bind ?estruct (assert (estructura (dias ?diasciu) (ciudad ?nomciudad) (ocupacion 0) )) )
-           (bind $?est (insert$ $?est (+ (length$ $?est) 1 ) ?estruct))
-
+	   ;(bind ?estruct (assert (estructura (dias ?diasciu) (ciudad ?nomciudad) (ocupacion 0) )) )
+     ;(bind $?est (insert$ $?est (+ (length$ $?est) 1 ) ?estruct))
+          (printout t ?nomciudad)
+          (assert (estructura (ciudad ?nomciudad) (dias ?diasciu) (ocupacion 0) ))
            (bind ?i (+ ?i ?diasciu))
            (bind ?j (+ ?j 1))
             (bind ?nciu (+ ?nciu 1))
@@ -565,19 +567,19 @@
 
   ; (assert (alojamiento_puntuado (alojamiento ?aloj ) (fitness ?puntuacion)))
 
-(defrule LOGIC::evaluate-alojamiento
-  ; (declare (salience 40))
-  (escoger-ciudades)
+;(defrule LOGIC::evaluate-alojamiento
+;  ; (declare (salience 40))
+;  (escoger-ciudades)
   ; ?user <- (usuario)
-  ?aloj <- (object  (is-a Alojamiento) (Distancia_a_centro ?dist) (Nombre ?nom) )
-  ?aloj_punt <- (alojamiento_puntuado (alojamiento ?aloj2) (fitness ?fit))	    
+;  ?aloj <- (object  (is-a Alojamiento) (Distancia_a_centro ?dist) (Nombre ?nom) )
+;  ?aloj_punt <- (alojamiento_puntuado (alojamiento ?aloj2) (fitness ?fit))	    
  ; (test (eq (str-cat ?aloj) (str-cat ?aloj2)))
- (test (eq ?aloj ?aloj2))
-=> 
-  (bind ?puntuacion (+ ?fit 10) ) 
-  (modify ?aloj_punt (fitness ?puntuacion))
-  (printout t "funciona: " ?aloj ?aloj_punt crlf)
-)
+; (test (eq ?aloj ?aloj2))
+;=> 
+;  (bind ?puntuacion (+ ?fit 10) ) 
+;  (modify ?aloj_punt (fitness ?puntuacion))
+;  (printout t "funciona: " ?aloj ?aloj_punt crlf)
+;)
 
 ;  (defrule LOGIC::escoger-alojamiento
 ;  ?vi <- (viaje (ciudades $?ciu))
@@ -605,23 +607,38 @@
 ;   (printout t "funciona: " ?nom crlf)
 ;  )
 
-; (defrule LOGIC::escoger-actividades
-;   ; ?vi <- (viaje (estructura $?estrc) (actividades $?actividade))
-;   ?vi <- (viaje (estructura (ciudad ?c) (dias ?d) (ocupacion ?o)) (actividades $?actividade)) ;; me marco un triple?
-;   ; ?est <- (estructura (ciudad ?c) (dias ?d) (ocupacion ?o))
-;   (test (member ?est $?estrc))
-;   ?todosv <- (object (is-a Ciudad) (Nombre ?nomc))
-;   (test (member ?c $?ciu))
+ (defrule LOGIC::escoger-actividades
+   (escoger-ciudades)
+   ?vi <- (viaje (ciudades $?ciu) (actividades $?actividade))
+   ;?vi <- (viaje (estructura (ciudad ?c) (dias ?d) (ocupacion ?o)) (actividades $?actividade)) ;; me marco un triple?
+   ?est <- (estructura (ciudad ?c) (dias ?d) (ocupacion ?o))
+   ?todosv <- (object (is-a Ciudad) (Nombre ?nomc))
+   (test (member ?c $?ciu))
 
-;   ?activ <- (object (is-a Actividad) (Nombre ?nactiv) (Duracion_actividad ?duracion) (se_hacen_en ?nhacen))
-;   (test (<= (* ?d 100) (+ ?o ?duracion)))
-;   (test (eq ?nomc (member class ?nhacen)))
+   ;?est <- (estructura (ciudad ?c) (dias ?d) (ocupacion ?o))
+   ;(test (eq ?c $?nomc))
+
+
+   ?activ <- (object (is-a Actividad) (Nombre ?nactiv) (Duracion_actividad ?duracion) (se_hacen_en ?nhacen))
+
+   (test (not (member ?nactiv $?actividade)))
+   (test (<= (+ ?o ?duracion) (* ?d 100)))
+   (test (eq ?c (str-cat ?nhacen)))
   
-;  =>
-;   (bind ?o (+ ?o ?duracion))
-;   (bind $?actividade (insert$ $?actividade (+ (length$ ?actividade) 1 ) ?nactiv))
-  
-; )
+  =>
+  (if (not (member ?c $?actividade)) then
+   (bind ?firstactiv (create$ ?c ?nactiv))
+   (bind $?aux2 (insert$ $?actividade (+ (length$ ?actividade) 1 ) ?firstactiv))
+   (modify ?vi (actividades ?aux2))
+  else
+    (bind $?aux (insert$ $?actividade (+ (length$ ?actividade) 1 ) ?nactiv))
+    (modify ?vi (actividades ?aux))
+  )
+  (printout t "works " ?c "  activity: " ?nactiv crlf)
+   ;(bind ?o (+ ?o ?duracion))
+  (modify ?est (ocupacion (+ ?o ?duracion)))
+   ;(assert (estructura (ciudad ?c) (dias ?d) (ocupacion (+ ?o ?duracion)) ))
+ )
 
  ;(defrule LOGIC::escoger-actividades
  ;  ?vi <- (viaje (ciudades $?ciu) (dias_por_ciudad $?c_dia_i))
@@ -680,10 +697,10 @@
 )
 
 (defrule LOGIC::escoger-transporte
-  (declare (salience 24))
+  ;(declare (salience 24))
   (escoger-ciudades)
   (assertsciudades)
-   ?vi <- (viaje (ciudades $?ciu))
+   ?vi <- (viaje (ciudades $?ciu) (transporte $?medios) (coste ?costev))
    ?todosv <- (object (is-a Ciudad) (Nombre ?nomc2))
    ?todosv2 <- (object (is-a Ciudad) (Nombre ?nomc3))
    (test (not(eq ?nomc2 ?nomc3)))
@@ -692,10 +709,13 @@
 
    ?next <- (nextciudad (desde ?c1) (hacia ?c2))
    (test (and (eq ?c1 ?nomc2) (eq ?c2 ?nomc3)))
-   ?u <- (usuario (medios-de-transporte $?trans))
-   ?transporte <- (object (is-a Transporte) (Nombre ?nomt) (va_a ?va) (parte_de ?parte))
+   ?u <- (usuario (medios-de-transporte $?trans) (presupuesto ?pres))
+   ?transporte <- (object (is-a Transporte) (Nombre ?nomt) (va_a ?va) (parte_de ?parte) (precio ?costet))
    (test (and (eq ?nomc2 (str-cat ?va)) (eq ?nomc3 (str-cat ?parte))))
    (test (not( member (lowcase (class ?transporte)) $?trans)))
+   (test (not(member ?nomt $?medios)))
+
+   (test (<= (+ ?costev ?costet) ?pres))
   =>
   ;(printout t "holi")
   (bind ?xd (eq ?nomc2 ?parte))
@@ -704,6 +724,8 @@
   ;(printout t (instance-name ?va) "    " (instance-name ?parte))
   (printout t ?nomc2 "   and   " ?nomc3 "   and   " ?nomt crlf)
   ;(assert (escoger-transporte))
+  (bind $?aux (insert$ $?medios (+ (length$ ?medios) 1 ) ?nomt))
+  (modify ?vi (transporte $?aux) (coste (+ ?costev ?costet)))
 )
 
 ;  )

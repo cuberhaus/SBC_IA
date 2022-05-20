@@ -606,10 +606,10 @@
     (Nombre "Paseo_Campos_Eliseos")
     )
 
-    ([Berlín] of Ciudad
+    ([Berlin] of Ciudad
 	 (Continente  "Europa")
          (Numero_de_habitantes  377000)
-    (Nombre "Berlín")
+    (Nombre "Berlin")
     )
 
     ([Grand_Hyatt_Berlin] of Hotel
