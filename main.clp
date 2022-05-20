@@ -616,30 +616,32 @@
 
  (defrule LOGIC::escoger-actividades
    (escoger-ciudades)
-   ?vi <- (viaje (ciudades $?ciu) (actividades $?actividade))
+   ?vi <- (viaje (ciudades $?ciu) (actividades $?actividade) (coste ?costev))
    ;?vi <- (viaje (estructura (ciudad ?c) (dias ?d) (ocupacion ?o)) (actividades $?actividade)) ;; me marco un triple?
    ?est <- (estructura (ciudad ?c) (dias ?d) (ocupacion ?o))
    ?todosv <- (object (is-a Ciudad) (Nombre ?nomc))
    (test (member ?c $?ciu))
-
+   ?u <- (usuario (presupuesto ?pres))
    ;?est <- (estructura (ciudad ?c) (dias ?d) (ocupacion ?o))
    ;(test (eq ?c $?nomc))
 
 
-   ?activ <- (object (is-a Actividad) (Nombre ?nactiv) (Duracion_actividad ?duracion) (se_hacen_en ?nhacen))
+   ?activ <- (object (is-a Actividad) (Nombre ?nactiv) (Duracion_actividad ?duracion) (se_hacen_en ?nhacen) (precio ?costea))
 
    (test (not (member ?nactiv $?actividade)))
    (test (<= (+ ?o ?duracion) (* ?d 100)))
    (test (eq ?c (str-cat ?nhacen)))
+
+   (test (<= (+ ?costev ?costea) ?pres))
   
   =>
   (if (not (member ?c $?actividade)) then
    (bind ?firstactiv (create$ ?c ?nactiv))
    (bind $?aux2 (insert$ $?actividade (+ (length$ ?actividade) 1 ) ?firstactiv))
-   (modify ?vi (actividades ?aux2))
+   (modify ?vi (actividades ?aux2) (coste (+ ?costev ?costea)))
   else
     (bind $?aux (insert$ $?actividade (+ (length$ ?actividade) 1 ) ?nactiv))
-    (modify ?vi (actividades ?aux))
+    (modify ?vi (actividades ?aux) (coste (+ ?costev ?costea)))
   )
   (printout t "works " ?c "  activity: " ?nactiv crlf)
    ;(bind ?o (+ ?o ?duracion))
@@ -804,7 +806,7 @@
 (defrule RESULTADOS:printar_viaje-rule
   (not (printar_viaje))
   (printar_plantilla)
-  ?vi <- (viaje (duracion ?d) (ciudades $?ciu) (dias_por_ciudad $?diasciu) (actividades $?activ) (alojamientos $?aloj) (transporte $?trans))
+  ?vi <- (viaje (duracion ?d) (ciudades $?ciu) (dias_por_ciudad $?diasciu) (actividades $?activ) (alojamientos $?aloj) (transporte $?trans) (coste ?costev))
   =>
   (printout t "Duracion del viaje: " ?d  " dias" crlf crlf)
 
@@ -812,11 +814,11 @@
   (bind ?i 1)
   (while (<= ?i (length$ ?ciu))
     (bind ?ciudad (nth$ ?i ?ciu))
-    (bind ?nciudad (send ?ciudad get-Nombre))
+    ;(bind ?nciudad (send ?ciudad get-Nombre))
 
     (bind ?diasporciu (nth ?i ?diasciu))
 
-    (printout t ?nciudad "(" ?diasporciu "), " )
+    (printout t ?ciudad "(" ?diasporciu "), " )
     (bind ?i (+ ?i 1)) 
   )
   (printout t crlf crlf "Visitas: ")
@@ -842,6 +844,7 @@
     (printout t ?ntrans ", ")
      (bind ?l (+ ?l 1)) 
   )
+  (printout t "Coste total del viaje: " ?costev crlf)
   (printout t crlf)
   (assert (printar_viaje))
 )
