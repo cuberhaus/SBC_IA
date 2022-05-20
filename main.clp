@@ -512,7 +512,8 @@
 (defrule LOGIC::escoger-ciudades-rule
   (not (escoger-ciudades))
 ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
-?vi <- (viaje (ciudades $?ciudades))
+?vi <- (viaje (ciudades $?ciudades) (estructura $?est))
+; ?vi <- (viaje (ciudades $?ciudades) )
 =>
   (bind ?dies  (/ (+ ?min ?max) 2))
   (bind $?escog_ciudades (create$ ))
@@ -531,6 +532,9 @@
        (if (<= ?suma ?dies) then
            (bind $?escog_ciudades (insert$ $?escog_ciudades (+ (length$ $?escog_ciudades) 1 ) ?nomciudad))
            (bind $?escog_dias_ciudades (insert$ $?escog_dias_ciudades (+ (length$ $?escog_dias_ciudades) 1 ) ?diasciu))
+
+	   (bind ?estruct (assert (estructura (dias ?diasciu) (ciudad ?nomciudad) (ocupacion 0) )) )
+           (bind $?est (insert$ $?est (+ (length$ $?est) 1 ) ?estruct))
 
            (bind ?i (+ ?i ?diasciu))
            (bind ?j (+ ?j 1))
@@ -561,57 +565,13 @@
 
   ; (assert (alojamiento_puntuado (alojamiento ?aloj ) (fitness ?puntuacion)))
 
-; (defrule LOGIC::evaluate-alojamiento
-;   ?user <- (usuario (ninos ?nin) (adolescentes ?adol) (duracion-o-calidad ?dur_o_cal) )
-;   ?aloj <- (object  (is-a Alojamiento) (esta_en ?esta_en)
-; 		    (Con_piscina ?pisc) (Distancia_a_centro ?dist) (Nombre ?nom) (precio ?prec))
-;   ?aloj_punt <- (alojamiento_puntuado (alojamiento ?aloj_punt) (fitness ?fit))	    
-;  (test (eq ?aloj ?aloj_punt))
-; => 
-;   (bind ?puntuacion (+ ?fit 10) ) 
-;   (modify ?aloj_punt (fitness ?puntuacion))
-;   (printout t "funciona: " ?nom crlf)
-; )
-; (defrule LOGIC::evaluate-alojamiento
-;   ?user <- (usuario (ninos ?nin) (adolescentes ?adol) (duracion-o-calidad ?dur_o_cal) )
-;   ?aloj <- (object  (is-a Alojamiento) (esta_en ?esta_en)
-; 		    (Con_piscina ?pisc) (Distancia_a_centro ?dist) (Nombre ?nom) (precio ?prec))
-;   ?aloj_punt <- (alojamiento_puntuado (alojamiento ?aloj_punt) (fitness ?fit))	    
-;  (test (eq ?aloj ?aloj_punt))
-; => 
-;   (bind ?puntuacion (+ ?fit 10) ) 
-;   (modify ?aloj_punt (fitness ?puntuacion))
-;   (printout t "funciona: " ?nom crlf)
-; )
-; (defrule LOGIC::evaluate-alojamiento
-;   ?user <- (usuario (ninos ?nin) (adolescentes ?adol) (duracion-o-calidad ?dur_o_cal) )
-;   ?aloj <- (object  (is-a Alojamiento) (esta_en ?esta_en)
-; 		    (Con_piscina ?pisc) (Distancia_a_centro ?dist) (Nombre ?nom) (precio ?prec))
-;   ?aloj_punt <- (alojamiento_puntuado (alojamiento ?aloj_punt) (fitness ?fit))	    
-;  (test (eq ?aloj ?aloj_punt))
-; => 
-;   (bind ?puntuacion (+ ?fit 10) ) 
-;   (modify ?aloj_punt (fitness ?puntuacion))
-;   (printout t "funciona: " ?nom crlf)
-; )
-; (defrule LOGIC::evaluate-alojamiento
-;   ?user <- (usuario (ninos ?nin) (adolescentes ?adol) (duracion-o-calidad ?dur_o_cal) )
-;   ?aloj <- (object  (is-a Alojamiento) (esta_en ?esta_en)
-; 		    (Con_piscina ?pisc) (Distancia_a_centro ?dist) (Nombre ?nom) (precio ?prec))
-;   ?aloj_punt <- (alojamiento_puntuado (alojamiento ?aloj_punt) (fitness ?fit))	    
-;  (test (eq ?aloj ?aloj_punt))
-; => 
-;   (bind ?puntuacion (+ ?fit 10) ) 
-;   (modify ?aloj_punt (fitness ?puntuacion))
-;   (printout t "funciona: " ?nom crlf)
-; )
 (defrule LOGIC::evaluate-alojamiento
   ; (declare (salience 40))
   (escoger-ciudades)
   ; ?user <- (usuario)
   ?aloj <- (object  (is-a Alojamiento) (Distancia_a_centro ?dist) (Nombre ?nom) )
   ?aloj_punt <- (alojamiento_puntuado (alojamiento ?aloj2) (fitness ?fit))	    
- ; (test (eq (str-cat ?aloj) (str-cat ?aloj_punt)))
+ ; (test (eq (str-cat ?aloj) (str-cat ?aloj2)))
  (test (eq ?aloj ?aloj2))
 => 
   (bind ?puntuacion (+ ?fit 10) ) 
@@ -646,8 +606,9 @@
 ;  )
 
 ; (defrule LOGIC::escoger-actividades
-;   ?vi <- (viaje (estructura $?estrc) (actividades $?actividade))
-;   ?est <- (estructura (ciudad ?c) (dias ?d) (ocupacion ?o))
+;   ; ?vi <- (viaje (estructura $?estrc) (actividades $?actividade))
+;   ?vi <- (viaje (estructura (ciudad ?c) (dias ?d) (ocupacion ?o)) (actividades $?actividade)) ;; me marco un triple?
+;   ; ?est <- (estructura (ciudad ?c) (dias ?d) (ocupacion ?o))
 ;   (test (member ?est $?estrc))
 ;   ?todosv <- (object (is-a Ciudad) (Nombre ?nomc))
 ;   (test (member ?c $?ciu))
@@ -661,6 +622,7 @@
 ;   (bind $?actividade (insert$ $?actividade (+ (length$ ?actividade) 1 ) ?nactiv))
   
 ; )
+
  ;(defrule LOGIC::escoger-actividades
  ;  ?vi <- (viaje (ciudades $?ciu) (dias_por_ciudad $?c_dia_i))
  ; (escoger-ciudades)
