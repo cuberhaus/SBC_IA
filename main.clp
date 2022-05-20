@@ -58,7 +58,7 @@
 
 (deftemplate MENU::alojamiento_puntuado
   (slot fitness (type INTEGER) (range 0 100) (default 0))
-  (slot alojamiento (type INSTANCE) )
+  (slot alojamiento-nom (type STRING) )
   )
 
 (deftemplate MENU::nextciudad
@@ -560,26 +560,29 @@
 
 (defrule LOGIC::initialize_alojamiento_puntuado
   (declare (salience 10))
- ?aloj <- (object (is-a Alojamiento))
+ (escoger-ciudades)
+ ?aloj <- (object (is-a Alojamiento) (Nombre ?nom))
 =>
-(assert (alojamiento_puntuado (alojamiento ?aloj) ) )
+(assert (alojamiento_puntuado (alojamiento-nom ?nom) (fitness 0) ) )
+; (assert (ini_alojamientos))
 )
 
   ; (assert (alojamiento_puntuado (alojamiento ?aloj ) (fitness ?puntuacion)))
 
-;(defrule LOGIC::evaluate-alojamiento
-;  ; (declare (salience 40))
-;  (escoger-ciudades)
+(defrule LOGIC::evaluate-alojamiento
+ ; (declare (salience 40))
+  (escoger-ciudades)
+  ; (ini_alojamientos)
   ; ?user <- (usuario)
-;  ?aloj <- (object  (is-a Alojamiento) (Distancia_a_centro ?dist) (Nombre ?nom) )
-;  ?aloj_punt <- (alojamiento_puntuado (alojamiento ?aloj2) (fitness ?fit))	    
- ; (test (eq (str-cat ?aloj) (str-cat ?aloj2)))
-; (test (eq ?aloj ?aloj2))
-;=> 
-;  (bind ?puntuacion (+ ?fit 10) ) 
-;  (modify ?aloj_punt (fitness ?puntuacion))
-;  (printout t "funciona: " ?aloj ?aloj_punt crlf)
-;)
+ ?aloj <- (object  (is-a Alojamiento) (Distancia_a_centro ?dist) (Nombre ?nom) )
+ ?aloj_punt <- (alojamiento_puntuado (alojamiento-nom ?aloj2) (fitness ?fit))	    
+ (test (eq (str-cat ?nom) (str-cat ?aloj2)))
+; (test (eq ?nom ?aloj2))
+=> 
+ (bind ?puntuacion (+ ?fit 10) ) 
+ (modify ?aloj_punt (fitness ?puntuacion))
+ (printout t "funciona: " ?aloj ?aloj_punt crlf)
+)
 
 ;  (defrule LOGIC::escoger-alojamiento
 ;  ?vi <- (viaje (ciudades $?ciu))
