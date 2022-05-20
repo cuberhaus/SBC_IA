@@ -588,31 +588,41 @@
 ;  (printout t "funciona: " ?aloj ?aloj_punt crlf)
 ; )
 
-;  (defrule LOGIC::escoger-alojamiento
-;  ?vi <- (viaje (ciudades $?ciu))
-;  (escoger-ciudades)
-;  (not (escoger-alojamiento))
-;  =>
-;  (bind ?i 1)
-;  (bind $?escog_aloj (create$ ))
-;  (while (<= ?i (length$ ?ciu))
-;    do
-;    (bind ?ciuaux (nth$ ?i ?ciu))
-;    ;(bind ?aux (send ?ciuaux get-Nombre))
-;    ;(printout t ?ciuaux crlf)
-;    (bind ?llista_aloja (find-all-instances ((?inst Alojamiento)) (eq ?inst:esta_en ?ciuaux)))
-;    (bind ?alojamiento (nth$ 1 ?llista_aloja))
-;    ;(bind ?aloj_name (send (nth$ 1 (find-instance ((?inst Alojamiento)) (eq ?inst:esta_en ?ciuaux))) get-Nombre))
 
-;    (bind ?aloj_name (send ?alojamiento get-Nombre))
-;    (bind $?escog_aloj (insert$ $?escog_aloj (+ (length$ $?escog_aloj) 1 ) ?aloj_name))
+(defrule LOGIC::escoger-alojamiento
+  (escoger-ciudades)
+  (not (escoger-alojamiento))
+  ?vi <- (viaje (alojamientos $?alojs) (ciudades $?ciu) (coste ?costev))
+  ?aloj <- (object (is-a Alojamiento) (Nombre ?nom))
+  ?aloj_p <- (alojamiento_puntuado (alojamiento-nom ?nom_p))
+(test (member ?
+   )
 
-;    (bind ?i (+ ?i 1))
-;  )
-;    (modify ?vi (alojamientos $?escog_aloj))
-; (assert (escoger-alojamiento))
-;   (printout t "funciona: " ?nom crlf)
-;  )
+ (defrule LOGIC::escoger-alojamiento
+ ?vi <- (viaje (ciudades $?ciu))
+ (escoger-ciudades)
+ (not (escoger-alojamiento))
+ =>
+ (bind ?i 1)
+ (bind $?escog_aloj (create$ ))
+ (while (<= ?i (length$ ?ciu))
+   do
+   (bind ?ciuaux (nth$ ?i ?ciu))
+   ;(bind ?aux (send ?ciuaux get-Nombre))
+   ;(printout t ?ciuaux crlf)
+   (bind ?llista_aloja (find-all-instances ((?inst Alojamiento)) (eq ?inst:esta_en ?ciuaux)))
+   (bind ?alojamiento (nth$ 1 ?llista_aloja))
+   ;(bind ?aloj_name (send (nth$ 1 (find-instance ((?inst Alojamiento)) (eq ?inst:esta_en ?ciuaux))) get-Nombre))
+
+   (bind ?aloj_name (send ?alojamiento get-Nombre))
+   (bind $?escog_aloj (insert$ $?escog_aloj (+ (length$ $?escog_aloj) 1 ) ?aloj_name))
+
+   (bind ?i (+ ?i 1))
+ )
+   (modify ?vi (alojamientos $?escog_aloj))
+(assert (escoger-alojamiento))
+  (printout t "funciona: " ?nom crlf)
+ )
 
  (defrule LOGIC::escoger-actividades
    (escoger-ciudades)
