@@ -274,6 +274,10 @@
     (slot precio
         (type FLOAT)
         (create-accessor read-write))
+    ;;; Atributo que indica quan bueno es un hotel, de 1 a 5.
+    (slot Estrellas
+        (type SYMBOL)
+        (create-accessor read-write))
 )
 
 (defclass Albergue
@@ -298,10 +302,6 @@
     (is-a Alojamiento)
     (role concrete)
     (pattern-match reactive)
-    ;;; Atributo que indica quan bueno es un hotel, de 1 a 5.
-    (slot Estrellas
-        (type SYMBOL)
-        (create-accessor read-write))
     ;;; Atributo que indica si un hotel es exclusivamente para adultos o no.
     (multislot Para_adultos
         (type SYMBOL)

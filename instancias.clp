@@ -16,6 +16,7 @@
     )
 
     ([Casa_de_Afora] of Casa_Rural
+     (Estrellas  4)
 	 (esta_en [Santiago_de_Compostela])
 	 (Distancia_a_centro  2.9)
 	 (precio  150)
@@ -83,6 +84,7 @@
     )
 
     ([Hotel_Carlton_On_The_Grand_Canal] of Hotel
+     (Estrellas  5)
 	 (esta_en [Venecia])
 	 (Distancia_a_centro  1.5)
 	 (precio  200)
@@ -90,6 +92,7 @@
     )
 
     ([Ca_San_Polo] of Hotel
+     (Estrellas  3)
 	 (esta_en [Venecia])
 	 (Distancia_a_centro  0.9)
 	 (precio  100)
@@ -124,6 +127,7 @@
     )
 
     ([Hotel_Andalucia_Center] of Hotel
+     (Estrellas  3)
 	 (esta_en [Granada])
 	 (Distancia_a_centro  6)
 	 (precio  100)
@@ -131,6 +135,7 @@
     )
 
     ([Candil_suite_Realejo] of Hotel
+     (Estrellas  4)
 	 (esta_en [Granada])
 	 (Distancia_a_centro  0.5)
 	 (precio  150)
@@ -165,6 +170,7 @@
     )
 
     ([Hotel_Royal_Prague] of Hotel
+     (Estrellas  4)
 	 (esta_en [Praga])
 	 (Distancia_a_centro  2.3)
 	 (precio  150)
@@ -172,6 +178,7 @@
     )
 
     ([Hotel_Oya] of Hotel
+     (Estrellas  3)
 	 (esta_en [Praga])
 	 (Distancia_a_centro  3.9)
 	 (precio  100)
@@ -206,6 +213,7 @@
     )
 
     ([Joy_hotel] of Hotel
+     (Estrellas  3)
 	 (esta_en [Amsterdam])
 	 (Distancia_a_centro  8.5)
 	 (precio  100)
@@ -213,6 +221,7 @@
     )
 
     ([Innside_Melia_Amsterdam] of Hotel
+     (Estrellas  5)
 	 (esta_en [Amsterdam])
 	 (Distancia_a_centro  4)
 	 (precio  200)
@@ -248,6 +257,7 @@
     )
 
     ([Piece_Hostel_Sanjo] of Hotel
+     (Estrellas  4)
 	 (esta_en [Kioto])
 	 (Distancia_a_centro  1.6)
 	 (precio  150)
@@ -255,6 +265,7 @@
     )
 
     ([Hotel_the_m_kyoto] of Hotel
+     (Estrellas  3)
 	 (esta_en [Kioto])
 	 (Distancia_a_centro  2.2)
 	 (precio  100)
@@ -289,6 +300,7 @@
     )
 
     ([Intercontiental_tahiti_resort] of Resort
+     (Estrellas  5)
 	 (esta_en [Tahiti])
 	 (Distancia_a_centro  0)
 	 (precio  300)
@@ -296,6 +308,7 @@
     )
 
     ([Vanira_Lodge] of Casa_Rural
+     (Estrellas  4)
 	 (esta_en [Tahiti])
 	 (Distancia_a_centro  0)
 	 (precio  150)
@@ -330,6 +343,7 @@
     )
 
     ([Arrecifes_house] of Hotel
+     (Estrellas  4)
 	 (esta_en [Cancun])
 	 (Distancia_a_centro  5.6)
 	 (precio  200)
@@ -337,6 +351,7 @@
     )
 
     ([Dreams_visita_cancun_resort] of Resort
+     (Estrellas  5)
 	 (esta_en [Cancun])
 	 (Distancia_a_centro  13.7)
 	 (precio  300)
@@ -371,6 +386,7 @@
     )
 
     ([Best_family_vacation_resort] of Resort
+     (Estrellas  5)
 	 (esta_en [Punta_cana])
 	 (Distancia_a_centro  8)
 	 (precio  300)
@@ -378,6 +394,7 @@
     )
 
     ([Gran_bavaro_princess] of Hotel
+     (Estrellas  4)
 	 (esta_en [Punta_cana])
 	 (Distancia_a_centro  10.7)
 	 (precio  200)
@@ -412,6 +429,7 @@
     )
 
     ([Polo_towers] of Hotel
+     (Estrellas  4)
 	 (esta_en [Las_vegas])
 	 (Distancia_a_centro  1.4)
 	 (precio  200)
@@ -419,6 +437,7 @@
     )
 
     ([Sahara_las_vegas] of Hotel
+     (Estrellas  5)
 	 (esta_en [Las_vegas])
 	 (Distancia_a_centro  2.8)
 	 (precio  300)
@@ -453,6 +472,7 @@
     )
 
     ([Polo_towers] of Hotel
+     (Estrellas  4)
 	 (esta_en [Las_vegas])
 	 (Distancia_a_centro  1.4)
 	 (precio  200)
@@ -460,6 +480,7 @@
     )
 
     ([Sahara_las_vegas] of Hotel
+     (Estrellas  5)
 	 (esta_en [Las_vegas])
 	 (Distancia_a_centro  2.8)
 	 (precio  300)
@@ -494,6 +515,7 @@
     )
 
     ([Modern_home] of Hotel
+     (Estrellas  4)
 	 (esta_en [Miami])
 	 (Distancia_a_centro  13.1)
 	 (precio  150)
@@ -501,6 +523,7 @@
     )
 
     ([Hampton_miami] of Hotel
+     (Estrellas  5)
 	 (esta_en [Miami])
 	 (Distancia_a_centro  4.1)
 	 (precio  250)
@@ -788,6 +811,7 @@
     )
 
     ([Legacy_Resort_Hotel_and_Spa] of Resort
+     (Estrellas  4)
          (Para_adultos "false")
          (esta_en [San_Diego])
 	 (Distancia_a_centro  5.3)
