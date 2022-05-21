@@ -159,48 +159,6 @@
   (assert(preguntado-nivel-cultural))
 )
 
-(defrule MENU::preguntar-con-ninos "Inferimos si hay niños con las edades introducidas"
-  (not (preguntado-con-ninos))
- ?user <- (usuario (edades $?edades))
- =>
-
-(bind ?i 1)
- (while (<= ?i (length$ ?edades))
-   do
-   (bind ?edad (nth$ ?i ?edades))
-   (if (<= ?edad 12)
-       then (modify ?user (ninos TRUE)))
-   (bind ?i (+ ?i 1))
-   )
-  
-  (assert(preguntado-con-ninos))
-)
-
-(defrule MENU::preguntar-con-adolescentes "Inferimos si hay adolescentes con las edades introducidas"
-  (not (preguntado-con-adolescentes))
- ?user <- (usuario (edades $?edades))
-  (preguntado-edad)
- =>
-(bind ?i 1)
- (while (<= ?i (length$ ?edades))
-   do
-   (bind ?edad (nth$ ?i ?edades))
-   (if (and (<= ?edad 20) (>= ?edad 12))
-       then (modify ?user (adolescentes TRUE)))
-   (bind ?i (+ ?i 1))
-   )
-  (assert(preguntado-con-adolescentes))
-)
-
-(defrule MENU::preguntar-con-numero-integrantes "Inferimos el numero de integrantes por la cantidad de edades introducidas"
-  (not (preguntado-con-numero-integrantes))
-  (preguntado-edad)
- ?user <- (usuario (edades $?edades))
- =>
- (bind ?num_integrantes (length$ ?edades) )
-  (modify ?user (numero-integrantes ?num_integrantes))
-  (assert(preguntado-con-numero-integrantes))
-)
 
 (defrule MENU::preguntar-tipo-de-viaje
   (not (preguntado-tipo-de-viaje))
@@ -318,9 +276,6 @@
 (defrule MENU::acaban-las-preguntas
   (preguntado-edad)
   (preguntado-nivel-cultural)
-  (preguntado-con-ninos)
-  (preguntado-con-adolescentes)
-  (preguntado-con-numero-integrantes)
   (preguntado-tipo-de-viaje)
   (preguntado-ciudades-preferidas)
   (preguntado-dias)
@@ -345,9 +300,53 @@
 (defmodule INFERENCIA "Inferir propiedades de los usuarios con los datos obtenidos"
   (import MENU ?ALL) (import MAIN ?ALL))
 
+(defrule INFERENCIA::preguntar-con-ninos "Inferimos si hay niños con las edades introducidas"
+  (not (preguntado-con-ninos))
+ ?user <- (usuario (edades $?edades))
+ =>
+
+(bind ?i 1)
+ (while (<= ?i (length$ ?edades))
+   do
+   (bind ?edad (nth$ ?i ?edades))
+   (if (<= ?edad 12)
+       then (modify ?user (ninos TRUE)))
+   (bind ?i (+ ?i 1))
+   )
+  
+  (assert(preguntado-con-ninos))
+)
+
+(defrule INFERENCIA::preguntar-con-adolescentes "Inferimos si hay adolescentes con las edades introducidas"
+  (not (preguntado-con-adolescentes))
+ ?user <- (usuario (edades $?edades))
+  (preguntado-edad)
+ =>
+(bind ?i 1)
+ (while (<= ?i (length$ ?edades))
+   do
+   (bind ?edad (nth$ ?i ?edades))
+   (if (and (<= ?edad 20) (>= ?edad 12))
+       then (modify ?user (adolescentes TRUE)))
+   (bind ?i (+ ?i 1))
+   )
+  (assert(preguntado-con-adolescentes))
+)
+
+(defrule INFERENCIA::preguntar-con-numero-integrantes "Inferimos el numero de integrantes por la cantidad de edades introducidas"
+  (not (preguntado-con-numero-integrantes))
+  (preguntado-edad)
+ ?user <- (usuario (edades $?edades))
+ =>
+ (bind ?num_integrantes (length$ ?edades) )
+  (modify ?user (numero-integrantes ?num_integrantes))
+  (assert(preguntado-con-numero-integrantes))
+)
+
 
 (defrule INFERENCIA::obtenertipousuarios
   (not (inferencia_tipo_usuario_asked))
+  (preguntado-con-numero-integrantes)
   ?user <- (usuario (ninos ?n) (numero-integrantes ?num_integrantes))
   =>
   (printout t ?num_integrantes crlf) 
@@ -499,9 +498,12 @@
   (inferencia_tipo_usuario_asked)
   ; (longitud_viaje)
   (tipo_viaje_inferido)
+
+  (preguntado-con-ninos)
+  (preguntado-con-adolescentes)
+  (preguntado-con-numero-integrantes)
   =>
    (focus LOGIC)
-	  ; aqui seria un buen momento para cambiar el focus
 )
 
 ;---------------------------------------------------------------------------------------
@@ -902,7 +904,6 @@
   (bind ?i 1)
   (while (<= ?i (length$ ?ciu))
     (bind ?ciudad (nth$ ?i ?ciu))
-    ;(bind ?nciudad (send ?ciudad get-Nombre))
 
     (bind ?diasporciu (nth ?i ?diasciu))
 
