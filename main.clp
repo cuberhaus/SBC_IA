@@ -388,13 +388,14 @@
 (defrule INFERENCIA::ciudades_romanticas
   ?user <- (usuario (tipo-viaje ?tviaje) )
   ?city <- (object  (is-a Ciudad) (Nombre ?nom) )
-  (test (eq ?tviaje "romantico"))
+  (test (eq ((str-cat ?tviaje) "romantico"))
+ ; (not (exists ())
  =>
   (bind ?puntuacion 50)
   (bind ?puntuacionmala 10)
   (bind ?ciudadesromanticas (create$ "paris" "venecia" "barcelona" "nueva_york" "granada" "praga" "amsterdam" "kioto"))
   (if (member (lowcase ?nom) $?ciudadesromanticas)
-      then (assert (ciudad_puntuada (ciudad ?city ) (fitness ?puntuacion)))
+      then (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacion)))
 	else
     (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacionmala)))	
   )
@@ -403,28 +404,31 @@
 (defrule INFERENCIA::ciudades_descanso
   ?user <- (usuario (tipo-viaje ?tviaje) )
   ?city <- (object  (is-a Ciudad) (Nombre ?nom) )
-;(test (eq ?tviaje "descanso"))
+  (test (eq (str-cat ?tviaje) "descanso"))
 =>
-    (bind ?puntuacion 50)
-    (bind ?puntuacionmala 10)
-    (bind $?ciudades_descanso (create$ tahiti cancun punta_cana las_vegas miami))
-    (if (member (lowcase ?nom) $?ciudades_descanso) then 
-						    (assert (ciudad_puntuada (ciudad ?city ) (fitness ?puntuacion)))
-    else
-    (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacionmala)))	
+  ; (printout t ?tviaje ": descanso"crlf)
+  (bind ?puntuacion 50)
+  (bind ?puntuacionmala 10)
+  (bind $?ciudades_descanso (create$ "tahiti" "cancun" "punta_cana" "las_vegas" "miami"))
+  (if (member (lowcase ?nom) $?ciudades_descanso) then 
+					  ; (printout t ?tviaje ": if"crlf)
+					  (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacion)))
+   else
+     (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacionmala)))	
     )
 )
 
 (defrule INFERENCIA::ciudades_diversion
   ?user <- (usuario (tipo-viaje ?tviaje) )
   ?city <- (object  (is-a Ciudad) (Nombre ?nom) )
-(test (eq ?tviaje "diversion"))
+  ; (test (eq ?tviaje "diversion"))
+  (test (eq (str-cat ?tviaje) "diversion"))
 =>
   (bind ?puntuacion 50)
   (bind ?puntuacionmala 10)
-    (bind ?ciudadesdiversion (create$ paris venezia las_vegas barcelona roma))
+    (bind ?ciudadesdiversion (create$ "paris" "venezia" "las_vegas" "barcelona" "roma"))
   (if (member (lowcase ?nom) $?ciudadesdiversion) then 
-						  (assert (ciudad_puntuada (ciudad ?city ) (fitness ?puntuacion)))
+						  (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacion)))
 	else
     (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacionmala)))						    
   )
@@ -433,14 +437,14 @@
 (defrule INFERENCIA::ciudades_trabajo
   ?user <- (usuario (tipo-viaje ?tviaje) )
   ?city <- (object  (is-a Ciudad) (Nombre ?nom) )
-  (test (eq ?tviaje "trabajo"))
-  ; (test (eq ?tviaje trabajo))
+  ; (test (eq ?tviaje "trabajo"))
+  (test (eq (str-cat ?tviaje) "trabajo"))
  =>
   (bind ?puntuacion 50)
   (bind ?puntuacionmala 10)
-  (bind ?ciudadestrabajo (create$ barcelona nueva_york roma amsterdam paris))
+  (bind ?ciudadestrabajo (create$ "barcelona" "nueva_york" "roma" "amsterdam" "paris" ))
   (if (member (lowcase ?nom) $?ciudadestrabajo) then 
-				      (assert (ciudad_puntuada (ciudad ?city ) (fitness ?puntuacion)))
+				      (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacion)))
 	else
     (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacionmala)))				      
   )
@@ -449,13 +453,14 @@
 (defrule INFERENCIA::ciudades_aventura
   ?user <- (usuario (tipo-viaje ?tviaje) )
   ?city <- (object  (is-a Ciudad) (Nombre ?nom) )
-  (test (eq ?tviaje "aventura"))
+  ; (test (eq ?tviaje "aventura"))
+  (test (eq (str-cat ?tviaje) "aventura"))
  =>
   (bind ?puntuacion 50)
   (bind ?puntuacionmala 10)
-  (bind ?ciudadesaventura (create$ miami barcelona cancun las_vegas))
+  (bind ?ciudadesaventura (create$ "miami" "barcelona" "cancun" "las_vegas" ))
   (if (member (lowcase ?nom) $?ciudadesaventura) then 
-				       (assert (ciudad_puntuada (ciudad ?city ) (fitness ?puntuacion)))
+				       (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacion)))
 	else
     (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacionmala)))				       
   )
@@ -464,13 +469,14 @@
 (defrule INFERENCIA::ciudades_cultural
   ?user <- (usuario (tipo-viaje ?tviaje) )
   ?city <- (object  (is-a Ciudad) (Nombre ?nom) )
-  (test (eq ?tviaje "cultural"))
+  ; (test (eq ?tviaje "cultural"))
+  (test (eq (str-cat ?tviaje) "cultural"))
 =>
   (bind ?puntuacion 50)
   (bind ?puntuacionmala 10)
-  (bind ?ciudadescultural (create$ paris roma barcelona paris granada kioto))
+  (bind ?ciudadescultural (create$ "paris" "roma" "barcelona" "paris" "granada" "kioto" ))
   (if (member (lowcase ?nom) $?ciudadescultural) then 
-				       (assert (ciudad_puntuada (ciudad ?city ) (fitness ?puntuacion)))			       
+				       (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacion)))			       
   else
     (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacionmala)))	
   )
@@ -815,7 +821,6 @@
 
    (test (<= (+ ?costev ?costet) ?pres))
   =>
-  ;(printout t "holi")
   (bind ?xd (eq ?nomc2 ?parte))
   (printout t (lowcase (class ?transporte)) crlf)
   ;(printout t ?xd crlf)
