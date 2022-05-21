@@ -290,7 +290,6 @@
  =>
   (assert (preguntas-acabadas))
     (focus INFERENCIA)
-	  ; aqui seria un buen momento para cambiar el focus
 )
 
 ;---------------------------------------------------------------------------------------
