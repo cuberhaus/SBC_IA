@@ -1,6 +1,6 @@
 (defmodule MAIN "MAIN del programa" (export ?ALL))
 
-(defrule saltar-siguiente-modulo
+(defrule saltar-siguiente-modulo "Iniciamos el programa en el modulo MENU"
  (declare (salience 10))
  =>
  (focus MENU)
@@ -53,17 +53,17 @@
   (slot coste (type INTEGER))
   )
 
-(deftemplate MENU::alojamiento_puntuado
+(deftemplate MENU::alojamiento_puntuado "Puntuacion que nos permite saber cual es el mejor alojamiento para el usuario"
   (slot fitness (type INTEGER) (range 0 100) (default 0))
   (slot alojamiento-nom (type STRING) )
   )
 
-(deftemplate MENU::nextciudad
+(deftemplate MENU::nextciudad "Permite saber el orden en que visitamos las ciudades"
   (slot desde (type STRING))
   (slot hacia (type STRING))
   )
 
-(deffacts MENU::inicialitzacio
+(deffacts MENU::inicialitzacio "Inicializamos las clases donde guardaremos la informacion"
   (usuario)
   (viaje)
   )
@@ -79,7 +79,6 @@
  ; Separem l'string (Ex. "Pasta" "Marisc" "Fruita")
  (bind ?res (str-explode ?resposta))
  ; Retornem els diferents camps (Ex. "Pasta" "Marisc" "Fruita")
-
  ?res
  )
 
@@ -154,13 +153,13 @@
 )
 
 
-(defrule MENU::preguntar-nivel-cultural
+(defrule MENU::preguntar-nivel-cultural ;; TODO:
   (not (preguntado-nivel-cultural))
  =>
   (assert(preguntado-nivel-cultural))
 )
 
-(defrule MENU::preguntar-con-ninos
+(defrule MENU::preguntar-con-ninos "Inferimos si hay niños con las edades introducidas"
   (not (preguntado-con-ninos))
  ?user <- (usuario (edades $?edades))
  =>
@@ -177,12 +176,11 @@
   (assert(preguntado-con-ninos))
 )
 
-(defrule MENU::preguntar-con-adolescentes
+(defrule MENU::preguntar-con-adolescentes "Inferimos si hay adolescentes con las edades introducidas"
   (not (preguntado-con-adolescentes))
  ?user <- (usuario (edades $?edades))
   (preguntado-edad)
  =>
-
 (bind ?i 1)
  (while (<= ?i (length$ ?edades))
    do
@@ -191,12 +189,10 @@
        then (modify ?user (adolescentes TRUE)))
    (bind ?i (+ ?i 1))
    )
-   
-
   (assert(preguntado-con-adolescentes))
 )
 
-(defrule MENU::preguntar-con-numero-integrantes
+(defrule MENU::preguntar-con-numero-integrantes "Inferimos el numero de integrantes por la cantidad de edades introducidas"
   (not (preguntado-con-numero-integrantes))
   (preguntado-edad)
  ?user <- (usuario (edades $?edades))
@@ -217,7 +213,7 @@
   (assert(preguntado-tipo-de-viaje))
 )
 
-(defrule MENU::preguntar-ciudades-preferidas
+(defrule MENU::preguntar-ciudades-preferidas ;;TODO
   (not (preguntado-ciudades-preferidas))
  =>
   (assert(preguntado-ciudades-preferidas))
@@ -349,12 +345,6 @@
 (defmodule INFERENCIA "Inferir propiedades de los usuarios con los datos obtenidos"
   (import MENU ?ALL) (import MAIN ?ALL))
 
-
-; (defrule INFERENCIA::initialize
- 
-; => 
-; ; (assert (fuck_ t 1))
-; )
 
 (defrule INFERENCIA::obtenertipousuarios
   (not (inferencia_tipo_usuario_asked))
