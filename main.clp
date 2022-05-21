@@ -640,6 +640,7 @@
   ?user <- (usuario (calidad-alojamiento ?cal))
   ?aloj <- (object (is-a Alojamiento) (Nombre ?nom) (Distancia_a_centro ?dist) (Estrellas ?est))
 =>
+  (printout t "aloj_puntuado" crlf)
   (bind ?fit 0)
   (if (< ?dist 5) then (bind ?fit (+ ?fit 10)) )
   (if (< ?cal ?est) then (bind ?fit (+ ?fit 90)) )
@@ -685,7 +686,7 @@
    (test (<= (+ ?costev ?costea) ?pres))
  =>
   ; (printout t ?nomc2 " : " (str-cat ?ciu2) ?est crlf)
-
+  (printout t "escoger_aloj" crlf)
   (assert (fix_aloj (nom_ciudad ?nomc2) ))
   (bind $?aux (insert$ $?alojs (+ (length$ ?alojs) 1 ) ?nom_p))
   (modify ?vi (alojamientos ?aux) (coste (+ ?costev ?costea)))
@@ -763,6 +764,7 @@
   (not (assertsciudades))
   ?vi <- (viaje (ciudades $?ciu))
   =>
+  (printout t "assert_cities" crlf)
   (bind ?i 1)
   (while (< ?i (length$ ?ciu)) 
     ;; bucle hasta < para que no pete con la ultima iter (usamos i y i+1, habra que añadir vuelo del origen a la primera y de la ultima al origen!)
@@ -804,6 +806,7 @@
 
   (not (exists (fix_trans (nom_ciudad ?nomc2))))
   =>
+  (printout t "escoger_transporte" crlf)
   (bind ?xd (eq ?nomc2 ?parte))
   (printout t (lowcase (class ?transporte)) crlf)
   (printout t ?nomc2 "   and   " ?nomc3 "   and   " ?nomt crlf)
@@ -889,6 +892,7 @@
  ; (escoger-transporte)
  (assertsciudades)
  =>
+  (printout t "acaba_logica" crlf)
   (assert (logica-acabada))
   (focus RESULTADOS)
 )
