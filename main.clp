@@ -300,7 +300,7 @@
 (defmodule INFERENCIA "Inferir propiedades de los usuarios con los datos obtenidos"
   (import MENU ?ALL) (import MAIN ?ALL))
 
-(defrule INFERENCIA::preguntar-con-ninos "Inferimos si hay niños con las edades introducidas"
+(defrule INFERENCIA::con-ninos "Inferimos si hay niños con las edades introducidas"
   (not (preguntado-con-ninos))
  ?user <- (usuario (edades $?edades))
  =>
@@ -317,7 +317,7 @@
   (assert(preguntado-con-ninos))
 )
 
-(defrule INFERENCIA::preguntar-con-adolescentes "Inferimos si hay adolescentes con las edades introducidas"
+(defrule INFERENCIA::con-adolescentes "Inferimos si hay adolescentes con las edades introducidas"
   (not (preguntado-con-adolescentes))
  ?user <- (usuario (edades $?edades))
   (preguntado-edad)
@@ -333,7 +333,7 @@
   (assert(preguntado-con-adolescentes))
 )
 
-(defrule INFERENCIA::preguntar-con-numero-integrantes "Inferimos el numero de integrantes por la cantidad de edades introducidas"
+(defrule INFERENCIA::numero-integrantes "Inferimos el numero de integrantes por la cantidad de edades introducidas"
   (not (preguntado-con-numero-integrantes))
   (preguntado-edad)
  ?user <- (usuario (edades $?edades))
