@@ -347,7 +347,6 @@
   (preguntado-con-numero-integrantes)
   ?user <- (usuario (ninos ?n) (numero-integrantes ?num_integrantes))
   =>
-  (printout t ?num_integrantes crlf) 
   (if (eq ?num_integrantes 1) then (modify ?user (tipo-usuario "individual"))) 
   (if (eq ?num_integrantes 2) then (modify ?user (tipo-usuario "pareja")))
   (if (and (and (>= ?num_integrantes 3) (<  ?num_integrantes 10)) (eq ?n TRUE))
