@@ -6,6 +6,10 @@
   (focus MENU)
  )
 
+;---------------------------------------------------------------------------------------
+;                                 MODULO DE MENU                                       -
+;---------------------------------------------------------------------------------------
+
 ;; defmodule has to go below saltar-siguiente-modulo
 (defmodule MENU "Inicio del programa" (export ?ALL))
 
@@ -617,12 +621,9 @@
   (bind ?fit 0)
   (if (< ?dist 5) then (bind ?fit (+ ?fit 10)) )
   (if (< ?cal ?est) then (bind ?fit (+ ?fit 90)) )
-  ; (if (< ?dist 5) then (bind ?fit (+ ?fit 10)) )
 (assert (alojamiento_puntuado (alojamiento-nom ?nom) (fitness ?fit) ) )
-; (assert (ini_alojamientos))
   (printout t "debug 3" )
 )
-  ; (assert (alojamiento_puntuado (alojamiento ?aloj ) (fitness ?puntuacion)))
 
 ; (defrule LOGIC::evaluate-alojamiento
 ;  ; (declare (salience 40))
@@ -915,7 +916,7 @@
 
  
 ;---------------------------------------------------------------------------------------
-;                                 MODULO DE ERROR                                 -
+;                                 MODULO DE ERROR                                      -
 ;---------------------------------------------------------------------------------------
 
 (defmodule ERROR "No se ha podido programar un viaje")
