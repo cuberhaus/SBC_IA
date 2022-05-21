@@ -557,9 +557,11 @@
   ?vi <- (viaje (ciudades $?ciudades) (duracion ?dur))
  =>
   (if (<=  ?min ?dur)
-   then (if (not (<= ?ciumin (length$ ?ciudades) ))  then ("No se puede programar un viaje") (focus ERROR)
+   then (if (not (<= ?ciumin (length$ ?ciudades) ))
+	 then (printout t "No se puede programar un viaje" crlf) (focus ERROR)
   )
-)
+ )
+  )
 
 (defrule LOGIC::initialize_alojamiento_puntuado
   (declare (salience 10))
@@ -750,17 +752,37 @@
 (defrule RESULTADOS::acaba-resultados
  (printar_plantilla)
  (printar_viaje)
+ (not (preparar_segundo_viaje))
  =>
- (preparar_segundo_viaje)
+ (assert (preparar_segundo_viaje))
 )
 
-  (defrule RESULTADOS::preparar_segundo_viaje "Busca el viaje de nuevo, pero con ciudades distintas"
-    ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
-    ?vi <- (viaje (ciudades $?ciudades) (duracion ?dur))
-    (preparar_segundo_viaje) 
-   =>
-    (focus LOGIC)
+(defrule RESULTADOS::preparar_segundo_viaje "Busca el viaje de nuevo, pero con ciudades distintas"
+  ?vi <- (viaje)
+  (preparar_segundo_viaje) 
+ =>
+  (bind ?ciud (create$))
+  (bind ?alojs (create$))
+  (bind ?trans (create$))
+  (bind ?act (create$))
+  (modify ?vi (continentes FALSE) (duracion 0) (coste 0) (continente "placeholder") (ciudades ?ciud) (alojamientos ?alojs) (transporte ?trans) (actividades ?act)
+	  )
+  (focus LOGIC)
 )
+
+(defrule RESULTADOS::printar_plantilla-rule2
+  ; (not (printar_plantilla))
+  (preparar_segundo_viaje)
+ (not (printar_plantilla2))
+  =>
+  (printout t "----------------------------------------------------------------------------------------------" crlf
+              "-                                        Segundo viaje                                       -" crlf
+              "----------------------------------------------------------------------------------------------" crlf 
+              crlf
+  )
+  (assert (printar_plantilla2))
+)
+
 ;---------------------------------------------------------------------------------------
 ;                                 MODULO DE ERROR                                      -
 ;---------------------------------------------------------------------------------------
