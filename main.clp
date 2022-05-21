@@ -760,6 +760,8 @@
 (defrule RESULTADOS::preparar_segundo_viaje "Busca el viaje de nuevo, pero con ciudades distintas"
   ?vi <- (viaje)
   (preparar_segundo_viaje) 
+  (not (segundo_viaje))
+  ?pri <- (printar_viaje)
  =>
   (bind ?ciud (create$))
   (bind ?alojs (create$))
@@ -767,6 +769,9 @@
   (bind ?act (create$))
   (modify ?vi (continentes FALSE) (duracion 0) (coste 0) (continente "placeholder") (ciudades ?ciud) (alojamientos ?alojs) (transporte ?trans) (actividades ?act)
 	  )
+  (printout t "hello world")
+  (retract ?pri)
+  (assert (segundo_viaje))
   (focus LOGIC)
 )
 
