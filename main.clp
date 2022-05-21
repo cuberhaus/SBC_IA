@@ -10,7 +10,7 @@
 (defmodule MENU "Inicio del programa" (export ?ALL))
 
 ;; deftemplate has to be at the top
-(deftemplate MENU::usuario
+(deftemplate MENU::usuario "Contiene informacion sobre el usuario que pide el viaje"
   (multislot edades (type INTEGER) (range 0 100))
 
   (slot ninos (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
@@ -36,16 +36,13 @@
   (slot tipo-usuario (type STRING) (allowed-strings "individual" "pareja" "grupo" "familia"))
   )
 
-(deftemplate MENU::estructura
+(deftemplate MENU::estructura "Estructura que nos permite asociar ciudades con los dias que van a ocupar y como de ocupada esta la estancia en esa ciudad (por las actividades que se hacen alli)"
   (multislot ciudad (type STRING))
   (slot dias (type INTEGER))
   (slot ocupacion (type INTEGER))
   )
 
-(deftemplate MENU::viaje
-  ; (multislot ciudades_pendientes_asignar)
-  ; (multislot fitness_ciudades)
-  ;(multislot estructura)
+(deftemplate MENU::viaje "Nos permite almacenar el viaje que veremos como resultado"
   (slot continentes (type SYMBOL) (allowed-values TRUE FALSE) )
   (multislot dias_por_ciudad)
   (multislot ciudades (type INSTANCE))
@@ -671,9 +668,6 @@
   ?vi <- (viaje (alojamientos $?alojs) (ciudades $?ciu) (coste ?costev))
   (test (member ?nomc2 $?ciu))
   (not (exists (fix_aloj (nom_ciudad ?nomc2))))
-  ; ?unif <- (fix_aloj (nom_ciudad ?nc1) )
-  ; (test (not (eq ?nc1 ?nomc2) ))
-  ; (test (= ?i 1))
   ?aloj <- (object (is-a Alojamiento) (Nombre ?nom) (Estrellas ?est) (precio ?costea) (esta_en ?ciu2))
   ?aloj_p <- (alojamiento_puntuado (alojamiento-nom ?nom_p) (fitness ?fit))
   (test (eq ?nom ?nom_p))
