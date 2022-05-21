@@ -1,9 +1,9 @@
 (defmodule MAIN "MAIN del programa" (export ?ALL))
 
 (defrule saltar-siguiente-modulo "Iniciamos el programa en el modulo MENU"
- (declare (salience 10))
+  (declare (salience 10))
  =>
- (focus MENU)
+  (focus MENU)
  )
 
 ;; defmodule has to go below saltar-siguiente-modulo
@@ -11,13 +11,9 @@
 
 ;; deftemplate has to be at the top
 (deftemplate MENU::usuario "Contiene informacion sobre el usuario que pide el viaje"
-  (multislot edades (type INTEGER) (range 0 100))
-
   (slot ninos (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
   (slot adolescentes (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
   (slot numero-integrantes (type INTEGER) )
-
-  (multislot medios-de-transporte (type STRING) (allowed-values "Avion" "Tren" "Barco"))
   (slot dias-minimo (type INTEGER) )
   (slot dias-maximo (type INTEGER) )
   (slot diasporciudad-minimo (type INTEGER) )
@@ -25,33 +21,34 @@
   (slot ciudades-minimo (type INTEGER) )
   (slot ciudades-maximo (type INTEGER) )
   (slot presupuesto (type INTEGER FLOAT) (range 100 100000000))
-
   (slot calidad-alojamiento (type INTEGER)  (range 1 5))
   (slot lugares_poco_conocidos (type SYMBOL) (allowed-values TRUE FALSE))
   (slot duracion-o-calidad (type STRING) (allowed-strings "duracion" "calidad" "mixto"))
   (slot tipo-viaje (type STRING)
-	     (allowed-strings "descanso" "diversion" "romantico" "trabajo" "aventura" "cultural"))
+	(allowed-strings "descanso" "diversion" "romantico" "trabajo" "aventura" "cultural"))
+  (slot tipo-usuario (type STRING) (allowed-strings "individual" "pareja" "grupo" "familia"))
+  (multislot edades (type INTEGER) (range 0 100))
+  (multislot medios-de-transporte (type STRING) (allowed-values "Avion" "Tren" "Barco"))
   (multislot not-tipo-viaje (type STRING)
 	     (allowed-strings "descanso" "diversion" "romantico" "trabajo" "aventura" "cultural"))
-  (slot tipo-usuario (type STRING) (allowed-strings "individual" "pareja" "grupo" "familia"))
   )
 
 (deftemplate MENU::estructura "Estructura que nos permite asociar ciudades con los dias que van a ocupar y como de ocupada esta la estancia en esa ciudad (por las actividades que se hacen alli)"
-  (multislot ciudad (type STRING))
   (slot dias (type INTEGER))
   (slot ocupacion (type INTEGER))
+  (multislot ciudad (type STRING))
   )
 
 (deftemplate MENU::viaje "Nos permite almacenar el viaje que veremos como resultado"
   (slot continentes (type SYMBOL) (allowed-values TRUE FALSE) )
+  (slot duracion (type INTEGER))
+  (slot coste (type INTEGER))
+  (slot continente (type STRING) (default "placeholder"))
   (multislot dias_por_ciudad)
   (multislot ciudades (type INSTANCE))
   (multislot alojamientos)
   (multislot transporte)
   (multislot actividades)
-  (slot duracion (type INTEGER))
-  (slot coste (type INTEGER))
-  (slot continente (type STRING) (default "placeholder"))
   )
 
 (deftemplate MENU::alojamiento_puntuado "Puntuacion que nos permite saber cual es el mejor alojamiento para el usuario"
@@ -287,10 +284,9 @@
   (preguntado-calidad-alojamiento)
   (preguntado-popularidad-ciudad)
   (preguntado-duracion-o-calidad)
-
  =>
   (assert (preguntas-acabadas))
-    (focus INFERENCIA)
+  (focus INFERENCIA)
 )
 
 ;---------------------------------------------------------------------------------------
@@ -302,18 +298,16 @@
 
 (defrule INFERENCIA::con-ninos "Inferimos si hay niños con las edades introducidas"
   (not (preguntado-con-ninos))
- ?user <- (usuario (edades $?edades))
+  ?user <- (usuario (edades $?edades))
  =>
-
-(bind ?i 1)
- (while (<= ?i (length$ ?edades))
-   do
-   (bind ?edad (nth$ ?i ?edades))
-   (if (<= ?edad 12)
-       then (modify ?user (ninos TRUE)))
-   (bind ?i (+ ?i 1))
-   )
-  
+  (bind ?i 1)
+  (while (<= ?i (length$ ?edades))
+    do
+    (bind ?edad (nth$ ?i ?edades))
+    (if (<= ?edad 12)
+     then (modify ?user (ninos TRUE)))
+    (bind ?i (+ ?i 1))
+    )
   (assert(preguntado-con-ninos))
 )
 
@@ -372,14 +366,6 @@
            ; (bind $?escog_ciudades (insert$ $?escog_ciudades (+ (length$ $?escog_ciudades) 1 ) ?ciudad))
 ;)
 
-;(defrule INFERENCIA::fuck_it
-;  (fuck_it ?x != 10)
-;  ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
-;  ?vi <- (viaje (continentes $?cont))
-; ?ciudad <- 
-;=>
-;
-;)
 
 (deftemplate MENU::ciudad_puntuada
   (slot fitness (type INTEGER) (range 0 100) (default 0))
@@ -391,7 +377,6 @@
   ?user <- (usuario (tipo-viaje ?tviaje) )
   ?city <- (object  (is-a Ciudad) (Nombre ?nom) (Continente ?cont))
   (test (eq (str-cat ?tviaje) "romantico"))
- ; (not (exists ())
  =>
   (bind ?puntuacion 50)
   (bind ?puntuacionmala 10)
@@ -409,7 +394,6 @@
   ?city <- (object  (is-a Ciudad) (Nombre ?nom) (Continente ?cont))
   (test (eq (str-cat ?tviaje) "descanso"))
 =>
-  ; (printout t ?tviaje ": descanso"crlf)
   (bind ?puntuacion 50)
   (bind ?puntuacionmala 10)
   (bind $?ciudades_descanso (create$ "tahiti" "cancun" "punta_cana" "las_vegas" "miami"))
@@ -424,7 +408,6 @@
 (defrule INFERENCIA::ciudades_diversion
   ?user <- (usuario (tipo-viaje ?tviaje) )
   ?city <- (object  (is-a Ciudad) (Nombre ?nom) (Continente ?cont))
-  ; (test (eq ?tviaje "diversion"))
   (test (eq (str-cat ?tviaje) "diversion"))
 =>
   (bind ?puntuacion 50)
@@ -441,7 +424,6 @@
 (defrule INFERENCIA::ciudades_trabajo
   ?user <- (usuario (tipo-viaje ?tviaje) )
   ?city <- (object  (is-a Ciudad) (Nombre ?nom) (Continente ?cont))
-  ; (test (eq ?tviaje "trabajo"))
   (test (eq (str-cat ?tviaje) "trabajo"))
  =>
   (bind ?puntuacion 50)
@@ -458,7 +440,6 @@
 (defrule INFERENCIA::ciudades_aventura
   ?user <- (usuario (tipo-viaje ?tviaje) )
   ?city <- (object  (is-a Ciudad) (Nombre ?nom) (Continente ?cont))
-  ; (test (eq ?tviaje "aventura"))
   (test (eq (str-cat ?tviaje) "aventura"))
  =>
   (bind ?puntuacion 50)
@@ -475,7 +456,6 @@
 (defrule INFERENCIA::ciudades_cultural
   ?user <- (usuario (tipo-viaje ?tviaje) )
   ?city <- (object  (is-a Ciudad) (Nombre ?nom) (Continente ?cont))
-  ; (test (eq ?tviaje "cultural"))
   (test (eq (str-cat ?tviaje) "cultural"))
 =>
   (bind ?puntuacion 50)
@@ -517,12 +497,6 @@
     )
   )
 
-; (defrule INFERENCIA::fitness_ciudades
-; ?user <- (usuario (tipo-viaje ?tviaje) )
-; ?city <- (object (is-a Ciudad) (Nombre ?ncity))
-; =>
-; (printout t ?ncity)
-; )
 (defrule INFERENCIA::acabainferencia
   (declare (salience -5))
   (inferencia_tipo_usuario_asked)
@@ -636,7 +610,6 @@
 
 (defrule LOGIC::initialize_alojamiento_puntuado
   (declare (salience 10))
-  ; (escoger-ciudades)
   ?user <- (usuario (calidad-alojamiento ?cal))
   ?aloj <- (object (is-a Alojamiento) (Nombre ?nom) (Distancia_a_centro ?dist) (Estrellas ?est))
 =>
@@ -668,7 +641,6 @@
 
 (defrule LOGIC::escoger-alojamiento
   (declare (salience 9) )
-  ; (escoger-ciudades)
   (not (escoger-alojamiento))
   ?todosv <- (object (is-a Ciudad) (Nombre ?nomc2))
   ?vi <- (viaje (alojamientos $?alojs) (ciudades $?ciu) (coste ?costev))
@@ -685,8 +657,6 @@
 
    (test (<= (+ ?costev ?costea) ?pres))
  =>
-  ; (printout t ?nomc2 " : " (str-cat ?ciu2) ?est crlf)
-  (printout t "escoger_aloj" crlf)
   (assert (fix_aloj (nom_ciudad ?nomc2) ))
   (bind $?aux (insert$ $?alojs (+ (length$ ?alojs) 1 ) ?nom_p))
   (modify ?vi (alojamientos ?aux) (coste (+ ?costev ?costea)))
@@ -760,7 +730,6 @@
 
 (defrule LOGIC::assertsciudades
   (declare (salience 25))
-  ; (escoger-ciudades)
   (not (assertsciudades))
   ?vi <- (viaje (ciudades $?ciu))
   =>
@@ -778,32 +747,27 @@
   (printout t "debug 6")
 )
 
-  (deftemplate LOGIC::fix_trans
-    (slot nom_ciudad (type STRING))
-    )
+(deftemplate LOGIC::fix_trans
+  (slot nom_ciudad (type STRING))
+  )
 
 (defrule LOGIC::escoger-transporte
   (declare (salience 10))
-  ;(declare (salience 24))
-  ; (escoger-ciudades)
   (assertsciudades)
-   ?vi <- (viaje (ciudades $?ciu) (transporte $?medios) (coste ?costev))
-   ?todosv <- (object (is-a Ciudad) (Nombre ?nomc2))
-   ?todosv2 <- (object (is-a Ciudad) (Nombre ?nomc3))
-   (test (not(eq ?nomc2 ?nomc3)))
-   (test (member ?nomc2 $?ciu))
-   (test (member ?nomc3 $?ciu))
-
-   ?next <- (nextciudad (desde ?c1) (hacia ?c2))
-   (test (and (eq ?c1 ?nomc2) (eq ?c2 ?nomc3)))
-   ?u <- (usuario (medios-de-transporte $?trans) (presupuesto ?pres))
-   ?transporte <- (object (is-a Transporte) (Nombre ?nomt) (va_a ?va) (parte_de ?parte) (precio ?costet))
-   (test (and (eq ?nomc2 (str-cat ?va)) (eq ?nomc3 (str-cat ?parte))))
-   (test (not( member (lowcase (class ?transporte)) $?trans)))
-   (test (not(member ?nomt $?medios)))
-
-   (test (<= (+ ?costev ?costet) ?pres))
-
+  ?vi <- (viaje (ciudades $?ciu) (transporte $?medios) (coste ?costev))
+  ?todosv <- (object (is-a Ciudad) (Nombre ?nomc2))
+  ?todosv2 <- (object (is-a Ciudad) (Nombre ?nomc3))
+  (test (not(eq ?nomc2 ?nomc3)))
+  (test (member ?nomc2 $?ciu))
+  (test (member ?nomc3 $?ciu))
+  ?next <- (nextciudad (desde ?c1) (hacia ?c2))
+  (test (and (eq ?c1 ?nomc2) (eq ?c2 ?nomc3)))
+  ?u <- (usuario (medios-de-transporte $?trans) (presupuesto ?pres))
+  ?transporte <- (object (is-a Transporte) (Nombre ?nomt) (va_a ?va) (parte_de ?parte) (precio ?costet))
+  (test (and (eq ?nomc2 (str-cat ?va)) (eq ?nomc3 (str-cat ?parte))))
+  (test (not( member (lowcase (class ?transporte)) $?trans)))
+  (test (not(member ?nomt $?medios)))
+  (test (<= (+ ?costev ?costet) ?pres))
   (not (exists (fix_trans (nom_ciudad ?nomc2))))
   =>
   (printout t "escoger_transporte" crlf)
@@ -816,7 +780,6 @@
   (printout t "debug 7" )
 )
 
-;  )
 
 ; (defrule LOGIC::escoger-transporte
 ;    ?vi <- (viaje (ciudades $?ciu))
@@ -849,47 +812,32 @@
 ;  )
 
  (defrule LOGIC::escoger-actividades
-   ; (escoger-ciudades)
    ?vi <- (viaje (ciudades $?ciu) (actividades $?actividade) (coste ?costev))
-   ;?vi <- (viaje (estructura (ciudad ?c) (dias ?d) (ocupacion ?o)) (actividades $?actividade)) ;; me marco un triple?
    ?est <- (estructura (ciudad ?c) (dias ?d) (ocupacion ?o))
    ?todosv <- (object (is-a Ciudad) (Nombre ?nomc))
    (test (member ?c $?ciu))
    ?u <- (usuario (presupuesto ?pres))
-   ;?est <- (estructura (ciudad ?c) (dias ?d) (ocupacion ?o))
-   ;(test (eq ?c $?nomc))
-
-
    ?activ <- (object (is-a Actividad) (Nombre ?nactiv) (Duracion_actividad ?duracion) (se_hacen_en ?nhacen) (precio ?costea))
-
    (test (not (member ?nactiv $?actividade)))
    (test (<= (+ ?o ?duracion) (* ?d 100)))
    (test (eq ?c (str-cat ?nhacen)))
-
    (test (<= (+ ?costev ?costea) ?pres))
-  
   =>
-  (if (not (member ?c $?actividade)) then
-   (bind ?firstactiv (create$ ?c ?nactiv))
-   (bind $?aux2 (insert$ $?actividade (+ (length$ ?actividade) 1 ) ?firstactiv))
-   (modify ?vi (actividades ?aux2) (coste (+ ?costev ?costea)))
-  else
-    (bind $?aux (insert$ $?actividade (+ (length$ ?actividade) 1 ) ?nactiv))
-    (modify ?vi (actividades ?aux) (coste (+ ?costev ?costea)))
+   (if (not (member ?c $?actividade))
+    then (bind ?firstactiv (create$ ?c ?nactiv))
+	 (bind $?aux2 (insert$ $?actividade (+ (length$ ?actividade) 1 ) ?firstactiv))
+	 (modify ?vi (actividades ?aux2) (coste (+ ?costev ?costea)))
+    else
+      (bind $?aux (insert$ $?actividade (+ (length$ ?actividade) 1 ) ?nactiv))
+      (modify ?vi (actividades ?aux) (coste (+ ?costev ?costea)))
   )
-  (printout t "works " ?c "  activity: " ?nactiv crlf)
-   ;(bind ?o (+ ?o ?duracion))
-  (modify ?est (ocupacion (+ ?o ?duracion)))
-   ;(assert (estructura (ciudad ?c) (dias ?d) (ocupacion (+ ?o ?duracion)) ))
-  (printout t "debug 5" )
+   (printout t "works " ?c "  activity: " ?nactiv crlf)
+   (modify ?est (ocupacion (+ ?o ?duracion)))
+   (printout t "debug 5" )
  )
 
-(defrule LOGIC::acaba-la-logica
+(defrule LOGIC::acaba-la-logica "Ultima funcion que se ejecuta de la logica"
   (declare (salience -5))
- ; (escoger-ciudades)
- ; (escoger-alojamiento)
- ; (escoger-actividades)
- ; (escoger-transporte)
  (assertsciudades)
  =>
   (printout t "acaba_logica" crlf)
@@ -906,7 +854,7 @@
  (printar_plantilla)
  (printar_viaje)
  =>
-	  ; aqui seria un buen momento para cambiar el focus
+ ; aqui seria un buen momento para cambiar el focus
 )
 
 (defrule RESULTADOS:printar_plantilla-rule
@@ -959,7 +907,7 @@
     (bind ?ntrans (nth$ ?l ?trans))
     (printout t ?ntrans ", ")
      (bind ?l (+ ?l 1)) 
-  )
+     )
   (printout t "Coste total del viaje: " ?costev crlf)
   (printout t crlf)
   (assert (printar_viaje))
