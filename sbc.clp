@@ -322,7 +322,7 @@
     (is-a USER)
     (role concrete)
     (pattern-match reactive)
-    (multislot Continente
+    (slot Continente
         (type STRING)
         (create-accessor read-write))
     ;;; Atributo que indica el nombre de la instancia

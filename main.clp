@@ -51,6 +51,7 @@
   (multislot actividades)
   (slot duracion (type INTEGER))
   (slot coste (type INTEGER))
+  (slot continente (type STRING) (default "placeholder"))
   )
 
 (deftemplate MENU::alojamiento_puntuado "Puntuacion que nos permite saber cual es el mejor alojamiento para el usuario"
@@ -318,17 +319,17 @@
 
 (defrule INFERENCIA::con-adolescentes "Inferimos si hay adolescentes con las edades introducidas"
   (not (preguntado-con-adolescentes))
- ?user <- (usuario (edades $?edades))
+  ?user <- (usuario (edades $?edades))
   (preguntado-edad)
  =>
-(bind ?i 1)
- (while (<= ?i (length$ ?edades))
-   do
-   (bind ?edad (nth$ ?i ?edades))
-   (if (and (<= ?edad 20) (>= ?edad 12))
-       then (modify ?user (adolescentes TRUE)))
-   (bind ?i (+ ?i 1))
-   )
+  (bind ?i 1)
+  (while (<= ?i (length$ ?edades))
+    do
+    (bind ?edad (nth$ ?i ?edades))
+    (if (and (<= ?edad 20) (>= ?edad 12))
+     then (modify ?user (adolescentes TRUE)))
+    (bind ?i (+ ?i 1))
+    )
   (assert(preguntado-con-adolescentes))
 )
 
@@ -383,11 +384,12 @@
 (deftemplate MENU::ciudad_puntuada
   (slot fitness (type INTEGER) (range 0 100) (default 0))
   (slot ciudad (type STRING) )
+  (slot Continente (type STRING) )
   )
 
 (defrule INFERENCIA::ciudades_romanticas
   ?user <- (usuario (tipo-viaje ?tviaje) )
-  ?city <- (object  (is-a Ciudad) (Nombre ?nom) )
+  ?city <- (object  (is-a Ciudad) (Nombre ?nom) (Continente ?cont))
   (test (eq (str-cat ?tviaje) "romantico"))
  ; (not (exists ())
  =>
@@ -395,90 +397,95 @@
   (bind ?puntuacionmala 10)
   (bind ?ciudadesromanticas (create$ "paris" "venecia" "barcelona" "nueva_york" "granada" "praga" "amsterdam" "kioto"))
   (if (member (lowcase ?nom) $?ciudadesromanticas)
-      then (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacion)))
-	else
-    (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacionmala)))	
+   then
+     (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacion) (Continente ?cont)))
+   else
+     (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacionmala) (Continente ?cont)))	
   )
   )
 
 (defrule INFERENCIA::ciudades_descanso
   ?user <- (usuario (tipo-viaje ?tviaje) )
-  ?city <- (object  (is-a Ciudad) (Nombre ?nom) )
+  ?city <- (object  (is-a Ciudad) (Nombre ?nom) (Continente ?cont))
   (test (eq (str-cat ?tviaje) "descanso"))
 =>
   ; (printout t ?tviaje ": descanso"crlf)
   (bind ?puntuacion 50)
   (bind ?puntuacionmala 10)
   (bind $?ciudades_descanso (create$ "tahiti" "cancun" "punta_cana" "las_vegas" "miami"))
-  (if (member (lowcase ?nom) $?ciudades_descanso) then 
-					  ; (printout t ?tviaje ": if"crlf)
-					  (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacion)))
+  (if (member (lowcase ?nom) $?ciudades_descanso)
+   then 
+     (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacion) (Continente ?cont) ))
    else
-     (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacionmala)))	
+     (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacionmala) (Continente ?cont)))	
     )
 )
 
 (defrule INFERENCIA::ciudades_diversion
   ?user <- (usuario (tipo-viaje ?tviaje) )
-  ?city <- (object  (is-a Ciudad) (Nombre ?nom) )
+  ?city <- (object  (is-a Ciudad) (Nombre ?nom) (Continente ?cont))
   ; (test (eq ?tviaje "diversion"))
   (test (eq (str-cat ?tviaje) "diversion"))
 =>
   (bind ?puntuacion 50)
   (bind ?puntuacionmala 10)
     (bind ?ciudadesdiversion (create$ "paris" "venezia" "las_vegas" "barcelona" "roma"))
-  (if (member (lowcase ?nom) $?ciudadesdiversion) then 
-						  (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacion)))
-	else
-    (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacionmala)))						    
+  (if (member (lowcase ?nom) $?ciudadesdiversion)
+   then 
+     (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacion) (Continente ?cont)))
+   else
+     (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacionmala) (Continente ?cont)))						    
   )
   )
 
 (defrule INFERENCIA::ciudades_trabajo
   ?user <- (usuario (tipo-viaje ?tviaje) )
-  ?city <- (object  (is-a Ciudad) (Nombre ?nom) )
+  ?city <- (object  (is-a Ciudad) (Nombre ?nom) (Continente ?cont))
   ; (test (eq ?tviaje "trabajo"))
   (test (eq (str-cat ?tviaje) "trabajo"))
  =>
   (bind ?puntuacion 50)
   (bind ?puntuacionmala 10)
   (bind ?ciudadestrabajo (create$ "barcelona" "nueva_york" "roma" "amsterdam" "paris" ))
-  (if (member (lowcase ?nom) $?ciudadestrabajo) then 
-				      (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacion)))
-	else
-    (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacionmala)))				      
+  (if (member (lowcase ?nom) $?ciudadestrabajo)
+   then 
+     (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacion) (Continente ?cont)))
+   else
+     (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacionmala) (Continente ?cont)))				      
   )
   )
 
 (defrule INFERENCIA::ciudades_aventura
   ?user <- (usuario (tipo-viaje ?tviaje) )
-  ?city <- (object  (is-a Ciudad) (Nombre ?nom) )
+  ?city <- (object  (is-a Ciudad) (Nombre ?nom) (Continente ?cont))
   ; (test (eq ?tviaje "aventura"))
   (test (eq (str-cat ?tviaje) "aventura"))
  =>
   (bind ?puntuacion 50)
   (bind ?puntuacionmala 10)
   (bind ?ciudadesaventura (create$ "miami" "barcelona" "cancun" "las_vegas" ))
-  (if (member (lowcase ?nom) $?ciudadesaventura) then 
-				       (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacion)))
-	else
-    (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacionmala)))				       
+  (if (member (lowcase ?nom) $?ciudadesaventura)
+   then 
+     (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacion) (Continente ?cont)))
+   else
+     (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacionmala) (Continente ?cont)))				       
   )
   )
 
 (defrule INFERENCIA::ciudades_cultural
   ?user <- (usuario (tipo-viaje ?tviaje) )
-  ?city <- (object  (is-a Ciudad) (Nombre ?nom) )
+  ?city <- (object  (is-a Ciudad) (Nombre ?nom) (Continente ?cont))
   ; (test (eq ?tviaje "cultural"))
   (test (eq (str-cat ?tviaje) "cultural"))
 =>
   (bind ?puntuacion 50)
   (bind ?puntuacionmala 10)
   (bind ?ciudadescultural (create$ "paris" "roma" "barcelona" "paris" "granada" "kioto" ))
-  (if (member (lowcase ?nom) $?ciudadescultural) then 
-				       (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacion)))			       
-  else
-    (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacionmala)))	
+  (if (member (lowcase ?nom) $?ciudadescultural)
+   then 
+     (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacion) (Continente ?cont)))			       
+   else
+     (assert (ciudad_puntuada (ciudad ?nom ) (fitness ?puntuacionmala) (Continente ?cont)))	
   )
   )
 
@@ -540,12 +547,11 @@
   (slot nom_ciudad (type STRING) ) 
   )
 
-
 (defrule LOGIC::escoger-ciudades-rule
   (declare (salience 50))
-  ?vi <- (viaje (ciudades $?ciudades) (duracion ?dur) (dias_por_ciudad $?dpor))
+  ?vi <- (viaje (ciudades $?ciudades) (duracion ?dur) (dias_por_ciudad $?dpor) (continentes ?use_cont) (continente ?cont))
 ;?todosv <- (object (is-a Ciudad) (Nombre ?nomc))
-  ?ciupunt <- (ciudad_puntuada (fitness ?fit) (ciudad ?nom))
+  ?ciupunt <- (ciudad_puntuada (fitness ?fit) (ciudad ?nom) (Continente ?cont2))
   ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
   (test (>= ?fit 40))
   (test (not (member ?nom $?ciudades)))
@@ -553,56 +559,29 @@
   ?fix <- (fix_dias_por_ciudad (dias_por_ciudad ?dias_por))
   (test (>= ?max (+ ?dur ?dias_por) ) )
   (test (<= (+ (length$ $?ciudades) 1) ?ciumax))
+  (test (<= (+ ?dur ?dias_por) ?max) )
+  (test (and (eq ?use_cont TRUE) (or (eq ?cont "placeholder") (eq ?cont ?cont2)) ) ) 
 =>
   (printout t "debug 1")
   (printout t ?nom " amb fitness: " ?fit)
   (bind $?aux (insert$ $?ciudades (+ (length$ ?ciudades) 1 ) ?nom))
   (bind $?aux2 (insert$ $?dpor (+ (length$ ?dpor) 1 ) ?dias_por))
-  (modify ?vi (ciudades ?aux) (duracion (+ ?dur ?dias_por)) (dias_por_ciudad ?aux2) )
   (assert (estructura (ciudad ?nom) (dias ?dias_por) (ocupacion 0) ))
+  (if (eq "placeholder" ?cont)
+   then (modify ?vi (ciudades ?aux) (duracion (+ ?dur ?dias_por)) (dias_por_ciudad ?aux2) (continente ?cont2))
+   else
+     (modify ?vi (ciudades ?aux) (duracion (+ ?dur ?dias_por)) (dias_por_ciudad ?aux2) )
+   )
+)
 
-
-
-
-  ; (bind ?dies  (/ (+ ?min ?max) 2))
-  ; (bind $?escog_ciudades (create$ ))
-  ; (bind $?escog_dias_ciudades (create$ ))
-  ; (bind ?llista_ciutats (find-all-instances ((?instancia Ciudad)) TRUE))
-  ; (bind ?i 0)
-  ; (bind ?tomodify 0)
-  ; (bind ?j 1)
-  ; (bind ?nciu 0)
-  ; (while (and (< ?i ?dies) (<= ?j (length$ ?llista_ciutats)) (< ?nciu ?ciumax))
-  ;    do
-  ;      (bind ?diasciu (+ (mod (random) ?diasciumax) ?diasciumin))
-  ;      (bind ?ciudad (nth$ ?j ?llista_ciutats))
-  ;      (bind ?nomciudad (send ?ciudad get-Nombre))
-  ;      (bind ?suma (+ ?diasciu ?i))
-  ;      (if (<= ?suma ?dies) then
-  ;          (bind $?escog_ciudades (insert$ $?escog_ciudades (+ (length$ $?escog_ciudades) 1 ) ?nomciudad))
-  ;          (bind $?escog_dias_ciudades (insert$ $?escog_dias_ciudades (+ (length$ $?escog_dias_ciudades) 1 ) ?diasciu))
-
-  ; 	   ;(bind ?estruct (assert (estructura (dias ?diasciu) (ciudad ?nomciudad) (ocupacion 0) )) )
-  ;    ;(bind $?est (insert$ $?est (+ (length$ $?est) 1 ) ?estruct))
-  ;         (printout t ?nomciudad)
-  ;          (bind ?i (+ ?i ?diasciu))
-  ;          (bind ?j (+ ?j 1))
-  ;           (bind ?nciu (+ ?nciu 1))
-
-  ;          (bind ?tomodify ?i)
-  ;      )
-  ;      (if (> ?suma ?dies) then 
-  ;       (bind ?i (+ ?i ?diasciu))
-  ;      (bind ?j (+ ?j 1))
-  ;      (bind ?nciu (+ ?nciu 1))
-  ;      )
-       
-  ; )
-  ; (printout t $?escog_ciudades crlf)
-  ; (modify ?vi (ciudades $?escog_ciudades) (dias_por_ciudad $?escog_dias_ciudades) (duracion ?tomodify))
-  ;bind ?llista_ciutats (find-all-instances ((?instancia Ciudad)) TRUE))
-  ;(bind ?aux (send ?ciudad get-Nombre))
-  ; (assert (escoger-ciudades))
+(defrule LOGIC::comprovar
+  (declare (salience 40))
+  ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
+  ?vi <- (viaje (ciudades $?ciudades) (duracion ?dur))
+ =>
+  (if (<=  ?min ?dur)
+   then (if not(<= ?ciumin (length$ ?ciudades) ) ) then ("No se puede programar un viaje") (focus ERROR)
+  )
 )
 
 ; (defrule LOGIC::escoger-ciudades-rule
@@ -658,11 +637,12 @@
 (defrule LOGIC::initialize_alojamiento_puntuado
   (declare (salience 10))
   ; (escoger-ciudades)
-  ?user <- (usuario)
-  ?aloj <- (object (is-a Alojamiento) (Nombre ?nom) (Distancia_a_centro ?dist) )
+  ?user <- (usuario (calidad-alojamiento ?cal))
+  ?aloj <- (object (is-a Alojamiento) (Nombre ?nom) (Distancia_a_centro ?dist) (Estrellas ?est))
 =>
   (bind ?fit 0)
   (if (< ?dist 5) then (bind ?fit (+ ?fit 10)) )
+  (if (< ?cal ?est) then (bind ?fit (+ ?fit 90)) )
   ; (if (< ?dist 5) then (bind ?fit (+ ?fit 10)) )
 (assert (alojamiento_puntuado (alojamiento-nom ?nom) (fitness ?fit) ) )
 ; (assert (ini_alojamientos))
@@ -978,3 +958,10 @@
   (printout t crlf)
   (assert (printar_viaje))
 )
+
+ 
+;---------------------------------------------------------------------------------------
+;                                 MODULO DE ERROR                                 -
+;---------------------------------------------------------------------------------------
+
+(defmodule ERROR "No se ha podido programar un viaje")
