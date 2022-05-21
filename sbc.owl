@@ -18,7 +18,8 @@ untitled-ontology-6:esta_en rdf:type owl:ObjectProperty ;
                             rdfs:subPropertyOf owl:topObjectProperty ;
                             rdf:type owl:FunctionalProperty ;
                             rdfs:domain untitled-ontology-6:Alojamiento ;
-                            rdfs:range untitled-ontology-6:Ciudad .
+                            rdfs:range untitled-ontology-6:Ciudad ;
+                            rdfs:comment "Ciudad en la que está el alojamiento" .
 
 
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#esta_formado_por
@@ -31,18 +32,13 @@ untitled-ontology-6:esta_formado_por rdf:type owl:ObjectProperty ;
                                                 untitled-ontology-6:Transporte .
 
 
-###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#las_hacen
-untitled-ontology-6:las_hacen rdf:type owl:ObjectProperty ;
-                              rdfs:subPropertyOf owl:topObjectProperty ;
-                              rdfs:domain untitled-ontology-6:Actividad ;
-                              rdfs:range untitled-ontology-6:Usuario .
-
-
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#parte_de
 untitled-ontology-6:parte_de rdf:type owl:ObjectProperty ;
                              rdfs:subPropertyOf owl:topObjectProperty ;
+                             rdf:type owl:FunctionalProperty ;
                              rdfs:domain untitled-ontology-6:Transporte ;
-                             rdfs:range untitled-ontology-6:Ciudad .
+                             rdfs:range untitled-ontology-6:Ciudad ;
+                             rdfs:comment "Ciudad de donde parte el transporte" .
 
 
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#participa_en
@@ -62,15 +58,19 @@ untitled-ontology-6:se_aloja_en rdf:type owl:ObjectProperty ;
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#se_hacen_en
 untitled-ontology-6:se_hacen_en rdf:type owl:ObjectProperty ;
                                 rdfs:subPropertyOf owl:topObjectProperty ;
+                                rdf:type owl:FunctionalProperty ;
                                 rdfs:domain untitled-ontology-6:Actividad ;
-                                rdfs:range untitled-ontology-6:Ciudad .
+                                rdfs:range untitled-ontology-6:Ciudad ;
+                                rdfs:comment "Ciudad donde se realiza una actividad" .
 
 
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#va_a
 untitled-ontology-6:va_a rdf:type owl:ObjectProperty ;
                          rdfs:subPropertyOf owl:topObjectProperty ;
+                         rdf:type owl:FunctionalProperty ;
                          rdfs:domain untitled-ontology-6:Transporte ;
-                         rdfs:range untitled-ontology-6:Ciudad .
+                         rdfs:range untitled-ontology-6:Ciudad ;
+                         rdfs:comment "Ciudad a donde va el transporte" .
 
 
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#va_en
@@ -128,21 +128,15 @@ untitled-ontology-6:Con_piscina rdf:type owl:DatatypeProperty ;
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Continente
 untitled-ontology-6:Continente rdf:type owl:DatatypeProperty ;
                                rdfs:subPropertyOf owl:topDataProperty ;
+                               rdf:type owl:FunctionalProperty ;
                                rdfs:domain untitled-ontology-6:Ciudad ;
                                rdfs:range xsd:string .
-
-
-###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Dificultad
-untitled-ontology-6:Dificultad rdf:type owl:DatatypeProperty ;
-                               rdfs:subPropertyOf owl:topDataProperty ;
-                               rdfs:domain untitled-ontology-6:Excursion ;
-                               rdfs:range xsd:integer ;
-                               rdfs:comment "Atributo que representa la dificultad de una excursión" .
 
 
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Distancia_a_centro
 untitled-ontology-6:Distancia_a_centro rdf:type owl:DatatypeProperty ;
                                        rdfs:subPropertyOf owl:topDataProperty ;
+                                       rdf:type owl:FunctionalProperty ;
                                        rdfs:domain untitled-ontology-6:Alojamiento ;
                                        rdfs:range xsd:float ;
                                        rdfs:comment "Atributo que representa la distancia al centro de la ciudad de un alojamiento en dihca ciudad." .
@@ -151,6 +145,7 @@ untitled-ontology-6:Distancia_a_centro rdf:type owl:DatatypeProperty ;
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Duracion_actividad
 untitled-ontology-6:Duracion_actividad rdf:type owl:DatatypeProperty ;
                                        rdfs:subPropertyOf owl:topDataProperty ;
+                                       rdf:type owl:FunctionalProperty ;
                                        rdfs:domain untitled-ontology-6:Actividad ;
                                        rdfs:range xsd:int ;
                                        rdfs:comment "Atributo que representa la duración de una actividad respecto al porcentaje que ocupa de un dia, ejemplo:  visita a PortAventura: 100%, visita a un museo: 15%." .
@@ -161,12 +156,14 @@ untitled-ontology-6:Estrellas rdf:type owl:DatatypeProperty ;
                               rdfs:subPropertyOf owl:topDataProperty ;
                               rdf:type owl:FunctionalProperty ;
                               rdfs:domain untitled-ontology-6:Hotel ;
+                              rdfs:range xsd:integer ;
                               rdfs:comment "Atributo que indica quan bueno es un hotel, de 1 a 5." .
 
 
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Nombre
 untitled-ontology-6:Nombre rdf:type owl:DatatypeProperty ;
                            rdfs:subPropertyOf owl:topDataProperty ;
+                           rdf:type owl:FunctionalProperty ;
                            rdfs:domain untitled-ontology-6:Actividad ,
                                        untitled-ontology-6:Alojamiento ,
                                        untitled-ontology-6:Ciudad ,
@@ -206,6 +203,7 @@ untitled-ontology-6:Para_adultos rdf:type owl:DatatypeProperty ;
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#duracion_transporte
 untitled-ontology-6:duracion_transporte rdf:type owl:DatatypeProperty ;
                                         rdfs:subPropertyOf owl:topDataProperty ;
+                                        rdf:type owl:FunctionalProperty ;
                                         rdfs:domain untitled-ontology-6:Transporte ;
                                         rdfs:range xsd:integer ;
                                         rdfs:comment "Atributo que representa la duración de un medio de transporte." .
@@ -214,6 +212,7 @@ untitled-ontology-6:duracion_transporte rdf:type owl:DatatypeProperty ;
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#precio
 untitled-ontology-6:precio rdf:type owl:DatatypeProperty ;
                            rdfs:subPropertyOf owl:topDataProperty ;
+                           rdf:type owl:FunctionalProperty ;
                            rdfs:domain untitled-ontology-6:Actividad ,
                                        untitled-ontology-6:Alojamiento ,
                                        untitled-ontology-6:Transporte ;
@@ -393,68 +392,6 @@ untitled-ontology-6:Visita_monumento rdf:type owl:Class ;
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Visita_museo
 untitled-ontology-6:Visita_museo rdf:type owl:Class ;
                                  rdfs:subClassOf untitled-ontology-6:Cultural .
-
-
-#################################################################
-#    Individuals
-#################################################################
-
-###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Barcelona
-untitled-ontology-6:Barcelona rdf:type owl:NamedIndividual ,
-                                       untitled-ontology-6:Ciudad ;
-                              untitled-ontology-6:Continente "Europa" ;
-                              untitled-ontology-6:Numero_de_habitantes 1620000 .
-
-
-###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Bird_House
-untitled-ontology-6:Bird_House rdf:type owl:NamedIndividual ,
-                                        untitled-ontology-6:Hotel ;
-                               untitled-ontology-6:esta_en untitled-ontology-6:Barcelona ;
-                               untitled-ontology-6:Distancia_a_centro "1.0"^^xsd:float ;
-                               untitled-ontology-6:Estrellas 3 ;
-                               untitled-ontology-6:Para_adultos "false"^^xsd:boolean ;
-                               untitled-ontology-6:precio 60 .
-
-
-###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Camping_las_morenas
-untitled-ontology-6:Camping_las_morenas rdf:type owl:NamedIndividual ,
-                                                 untitled-ontology-6:Camping .
-
-
-###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#H10_Madison
-untitled-ontology-6:H10_Madison rdf:type owl:NamedIndividual ,
-                                         untitled-ontology-6:Hotel ;
-                                untitled-ontology-6:esta_en untitled-ontology-6:Barcelona ;
-                                untitled-ontology-6:Distancia_a_centro "0.5"^^xsd:float ;
-                                untitled-ontology-6:Estrellas 4 ;
-                                untitled-ontology-6:Para_adultos "false"^^xsd:boolean ;
-                                untitled-ontology-6:precio 100 .
-
-
-###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Hotel_Vela
-untitled-ontology-6:Hotel_Vela rdf:type owl:NamedIndividual ,
-                                        untitled-ontology-6:Hotel ;
-                               untitled-ontology-6:esta_en untitled-ontology-6:Barcelona ;
-                               untitled-ontology-6:Distancia_a_centro "3.3"^^xsd:float ;
-                               untitled-ontology-6:Estrellas 5 ;
-                               untitled-ontology-6:Para_adultos "false"^^xsd:boolean ;
-                               untitled-ontology-6:precio 200 .
-
-
-###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Napoleon_Hotel_Roma
-untitled-ontology-6:Napoleon_Hotel_Roma rdf:type owl:NamedIndividual ,
-                                                 untitled-ontology-6:Hotel ;
-                                        untitled-ontology-6:esta_en untitled-ontology-6:Roma ;
-                                        untitled-ontology-6:Distancia_a_centro "2.4"^^xsd:float ;
-                                        untitled-ontology-6:Estrellas 4 ;
-                                        untitled-ontology-6:Para_adultos "false"^^xsd:boolean ;
-                                        untitled-ontology-6:precio 70 .
-
-
-###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Roma
-untitled-ontology-6:Roma rdf:type owl:NamedIndividual ,
-                                  untitled-ontology-6:Ciudad ;
-                         untitled-ontology-6:Numero_de_habitantes 2873000 .
 
 
 #################################################################
