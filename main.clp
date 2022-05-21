@@ -688,14 +688,8 @@
 ;                                 MODULO DE RESULTADOS                                 -
 ;---------------------------------------------------------------------------------------
 
-(defmodule RESULTADOS "Printar resultados obtenidos" (import MENU ?ALL) (import MAIN ?ALL) )
-
-(defrule RESULTADOS::acaba-resultados
- (printar_plantilla)
- (printar_viaje)
- =>
- ; aqui seria un buen momento para cambiar el focus
-)
+  (defmodule RESULTADOS "Printar resultados obtenidos" (import MENU ?ALL) (import MAIN ?ALL)
+    )
 
 (defrule RESULTADOS:printar_plantilla-rule
   (not (printar_plantilla))
@@ -753,7 +747,20 @@
   (assert (printar_viaje))
 )
 
- 
+(defrule RESULTADOS::acaba-resultados
+ (printar_plantilla)
+ (printar_viaje)
+ =>
+ (preparar_segundo_viaje)
+)
+
+  (defrule RESULTADOS::preparar_segundo_viaje "Busca el viaje de nuevo, pero con ciudades distintas"
+    ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
+    ?vi <- (viaje (ciudades $?ciudades) (duracion ?dur))
+    (preparar_segundo_viaje) 
+   =>
+    (focus LOGIC)
+)
 ;---------------------------------------------------------------------------------------
 ;                                 MODULO DE ERROR                                      -
 ;---------------------------------------------------------------------------------------
