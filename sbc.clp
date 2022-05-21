@@ -2,78 +2,121 @@
 ;;; sbc.clp
 ;;; Translated by owl2clips
 ;;; Translated to CLIPS from ontology sbc.owl
-;;; :Date 11/05/2022 21:41:23
+;;; :Date 21/05/2022 19:45:44
 
-(defclass Usuarioe
+(defclass Alojamiento
     (is-a USER)
     (role concrete)
     (pattern-match reactive)
-    (multislot participa_en
+    ;;; Ciudad en la que está el alojamiento
+    (slot esta_en
         (type INSTANCE)
         (create-accessor read-write))
-    (multislot se_aloja_en
-        (type INSTANCE)
-        (create-accessor read-write))
-    (multislot va_en
-        (type INSTANCE)
-        (create-accessor read-write))
-    (multislot viaja
-        (type INSTANCE)
-        (create-accessor read-write))
-    ;;; Atributo que identifica si cualquier tipo de usuario tiene gente mayor.
-    (multislot Con_gente_mayor
+    ;;; Atributo que indica si un alojamiento dispone de piscina
+    (multislot Con_piscina
         (type SYMBOL)
+        (create-accessor read-write))
+    ;;; Atributo que representa la distancia al centro de la ciudad de un alojamiento en dihca ciudad.
+    (slot Distancia_a_centro
+        (type FLOAT)
         (create-accessor read-write))
     ;;; Atributo que indica el nombre de la instancia
-    (multislot Nombre
+    (slot Nombre
         (type STRING)
         (create-accessor read-write))
-    ;;; Atributo que indica la preferencia de metodo de transporte para un usuario.
-    (multislot preferencia_viaje
-        (type STRING)
+    ;;; Precio de un servicio específico.
+    (slot precio
+        (type FLOAT)
         (create-accessor read-write))
 )
 
-(defclass Familia
-    (is-a Usuarioe)
+(defclass Albergue
+    (is-a Alojamiento)
     (role concrete)
     (pattern-match reactive)
-    ;;; Atributo que identifica si una familia o grupo contiene adolescentes
-    (multislot Con_adolescentes
-        (type SYMBOL)
-        (create-accessor read-write))
-    ;;; Atributo que identifica si una familia o grupo contiene niños
-    (multislot Con_niños
-        (type SYMBOL)
-        (create-accessor read-write))
 )
 
-(defclass Grupo
-    (is-a Usuarioe)
+(defclass Camping
+    (is-a Alojamiento)
     (role concrete)
     (pattern-match reactive)
-    ;;; Atributo que identifica si una familia o grupo contiene adolescentes
-    (multislot Con_adolescentes
-        (type SYMBOL)
-        (create-accessor read-write))
-    ;;; Atributo que identifica si una familia o grupo contiene niños
-    (multislot Con_niños
-        (type SYMBOL)
-        (create-accessor read-write))
-    ;;; Atributo que representa el número de integrantes de un grupo
-    (multislot Numero_integrantes
+)
+
+(defclass Casa_Rural
+    (is-a Alojamiento)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass Hotel
+    (is-a Alojamiento)
+    (role concrete)
+    (pattern-match reactive)
+    ;;; Atributo que indica quan bueno es un hotel, de 1 a 5.
+    (slot Estrellas
         (type INTEGER)
         (create-accessor read-write))
+    ;;; Atributo que indica si un hotel es exclusivamente para adultos o no.
+    (multislot Para_adultos
+        (type SYMBOL)
+        (create-accessor read-write))
 )
 
-(defclass Individuo
-    (is-a Usuarioe)
+(defclass Resort
+    (is-a Alojamiento)
+    (role concrete)
+    (pattern-match reactive)
+    ;;; Atributo que indica si un hotel es exclusivamente para adultos o no.
+    (multislot Para_adultos
+        (type SYMBOL)
+        (create-accessor read-write))
+)
+
+(defclass ViajeOnto
+    (is-a USER)
+    (role concrete)
+    (pattern-match reactive)
+    (multislot esta_formado_por
+        (type INSTANCE)
+        (create-accessor read-write))
+    ;;; Atributo que indica el nombre de la instancia
+    (slot Nombre
+        (type STRING)
+        (create-accessor read-write))
+)
+
+(defclass Descanso
+    (is-a ViajeOnto)
     (role concrete)
     (pattern-match reactive)
 )
 
-(defclass Pareja
-    (is-a Usuarioe)
+(defclass Diversion
+    (is-a ViajeOnto)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass Romantico
+    (is-a ViajeOnto)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass Trabajo
+    (is-a ViajeOnto)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass VAventura
+    (is-a ViajeOnto)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass VCultural
+    (is-a ViajeOnto)
     (role concrete)
     (pattern-match reactive)
 )
@@ -82,9 +125,11 @@
     (is-a USER)
     (role concrete)
     (pattern-match reactive)
+    ;;; Ciudad de donde parte el transporte
     (slot parte_de
         (type INSTANCE)
         (create-accessor read-write))
+    ;;; Ciudad a donde va el transporte
     (slot va_a
         (type INSTANCE)
         (create-accessor read-write))
@@ -120,13 +165,85 @@
     (pattern-match reactive)
 )
 
+(defclass UsuarioOnto
+    (is-a USER)
+    (role concrete)
+    (pattern-match reactive)
+    (multislot participa_en
+        (type INSTANCE)
+        (create-accessor read-write))
+    (multislot se_aloja_en
+        (type INSTANCE)
+        (create-accessor read-write))
+    (multislot va_en
+        (type INSTANCE)
+        (create-accessor read-write))
+    (multislot viaja
+        (type INSTANCE)
+        (create-accessor read-write))
+    ;;; Atributo que identifica si cualquier tipo de usuario tiene gente mayor.
+    (multislot Con_gente_mayor
+        (type SYMBOL)
+        (create-accessor read-write))
+    ;;; Atributo que indica el nombre de la instancia
+    (slot Nombre
+        (type STRING)
+        (create-accessor read-write))
+    ;;; Atributo que indica la preferencia de metodo de transporte para un usuario.
+    (multislot preferencia_viaje
+        (type STRING)
+        (create-accessor read-write))
+)
+
+(defclass Familia
+    (is-a UsuarioOnto)
+    (role concrete)
+    (pattern-match reactive)
+    ;;; Atributo que identifica si una familia o grupo contiene adolescentes
+    (multislot Con_adolescentes
+        (type SYMBOL)
+        (create-accessor read-write))
+    ;;; Atributo que identifica si una familia o grupo contiene niños
+    (multislot Con_niños
+        (type SYMBOL)
+        (create-accessor read-write))
+)
+
+(defclass Grupo
+    (is-a UsuarioOnto)
+    (role concrete)
+    (pattern-match reactive)
+    ;;; Atributo que identifica si una familia o grupo contiene adolescentes
+    (multislot Con_adolescentes
+        (type SYMBOL)
+        (create-accessor read-write))
+    ;;; Atributo que identifica si una familia o grupo contiene niños
+    (multislot Con_niños
+        (type SYMBOL)
+        (create-accessor read-write))
+    ;;; Atributo que representa el número de integrantes de un grupo
+    (multislot Numero_integrantes
+        (type INTEGER)
+        (create-accessor read-write))
+)
+
+(defclass Individuo
+    (is-a UsuarioOnto)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass Pareja
+    (is-a UsuarioOnto)
+    (role concrete)
+    (pattern-match reactive)
+)
+
 (defclass Actividad
     (is-a USER)
     (role concrete)
     (pattern-match reactive)
-    (multislot las_hacen
-        (type INSTANCE)
-        (create-accessor read-write))
+    ;;; Ciudad donde se realiza una actividad
     (slot se_hacen_en
         (type INSTANCE)
         (create-accessor read-write))
@@ -135,7 +252,7 @@
         (type INTEGER)
         (create-accessor read-write))
     ;;; Atributo que indica el nombre de la instancia
-    (multislot Nombre
+    (slot Nombre
         (type STRING)
         (create-accessor read-write))
     ;;; Precio de un servicio específico.
@@ -166,10 +283,6 @@
     (is-a Actividad)
     (role concrete)
     (pattern-match reactive)
-    ;;; Atributo que representa la dificultad de una excursión
-    (multislot Dificultad
-        (type INTEGER)
-        (create-accessor read-write))
 )
 
 (defclass Aventura
@@ -202,122 +315,6 @@
     (pattern-match reactive)
 )
 
-(defclass Viaje
-    (is-a USER)
-    (role concrete)
-    (pattern-match reactive)
-    (multislot esta_formado_por
-        (type INSTANCE)
-        (create-accessor read-write))
-    ;;; Atributo que indica el nombre de la instancia
-    (multislot Nombre
-        (type STRING)
-        (create-accessor read-write))
-)
-
-(defclass Descanso
-    (is-a Viaje)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass Diversion
-    (is-a Viaje)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass Romantico
-    (is-a Viaje)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass Trabajo
-    (is-a Viaje)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass VAventura
-    (is-a Viaje)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass VCultural
-    (is-a Viaje)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass Alojamiento
-    (is-a USER)
-    (role concrete)
-    (pattern-match reactive)
-    (slot esta_en
-        (type INSTANCE)
-        (create-accessor read-write))
-    ;;; Atributo que indica si un alojamiento dispone de piscina
-    (slot Con_piscina
-        (type SYMBOL)
-        (create-accessor read-write))
-    ;;; Atributo que representa la distancia al centro de la ciudad de un alojamiento en dihca ciudad.
-    (slot Distancia_a_centro
-        (type FLOAT)
-        (create-accessor read-write))
-    ;;; Atributo que indica el nombre de la instancia
-    (slot Nombre
-        (type STRING)
-        (create-accessor read-write))
-    ;;; Precio de un servicio específico.
-    (slot precio
-        (type FLOAT)
-        (create-accessor read-write))
-    ;;; Atributo que indica quan bueno es un hotel, de 1 a 5.
-    (slot Estrellas
-        (type INTEGER)
-        (create-accessor read-write))
-)
-
-(defclass Albergue
-    (is-a Alojamiento)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass Camping
-    (is-a Alojamiento)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass Casa_Rural
-    (is-a Alojamiento)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass Hotel
-    (is-a Alojamiento)
-    (role concrete)
-    (pattern-match reactive)
-    ;;; Atributo que indica si un hotel es exclusivamente para adultos o no.
-    (multislot Para_adultos
-        (type SYMBOL)
-        (create-accessor read-write))
-)
-
-(defclass Resort
-    (is-a Alojamiento)
-    (role concrete)
-    (pattern-match reactive)
-    ;;; Atributo que indica si un hotel es exclusivamente para adultos o no.
-    (multislot Para_adultos
-        (type SYMBOL)
-        (create-accessor read-write))
-)
-
 (defclass Ciudad
     (is-a USER)
     (role concrete)
@@ -326,7 +323,7 @@
         (type STRING)
         (create-accessor read-write))
     ;;; Atributo que indica el nombre de la instancia
-    (multislot Nombre
+    (slot Nombre
         (type STRING)
         (create-accessor read-write))
     ;;; Atributo que indica el numero de habitaciones en un alojamiento.
@@ -335,3 +332,5 @@
         (create-accessor read-write))
 )
 
+(definstances instances
+)
