@@ -155,7 +155,7 @@ untitled-ontology-6:Duracion_actividad rdf:type owl:DatatypeProperty ;
 untitled-ontology-6:Estrellas rdf:type owl:DatatypeProperty ;
                               rdfs:subPropertyOf owl:topDataProperty ;
                               rdf:type owl:FunctionalProperty ;
-                              rdfs:domain untitled-ontology-6:Hotel ;
+                              rdfs:domain untitled-ontology-6:Alojamiento ;
                               rdfs:range xsd:integer ;
                               rdfs:comment "Atributo que indica quan bueno es un hotel, de 1 a 5." .
 
