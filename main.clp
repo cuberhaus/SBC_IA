@@ -718,41 +718,6 @@
 ;   (printout t "funciona: " ?nom crlf)
 ;  )
 
- (defrule LOGIC::escoger-actividades
-   ; (escoger-ciudades)
-   ?vi <- (viaje (ciudades $?ciu) (actividades $?actividade) (coste ?costev))
-   ;?vi <- (viaje (estructura (ciudad ?c) (dias ?d) (ocupacion ?o)) (actividades $?actividade)) ;; me marco un triple?
-   ?est <- (estructura (ciudad ?c) (dias ?d) (ocupacion ?o))
-   ?todosv <- (object (is-a Ciudad) (Nombre ?nomc))
-   (test (member ?c $?ciu))
-   ?u <- (usuario (presupuesto ?pres))
-   ;?est <- (estructura (ciudad ?c) (dias ?d) (ocupacion ?o))
-   ;(test (eq ?c $?nomc))
-
-
-   ?activ <- (object (is-a Actividad) (Nombre ?nactiv) (Duracion_actividad ?duracion) (se_hacen_en ?nhacen) (precio ?costea))
-
-   (test (not (member ?nactiv $?actividade)))
-   (test (<= (+ ?o ?duracion) (* ?d 100)))
-   (test (eq ?c (str-cat ?nhacen)))
-
-   (test (<= (+ ?costev ?costea) ?pres))
-  
-  =>
-  (if (not (member ?c $?actividade)) then
-   (bind ?firstactiv (create$ ?c ?nactiv))
-   (bind $?aux2 (insert$ $?actividade (+ (length$ ?actividade) 1 ) ?firstactiv))
-   (modify ?vi (actividades ?aux2) (coste (+ ?costev ?costea)))
-  else
-    (bind $?aux (insert$ $?actividade (+ (length$ ?actividade) 1 ) ?nactiv))
-    (modify ?vi (actividades ?aux) (coste (+ ?costev ?costea)))
-  )
-  (printout t "works " ?c "  activity: " ?nactiv crlf)
-   ;(bind ?o (+ ?o ?duracion))
-  (modify ?est (ocupacion (+ ?o ?duracion)))
-   ;(assert (estructura (ciudad ?c) (dias ?d) (ocupacion (+ ?o ?duracion)) ))
-  (printout t "debug 5" )
- )
 
  ;(defrule LOGIC::escoger-actividades
  ;  ?vi <- (viaje (ciudades $?ciu) (dias_por_ciudad $?c_dia_i))
@@ -816,6 +781,7 @@
     )
 
 (defrule LOGIC::escoger-transporte
+  (declare (salience 10))
   ;(declare (salience 24))
   ; (escoger-ciudades)
   (assertsciudades)
@@ -878,6 +844,42 @@
 ;    (modify ?vi (transporte $?escog_transporte))
 ;    (assert (escoger-transporte))
 ;  )
+
+ (defrule LOGIC::escoger-actividades
+   ; (escoger-ciudades)
+   ?vi <- (viaje (ciudades $?ciu) (actividades $?actividade) (coste ?costev))
+   ;?vi <- (viaje (estructura (ciudad ?c) (dias ?d) (ocupacion ?o)) (actividades $?actividade)) ;; me marco un triple?
+   ?est <- (estructura (ciudad ?c) (dias ?d) (ocupacion ?o))
+   ?todosv <- (object (is-a Ciudad) (Nombre ?nomc))
+   (test (member ?c $?ciu))
+   ?u <- (usuario (presupuesto ?pres))
+   ;?est <- (estructura (ciudad ?c) (dias ?d) (ocupacion ?o))
+   ;(test (eq ?c $?nomc))
+
+
+   ?activ <- (object (is-a Actividad) (Nombre ?nactiv) (Duracion_actividad ?duracion) (se_hacen_en ?nhacen) (precio ?costea))
+
+   (test (not (member ?nactiv $?actividade)))
+   (test (<= (+ ?o ?duracion) (* ?d 100)))
+   (test (eq ?c (str-cat ?nhacen)))
+
+   (test (<= (+ ?costev ?costea) ?pres))
+  
+  =>
+  (if (not (member ?c $?actividade)) then
+   (bind ?firstactiv (create$ ?c ?nactiv))
+   (bind $?aux2 (insert$ $?actividade (+ (length$ ?actividade) 1 ) ?firstactiv))
+   (modify ?vi (actividades ?aux2) (coste (+ ?costev ?costea)))
+  else
+    (bind $?aux (insert$ $?actividade (+ (length$ ?actividade) 1 ) ?nactiv))
+    (modify ?vi (actividades ?aux) (coste (+ ?costev ?costea)))
+  )
+  (printout t "works " ?c "  activity: " ?nactiv crlf)
+   ;(bind ?o (+ ?o ?duracion))
+  (modify ?est (ocupacion (+ ?o ?duracion)))
+   ;(assert (estructura (ciudad ?c) (dias ?d) (ocupacion (+ ?o ?duracion)) ))
+  (printout t "debug 5" )
+ )
 
 (defrule LOGIC::acaba-la-logica
   (declare (salience -5))

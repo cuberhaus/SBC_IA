@@ -21,11 +21,11 @@ Restricciones viaje:
 - Ontologia cambiada directamente desde .clp, tema ciudades cambiar multislot por slot
 
 - Restricciones Obligatorias (implementar)
-- [ ] Numero minimo ciudades a visitar
-- [ ] Numero minimo dias que dura el viaje
-- [ ] Numero minimo dias/ciudad
-- [ ] Presupuesto aproximado
-- [ ] Medios de transporte
+- [x] Numero minimo ciudades a visitar
+- [x] Numero minimo dias que dura el viaje
+- [x] Numero minimo dias/ciudad
+- [x] Presupuesto aproximado
+- [x] Medios de transporte
 
 Preferencias sobre el viaje: (implementar)
 - [ ] Prefiere visitar ciudades/lugares menos conocidos
@@ -33,7 +33,12 @@ Preferencias sobre el viaje: (implementar)
 
 - Restricciones de experto
 - [ ] Eventos especiales
-- [ ] Viajes cortos (mismo continente)
+- [x] Viajes cortos (mismo continente)
 
-- [ ] Conjuntos de ciudades segun el tipo de viaje (romantico, descanso...)
-- [ ] Inferir tipos de viaje: pareja -> romantico, con niños -> not descanso
+- [x] Conjuntos de ciudades segun el tipo de viaje (romantico, descanso...)
+- [x] Inferir tipos de viaje: pareja -> romantico, con niños -> not descanso
+
+
+- [ ] invertir orden de transportes actividades...
+- [ ] printar dos viajes
+- [ ] usar mas ifs con la informacion de usuario 
