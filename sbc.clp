@@ -2,7 +2,7 @@
 ;;; sbc.clp
 ;;; Translated by owl2clips
 ;;; Translated to CLIPS from ontology sbc.owl
-;;; :Date 21/05/2022 19:45:44
+;;; :Date 21/05/2022 20:04:45
 
 (defclass Alojamiento
     (is-a USER)
@@ -19,6 +19,10 @@
     ;;; Atributo que representa la distancia al centro de la ciudad de un alojamiento en dihca ciudad.
     (slot Distancia_a_centro
         (type FLOAT)
+        (create-accessor read-write))
+    ;;; Atributo que indica quan bueno es un hotel, de 1 a 5.
+    (slot Estrellas
+        (type INTEGER)
         (create-accessor read-write))
     ;;; Atributo que indica el nombre de la instancia
     (slot Nombre
@@ -52,10 +56,6 @@
     (is-a Alojamiento)
     (role concrete)
     (pattern-match reactive)
-    ;;; Atributo que indica quan bueno es un hotel, de 1 a 5.
-    (slot Estrellas
-        (type INTEGER)
-        (create-accessor read-write))
     ;;; Atributo que indica si un hotel es exclusivamente para adultos o no.
     (multislot Para_adultos
         (type SYMBOL)
@@ -70,55 +70,6 @@
     (multislot Para_adultos
         (type SYMBOL)
         (create-accessor read-write))
-)
-
-(defclass ViajeOnto
-    (is-a USER)
-    (role concrete)
-    (pattern-match reactive)
-    (multislot esta_formado_por
-        (type INSTANCE)
-        (create-accessor read-write))
-    ;;; Atributo que indica el nombre de la instancia
-    (slot Nombre
-        (type STRING)
-        (create-accessor read-write))
-)
-
-(defclass Descanso
-    (is-a ViajeOnto)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass Diversion
-    (is-a ViajeOnto)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass Romantico
-    (is-a ViajeOnto)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass Trabajo
-    (is-a ViajeOnto)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass VAventura
-    (is-a ViajeOnto)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass VCultural
-    (is-a ViajeOnto)
-    (role concrete)
-    (pattern-match reactive)
 )
 
 (defclass Transporte
@@ -235,6 +186,55 @@
 
 (defclass Pareja
     (is-a UsuarioOnto)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass ViajeOnto
+    (is-a USER)
+    (role concrete)
+    (pattern-match reactive)
+    (multislot esta_formado_por
+        (type INSTANCE)
+        (create-accessor read-write))
+    ;;; Atributo que indica el nombre de la instancia
+    (slot Nombre
+        (type STRING)
+        (create-accessor read-write))
+)
+
+(defclass Descanso
+    (is-a ViajeOnto)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass Diversion
+    (is-a ViajeOnto)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass Romantico
+    (is-a ViajeOnto)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass Trabajo
+    (is-a ViajeOnto)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass VAventura
+    (is-a ViajeOnto)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass VCultural
+    (is-a ViajeOnto)
     (role concrete)
     (pattern-match reactive)
 )

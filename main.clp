@@ -558,7 +558,7 @@
   ?vi <- (viaje (ciudades $?ciudades) (duracion ?dur))
  =>
   (if (<=  ?min ?dur)
-   then (if not(<= ?ciumin (length$ ?ciudades) ) ) then ("No se puede programar un viaje") (focus ERROR)
+   then (if (not (<= ?ciumin (length$ ?ciudades) ))  then ("No se puede programar un viaje") (focus ERROR)
   )
 )
 
