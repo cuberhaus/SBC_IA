@@ -37,12 +37,6 @@
 	     (allowed-strings "descanso" "diversion" "romantico" "trabajo" "aventura" "cultural"))
   )
 
-(deftemplate MENU::estructura "Estructura que nos permite asociar ciudades con los dias que van a ocupar y como de ocupada esta la estancia en esa ciudad (por las actividades que se hacen alli)"
-  (slot dias (type INTEGER))
-  (slot ocupacion (type INTEGER))
-  (multislot ciudad (type STRING))
-  )
-
 (deftemplate MENU::viaje "Nos permite almacenar el viaje que veremos como resultado"
   (slot continentes (type SYMBOL) (allowed-values TRUE FALSE) )
   (slot duracion (type INTEGER))
@@ -53,16 +47,6 @@
   (multislot alojamientos)
   (multislot transporte)
   (multislot actividades)
-  )
-
-(deftemplate MENU::alojamiento_puntuado "Puntuacion que nos permite saber cual es el mejor alojamiento para el usuario"
-  (slot fitness (type INTEGER) (range 0 100) (default 0))
-  (slot alojamiento-nom (type STRING) )
-  )
-
-(deftemplate MENU::nextciudad "Permite saber el orden en que visitamos las ciudades"
-  (slot desde (type STRING))
-  (slot hacia (type STRING))
   )
 
 (deffacts MENU::inicialitzacio "Inicializamos las clases donde guardaremos la informacion"
@@ -313,6 +297,16 @@
 (defmodule INFERENCIA "Inferir propiedades de los usuarios con los datos obtenidos"
   (import MENU ?ALL) (import MAIN ?ALL) (export ?ALL))
 
+(deftemplate INFERENCIA::fix_dias_por_ciudad
+  (slot dias_por_ciudad (type INTEGER) ) 
+  )
+
+(deftemplate INFERENCIA::ciudad_puntuada
+  (slot fitness (type INTEGER) (range 0 100) (default 0))
+  (slot ciudad (type STRING) )
+  (slot Continente (type STRING) )
+  )
+
 (defrule INFERENCIA::con-ninos "Inferimos si hay niños con las edades introducidas"
   (not (inferencia_acabada))
   (not (preguntado-con-ninos))
@@ -383,12 +377,6 @@
   (assert (longitud_viaje)) 
 )
 
-
-(deftemplate MENU::ciudad_puntuada
-  (slot fitness (type INTEGER) (range 0 100) (default 0))
-  (slot ciudad (type STRING) )
-  (slot Continente (type STRING) )
-  )
 
 (defrule INFERENCIA::ciudades_romanticas
   (not (inferencia_acabada))
@@ -504,10 +492,6 @@
   (assert (tipo_viaje_inferido))
 )
 
-(deftemplate INFERENCIA::fix_dias_por_ciudad
-  (slot dias_por_ciudad (type INTEGER) ) 
-  )
-
 (defrule INFERENCIA::initialize_dias_por_ciudad
   (not (inferencia_acabada))
   ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
@@ -547,9 +531,31 @@
 (deftemplate LOGIC::fix_aloj
   (slot nom_ciudad (type STRING) ) 
   )
+
 (deftemplate LOGIC::ciudad_escogida
   (slot nom_ciudad (type STRING))
   )
+
+(deftemplate LOGIC::fix_trans
+  (slot nom_ciudad (type STRING))
+  )
+
+(deftemplate LOGIC::alojamiento_puntuado "Puntuacion que nos permite saber cual es el mejor alojamiento para el usuario"
+  (slot fitness (type INTEGER) (range 0 100) (default 0))
+  (slot alojamiento-nom (type STRING) )
+  )
+
+(deftemplate LOGIC::nextciudad "Permite saber el orden en que visitamos las ciudades"
+  (slot desde (type STRING))
+  (slot hacia (type STRING))
+  )
+
+(deftemplate MENU::estructura "Estructura que nos permite asociar ciudades con los dias que van a ocupar y como de ocupada esta la estancia en esa ciudad (por las actividades que se hacen alli)"
+  (slot dias (type INTEGER))
+  (slot ocupacion (type INTEGER))
+  (multislot ciudad (type STRING))
+  )
+
 
 (defrule LOGIC::escoger-ciudades-rule-high-fit
   (declare (salience 50))
@@ -703,9 +709,6 @@
   (modify ?vi (alojamientos ?aux) (coste (+ ?costev (* ?costea ?d)) ))
    )
 
-(deftemplate LOGIC::fix_trans
-  (slot nom_ciudad (type STRING))
-  )
 
 (defrule LOGIC::escoger-transporte
   (declare (salience 10))
