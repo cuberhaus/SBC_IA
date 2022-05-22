@@ -1,8 +1,7 @@
 Notation:
 WIP : Work in progress
 [x] : This task is done
-[] : This task is not yet done
-
+[ ] : This task is not yet done
 Usuarios:
 - [x] Edades
 - [x] Con niños (deducir)
@@ -39,6 +38,8 @@ Preferencias sobre el viaje: (implementar)
 - [x] Inferir tipos de viaje: pareja -> romantico, con niños -> not descanso
 
 
-- [ ] invertir orden de transportes actividades...
-- [ ] printar dos viajes
+- [x] invertir orden de transportes actividades...
+- [x] printar dos viajes
 - [ ] usar mas ifs con la informacion de usuario 
+- [ ] Precio de alojamiento por noche
+- [ ] 

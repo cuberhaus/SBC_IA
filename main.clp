@@ -558,7 +558,6 @@
   (declare (salience 50))
  (not (logica-acabada))
   ?vi <- (viaje (ciudades $?ciudades) (duracion ?dur) (dias_por_ciudad $?dpor) (continentes ?use_cont) (continente ?cont))
-;?todosv <- (object (is-a Ciudad) (Nombre ?nomc))
   ?ciupunt <- (ciudad_puntuada (fitness ?fit) (ciudad ?nom) (Continente ?cont2))
   ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
   (test (>= ?fit 40))
@@ -572,8 +571,6 @@
   (not (exists (and (ciudad_escogida (nom_ciudad ?nomc2)) (test (eq ?nomc2 ?nom))))) 
 =>
   (assert (ciudad_escogida (nom_ciudad ?nom)))
-  ; (printout t "debug 1" crlf)
-  ; (printout t ?nom " amb fitness: " ?fit)
   (bind $?aux (insert$ $?ciudades (+ (length$ ?ciudades) 1 ) ?nom))
   (bind $?aux2 (insert$ $?dpor (+ (length$ ?dpor) 1 ) ?dias_por))
   (assert (estructura (ciudad ?nom) (dias ?dias_por) (ocupacion 0) ))
@@ -588,7 +585,6 @@
   (declare (salience 50))
  (not (logica-acabada))
   ?vi <- (viaje (ciudades $?ciudades) (duracion ?dur) (dias_por_ciudad $?dpor) (continentes ?use_cont) (continente ?cont))
-;?todosv <- (object (is-a Ciudad) (Nombre ?nomc))
   ?ciupunt <- (ciudad_puntuada (fitness ?fit) (ciudad ?nom) (Continente ?cont2))
   ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
   (test (>= ?fit 0))
@@ -602,8 +598,6 @@
   (not (exists (and (ciudad_escogida (nom_ciudad ?nomc2)) (test (eq ?nomc2 ?nom))))) 
 =>
   (assert (ciudad_escogida (nom_ciudad ?nom)))
-  ; (printout t "debug 1" crlf)
-  ; (printout t ?nom " amb fitness: " ?fit)
   (bind $?aux (insert$ $?ciudades (+ (length$ ?ciudades) 1 ) ?nom))
   (bind $?aux2 (insert$ $?dpor (+ (length$ ?dpor) 1 ) ?dias_por))
   (assert (estructura (ciudad ?nom) (dias ?dias_por) (ocupacion 0) ))
@@ -627,24 +621,40 @@
  )
   )
 
+(defrule LOGIC::assertsciudades
+  (declare (salience 25))
+ (not (logica-acabada))
+  (not (assertsciudades))
+  ?vi <- (viaje (ciudades $?ciu))
+  =>
+  (bind ?i 1)
+  (while (< ?i (length$ ?ciu)) 
+    ;; bucle hasta < para que no pete con la ultima iter (usamos i y i+1, habra que añadir vuelo del origen a la primera y de la ultima al origen!)
+  do
+      (bind ?ciuA (nth$ ?i ?ciu))
+      (bind ?ciuB (nth$ (+ ?i 1) ?ciu))
+      (assert (nextciudad (desde ?ciuA) (hacia ?ciuB)))
+      (bind ?i (+ ?i 1)) 
+  )
+  (assert (assertsciudades))
+)
+
 (defrule LOGIC::initialize_alojamiento_puntuado
   (declare (salience 10))
  (not (logica-acabada))
   ?user <- (usuario (calidad-alojamiento ?cal))
   ?aloj <- (object (is-a Alojamiento) (Nombre ?nom) (Distancia_a_centro ?dist) (Estrellas ?est))
 =>
-  ; (printout t "aloj_puntuado" crlf)
   (bind ?fit 0)
   (if (< ?dist 5) then (bind ?fit (+ ?fit 10)) )
   (if (< ?cal ?est) then (bind ?fit (+ ?fit 90)) )
 (assert (alojamiento_puntuado (alojamiento-nom ?nom) (fitness ?fit) ) )
-  ; (printout t "debug 3" crlf)
 )
+
 
 (defrule LOGIC::escoger-alojamiento
   (declare (salience 9) )
  (not (logica-acabada))
-  (not (escoger-alojamiento))
   ?todosv <- (object (is-a Ciudad) (Nombre ?nomc2))
   ?vi <- (viaje (alojamientos $?alojs) (ciudades $?ciu) (coste ?costev))
   (test (member ?nomc2 $?ciu))
@@ -657,34 +667,16 @@
   (test (>= ?fit 10) )
   (test (>= ?est ?cal) )
   (test (eq ?nomc2 (str-cat ?ciu2) ))
+  
+  ?estruct <- (estructura (ciudad ?c) (dias ?d) (ocupacion ?o))
 
-   (test (<= (+ ?costev ?costea) ?pres))
+  (test (eq ?c ?nomc2))
+  (test (<= (+ ?costev (* ?costea ?d)) ?pres))
  =>
   (assert (fix_aloj (nom_ciudad ?nomc2) ))
   (bind $?aux (insert$ $?alojs (+ (length$ ?alojs) 1 ) ?nom_p))
-  (modify ?vi (alojamientos ?aux) (coste (+ ?costev ?costea)))
-  ;;(printout t "debug 4" crlf)
+  (modify ?vi (alojamientos ?aux) (coste (+ ?costev (* ?costea ?d)) ))
    )
-
-(defrule LOGIC::assertsciudades
-  (declare (salience 25))
- (not (logica-acabada))
-  (not (assertsciudades))
-  ?vi <- (viaje (ciudades $?ciu))
-  =>
-  ; (printout t "assert_cities" crlf)
-  (bind ?i 1)
-  (while (< ?i (length$ ?ciu)) 
-    ;; bucle hasta < para que no pete con la ultima iter (usamos i y i+1, habra que añadir vuelo del origen a la primera y de la ultima al origen!)
-  do
-      (bind ?ciuA (nth$ ?i ?ciu))
-      (bind ?ciuB (nth$ (+ ?i 1) ?ciu))
-      (assert (nextciudad (desde ?ciuA) (hacia ?ciuB)))
-      (bind ?i (+ ?i 1)) 
-  )
-  (assert (assertsciudades))
-  ;;(printout t "debug 6" crlf)
-)
 
 (deftemplate LOGIC::fix_trans
   (slot nom_ciudad (type STRING))
@@ -710,14 +702,10 @@
   (test (<= (+ ?costev ?costet) ?pres))
   (not (exists (fix_trans (nom_ciudad ?nomc2))))
   =>
-  ; (printout t "escoger_transporte" crlf)
   (bind ?xd (eq ?nomc2 ?parte))
-  ; (printout t (lowcase (class ?transporte)) crlf)
-  ; (printout t ?nomc2 "   and   " ?nomc3 "   and   " ?nomt crlf)
   (bind $?aux (insert$ $?medios (+ (length$ ?medios) 1 ) ?nomt))
   (modify ?vi (transporte $?aux) (coste (+ ?costev ?costet)))
   (assert (fix_trans (nom_ciudad ?nomc2) ))
-  ; (printout t "debug 7" crlf)
 )
 
 
@@ -728,7 +716,8 @@
    ?todosv <- (object (is-a Ciudad) (Nombre ?nomc))
    (test (member ?c $?ciu))
    ?u <- (usuario (presupuesto ?pres))
-   ?activ <- (object (is-a Actividad) (Nombre ?nactiv) (Duracion_actividad ?duracion) (se_hacen_en ?nhacen) (precio ?costea))
+   ?activ <- (object (is-a Actividad) (Nombre ?nactiv)
+		     (Duracion_actividad ?duracion) (se_hacen_en ?nhacen) (precio ?costea))
    (test (not (member ?nactiv $?actividade)))
    (test (<= (+ ?o ?duracion) (* ?d 100)))
    (test (eq ?c (str-cat ?nhacen)))
@@ -742,9 +731,7 @@
       (bind $?aux (insert$ $?actividade (+ (length$ ?actividade) 1 ) ?nactiv))
       (modify ?vi (actividades ?aux) (coste (+ ?costev ?costea)))
   )
-   ; (printout t "works " ?c "  activity: " ?nactiv crlf)
    (modify ?est (ocupacion (+ ?o ?duracion)))
-   ; (printout t "debug 5" crlf)
  )
 
 (defrule LOGIC::acaba-la-logica "Ultima funcion que se ejecuta de la logica"
@@ -752,7 +739,6 @@
  (assertsciudades)
  (not (logica-acabada))
  =>
-  ; (printout t "acaba_logica" crlf)
   (assert (logica-acabada))
   (focus RESULTADOS)
 )
@@ -760,7 +746,8 @@
 ;                                 MODULO DE RESULTADOS                                 -
 ;---------------------------------------------------------------------------------------
 ;; rules from other modules can be activated if they are imported
-  (defmodule RESULTADOS "Printar resultados obtenidos" (import MENU ?ALL) (import MAIN ?ALL) (import LOGIC ?ALL) (import INFERENCIA ?ALL)
+(defmodule RESULTADOS "Printar resultados obtenidos" (import MENU ?ALL)
+  (import MAIN ?ALL) (import LOGIC ?ALL) (import INFERENCIA ?ALL)
     )
 
 (defrule RESULTADOS:printar_plantilla-rule
@@ -777,7 +764,8 @@
 (defrule RESULTADOS:printar_viaje-rule
   (not (printar_viaje))
   (printar_plantilla)
-  ?vi <- (viaje (duracion ?d) (ciudades $?ciu) (dias_por_ciudad $?diasciu) (actividades $?activ) (alojamientos $?aloj) (transporte $?trans) (coste ?costev))
+  ?vi <- (viaje (duracion ?d) (ciudades $?ciu) (dias_por_ciudad $?diasciu)
+		(actividades $?activ) (alojamientos $?aloj) (transporte $?trans) (coste ?costev))
   =>
   (printout t "Duracion del viaje: " ?d  " dias" crlf crlf)
 
@@ -828,7 +816,6 @@
 )
 
 (defrule RESULTADOS::printar_plantilla-rule2
-  ; (not (printar_plantilla))
   (preparar_segundo_viaje)
   (not (printar_plantilla2))
   (not (segundo_viaje))
@@ -847,8 +834,6 @@
   (not (segundo_viaje))
   (printar_plantilla2)
 =>
-
-  ; (printout t "alojamiento_puntuado" crlf)
   (retract ?est)
   )
 
@@ -858,8 +843,6 @@
   (not (segundo_viaje))
   (printar_plantilla2)
 =>
-
-  ; (printout t "nextciudad" crlf)
   (retract ?est)
   )
 (defrule RESULTADOS::preparar_segundo_viaje_fix_trans ""
@@ -868,8 +851,6 @@
   (not (segundo_viaje))
   (printar_plantilla2)
 =>
-
-; (printout t "fix_trans" crlf)
   (retract ?est)
   )
 
@@ -879,18 +860,18 @@
   (not (segundo_viaje))
   (printar_plantilla2)
 =>
-; (printout t "fix_aloj" crlf)
   (retract ?est)
   )
+
 (defrule RESULTADOS::preparar_segundo_viaje_estr ""
   ?est <- (estructura)
   (preparar_segundo_viaje)
   (not (segundo_viaje))
   (printar_plantilla2)
  =>
-  ; (printout t "estructura" crlf)
   (retract ?est)
   )
+
 (defrule RESULTADOS::preparar_segundo_viaje "Busca el viaje de nuevo, pero con ciudades distintas"
   ?vi <- (viaje)
   (preparar_segundo_viaje) 
@@ -904,7 +885,9 @@
   (bind ?trans (create$))
   (bind ?act (create$))
   (bind ?dias_por (create$))
-  (modify ?vi (continentes FALSE) (duracion 0) (coste 0) (continente "placeholder") (ciudades ?ciud) (alojamientos ?alojs) (transporte ?trans) (actividades ?act) (dias_por_ciudad ?dias_por)
+  (modify ?vi (continentes FALSE) (duracion 0) (coste 0)
+	  (continente "placeholder") (ciudades ?ciud) (alojamientos ?alojs)
+	  (transporte ?trans) (actividades ?act) (dias_por_ciudad ?dias_por)
 	  )
   (printout t "preparar viaje" crlf)
   (retract ?pri)
