@@ -374,17 +374,14 @@
   (assert (inferencia_tipo_usuario_asked))
 )
 
-;(defrule INFERENCIA::longitud_viaje
-;  ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
-;  ?vi <- (viaje (continentes $?cont))
-
-;  (not(longitud_viaje)) 
-;=>
-
-;  (if (< ?max 6) then (bind $?cont TRUE ) else (bind $?cont FALSE) )
-
-           ; (bind $?escog_ciudades (insert$ $?escog_ciudades (+ (length$ $?escog_ciudades) 1 ) ?ciudad))
-;)
+(defrule INFERENCIA::longitud_viaje
+  ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
+  ?vi <- (viaje (continentes ?cont))
+  (not(longitud_viaje)) 
+ =>
+  (if (< ?max 6) then (bind $?cont TRUE ) else (bind $?cont FALSE) )
+  (assert (longitud_viaje)) 
+)
 
 
 (deftemplate MENU::ciudad_puntuada
@@ -528,7 +525,7 @@
 (defrule INFERENCIA::acabainferencia
   (declare (salience -5))
   (inferencia_tipo_usuario_asked)
-  ; (longitud_viaje)
+  (longitud_viaje)
   (tipo_viaje_inferido)
 
   (preguntado-con-ninos)
@@ -597,6 +594,34 @@
   (test (or (eq ?use_cont FALSE) (or (eq ?cont "placeholder") (eq ?cont ?cont2)) ) ) 
   (not (exists (and (ciudad_escogida (nom_ciudad ?nomc2)) (test (eq ?nomc2 ?nom))))) 
 =>
+  (assert (ciudad_escogida (nom_ciudad ?nom)))
+  (bind $?aux (insert$ $?ciudades (+ (length$ ?ciudades) 1 ) ?nom))
+  (bind $?aux2 (insert$ $?dpor (+ (length$ ?dpor) 1 ) ?dias_por))
+  (assert (estructura (ciudad ?nom) (dias ?dias_por) (ocupacion 0) ))
+  (if (eq "placeholder" ?cont)
+   then (modify ?vi (ciudades ?aux) (duracion (+ ?dur ?dias_por)) (dias_por_ciudad ?aux2) (continente ?cont2))
+   else
+     (modify ?vi (ciudades ?aux) (duracion (+ ?dur ?dias_por)) (dias_por_ciudad ?aux2) )
+   )
+)
+
+(defrule LOGIC::escoger-ciudades-rule-low-fit-no-continent
+  (declare (salience 50))
+ (not (logica-acabada))
+  ?vi <- (viaje (ciudades $?ciudades) (duracion ?dur) (dias_por_ciudad $?dpor) (continentes ?use_cont) (continente ?cont))
+  ?ciupunt <- (ciudad_puntuada (fitness ?fit) (ciudad ?nom) (Continente ?cont2))
+  ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
+  (test (>= ?fit 0))
+  (test (not (member ?nom $?ciudades)))
+  ;; unificamos con todos los dias por ciudad posibles
+  ?fix <- (fix_dias_por_ciudad (dias_por_ciudad ?dias_por))
+  (test (>= ?max (+ ?dur ?dias_por) ) )
+  (test (<= (+ (length$ $?ciudades) 1) ?ciumax))
+  (test (<= (+ ?dur ?dias_por) ?max) )
+  ; (test (or (eq ?use_cont FALSE) (or (eq ?cont "placeholder") (eq ?cont ?cont2)) ) ) 
+  (not (exists (and (ciudad_escogida (nom_ciudad ?nomc2)) (test (eq ?nomc2 ?nom))))) 
+=>
+  (assert (continent_rule_not_respected))
   (assert (ciudad_escogida (nom_ciudad ?nom)))
   (bind $?aux (insert$ $?ciudades (+ (length$ ?ciudades) 1 ) ?nom))
   (bind $?aux2 (insert$ $?dpor (+ (length$ ?dpor) 1 ) ?dias_por))
@@ -754,7 +779,7 @@
   (not (printar_plantilla))
   =>
   (printout t "----------------------------------------------------------------------------------------------" crlf
-              "-                                        VIAJE OBTENIDO                                       -" crlf
+              "-                                        PRIMER VIAJE                                        -" crlf
               "----------------------------------------------------------------------------------------------" crlf 
               crlf
   )
@@ -807,7 +832,16 @@
   (assert (printar_viaje))
 )
 
+(defrule RESULTADOS::not_continente ""
+  (printar_plantilla)
+  ?est <- (continent_rule_not_respected)
+ =>
+  (printout t  "Los viajes no pueden ser del mismo continente" crlf)
+  (retract ?est)
+  )
+
 (defrule RESULTADOS::acaba-resultados
+  (declare (salience -5))
  (printar_plantilla)
  (printar_viaje)
  (not (preparar_segundo_viaje))
@@ -821,7 +855,7 @@
   (not (segundo_viaje))
   =>
   (printout t "----------------------------------------------------------------------------------------------" crlf
-              "-                                        Segundo viaje                                       -" crlf
+              "-                                        SEGUNDO VIAJE                                       -" crlf
               "----------------------------------------------------------------------------------------------" crlf 
               crlf
   )
@@ -878,18 +912,17 @@
   (not (segundo_viaje))
   ?pri <- (printar_viaje)
   ?asciu <- (assertsciudades)
- ?logic <- (logica-acabada)
+  ?logic <- (logica-acabada)
  =>
   (bind ?ciud (create$))
   (bind ?alojs (create$))
   (bind ?trans (create$))
   (bind ?act (create$))
   (bind ?dias_por (create$))
-  (modify ?vi (continentes FALSE) (duracion 0) (coste 0)
+  (modify ?vi (duracion 0) (coste 0)
 	  (continente "placeholder") (ciudades ?ciud) (alojamientos ?alojs)
 	  (transporte ?trans) (actividades ?act) (dias_por_ciudad ?dias_por)
 	  )
-  (printout t "preparar viaje" crlf)
   (retract ?pri)
   (retract ?asciu)
   (retract ?logic)
