@@ -624,7 +624,6 @@
   (test (>= ?max (+ ?dur ?dias_por) ) )
   (test (<= (+ (length$ $?ciudades) 1) ?ciumax))
   (test (<= (+ ?dur ?dias_por) ?max) )
-  ; (test (or (eq ?use_cont FALSE) (or (eq ?cont "placeholder") (eq ?cont ?cont2)) ) ) 
   (not (exists (and (ciudad_escogida (nom_ciudad ?nomc2)) (test (eq ?nomc2 ?nom))))) 
 =>
   (assert (continent_rule_not_respected))
