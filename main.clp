@@ -806,7 +806,7 @@
   (assert (printar_plantilla2))
 )
 
-(defrule RESULTADOS::preparar_segundo_viaje_next_ciudad ""
+(defrule RESULTADOS::preparar_segundo_viaje_aloj_punt ""
   ?est <- (alojamiento_puntuado)
   (preparar_segundo_viaje)
   (not (segundo_viaje))
@@ -827,7 +827,7 @@
   (printout t "nextciudad" crlf)
   (retract ?est)
   )
-(defrule RESULTADOS::preparar_segundo_viaje_trans ""
+(defrule RESULTADOS::preparar_segundo_viaje_fix_trans ""
   ?est <- (fix_trans)
   (preparar_segundo_viaje)
   (not (segundo_viaje))
@@ -838,7 +838,7 @@
   (retract ?est)
   )
 
-(defrule RESULTADOS::preparar_segundo_viaje_aloj ""
+(defrule RESULTADOS::preparar_segundo_viaje_fix_aloj ""
   ?est <- (fix_aloj)
   (preparar_segundo_viaje)
   (not (segundo_viaje))
@@ -847,7 +847,7 @@
 (printout t "fix_aloj" crlf)
   (retract ?est)
   )
-(defrule RESULTADOS::preparar_segundo_viaje2 ""
+(defrule RESULTADOS::preparar_segundo_viaje_estr ""
   ?est <- (estructura)
   (preparar_segundo_viaje)
   (not (segundo_viaje))
@@ -859,10 +859,9 @@
 (defrule RESULTADOS::preparar_segundo_viaje "Busca el viaje de nuevo, pero con ciudades distintas"
   ?vi <- (viaje)
   (preparar_segundo_viaje) 
-  (preparar_segundo_viaje2)
   (not (segundo_viaje))
   ?pri <- (printar_viaje)
-  ; ?ciudad <- (assertsciudades)
+  ?asciu <- (assertsciudades)
  =>
   (bind ?ciud (create$))
   (bind ?alojs (create$))
@@ -872,9 +871,9 @@
 	  )
   (printout t "preparar viaje" crlf)
   (retract ?pri)
-  (retract ?ciudad)
+  (retract ?asciu)
   (assert (segundo_viaje))
-  ; (focus LOGIC)
+  (focus LOGIC)
 )
 
 
