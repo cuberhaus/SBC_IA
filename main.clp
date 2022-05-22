@@ -558,16 +558,16 @@
 ;?todosv <- (object (is-a Ciudad) (Nombre ?nomc))
   ?ciupunt <- (ciudad_puntuada (fitness ?fit) (ciudad ?nom) (Continente ?cont2))
   ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
-  (test (>= ?fit 40))
+  (test (>= ?fit 0))
   (test (not (member ?nom $?ciudades)))
   ;; unificamos con todos los dias por ciudad posibles
   ?fix <- (fix_dias_por_ciudad (dias_por_ciudad ?dias_por))
   (test (>= ?max (+ ?dur ?dias_por) ) )
   (test (<= (+ (length$ $?ciudades) 1) ?ciumax))
   (test (<= (+ ?dur ?dias_por) ?max) )
-  (test (and (eq ?use_cont TRUE) (or (eq ?cont "placeholder") (eq ?cont ?cont2)) ) ) 
+  ; (test (and (eq ?use_cont TRUE) (or (eq ?cont "placeholder") (eq ?cont ?cont2)) ) ) 
 =>
-  (printout t "debug 1")
+  (printout t "debug 1" crlf)
   (printout t ?nom " amb fitness: " ?fit)
   (bind $?aux (insert$ $?ciudades (+ (length$ ?ciudades) 1 ) ?nom))
   (bind $?aux2 (insert$ $?dpor (+ (length$ ?dpor) 1 ) ?dias_por))
@@ -598,12 +598,12 @@
   ?user <- (usuario (calidad-alojamiento ?cal))
   ?aloj <- (object (is-a Alojamiento) (Nombre ?nom) (Distancia_a_centro ?dist) (Estrellas ?est))
 =>
-  (printout t "aloj_puntuado" crlf)
+  ; (printout t "aloj_puntuado" crlf)
   (bind ?fit 0)
   (if (< ?dist 5) then (bind ?fit (+ ?fit 10)) )
   (if (< ?cal ?est) then (bind ?fit (+ ?fit 90)) )
 (assert (alojamiento_puntuado (alojamiento-nom ?nom) (fitness ?fit) ) )
-  (printout t "debug 3" )
+  (printout t "debug 3" crlf)
 )
 
 (defrule LOGIC::escoger-alojamiento
@@ -628,7 +628,7 @@
   (assert (fix_aloj (nom_ciudad ?nomc2) ))
   (bind $?aux (insert$ $?alojs (+ (length$ ?alojs) 1 ) ?nom_p))
   (modify ?vi (alojamientos ?aux) (coste (+ ?costev ?costea)))
-  (printout t "debug 4")
+  (printout t "debug 4" crlf)
    )
 
 (defrule LOGIC::assertsciudades
@@ -648,7 +648,7 @@
       (bind ?i (+ ?i 1)) 
   )
   (assert (assertsciudades))
-  (printout t "debug 6")
+  (printout t "debug 6" crlf)
 )
 
 (deftemplate LOGIC::fix_trans
@@ -682,7 +682,7 @@
   (bind $?aux (insert$ $?medios (+ (length$ ?medios) 1 ) ?nomt))
   (modify ?vi (transporte $?aux) (coste (+ ?costev ?costet)))
   (assert (fix_trans (nom_ciudad ?nomc2) ))
-  (printout t "debug 7" )
+  (printout t "debug 7" crlf)
 )
 
 
@@ -709,7 +709,7 @@
   )
    (printout t "works " ?c "  activity: " ?nactiv crlf)
    (modify ?est (ocupacion (+ ?o ?duracion)))
-   (printout t "debug 5" )
+   (printout t "debug 5" crlf)
  )
 
 (defrule LOGIC::acaba-la-logica "Ultima funcion que se ejecuta de la logica"
@@ -862,16 +862,19 @@
   (not (segundo_viaje))
   ?pri <- (printar_viaje)
   ?asciu <- (assertsciudades)
+ ?logic <- (logica-acabada)
  =>
   (bind ?ciud (create$))
   (bind ?alojs (create$))
   (bind ?trans (create$))
   (bind ?act (create$))
-  (modify ?vi (continentes FALSE) (duracion 0) (coste 0) (continente "placeholder") (ciudades ?ciud) (alojamientos ?alojs) (transporte ?trans) (actividades ?act)
+  (bind ?dias_por (create$))
+  (modify ?vi (continentes FALSE) (duracion 0) (coste 0) (continente "placeholder") (ciudades ?ciud) (alojamientos ?alojs) (transporte ?trans) (actividades ?act) (dias_por_ciudad ?dias_por)
 	  )
   (printout t "preparar viaje" crlf)
   (retract ?pri)
   (retract ?asciu)
+  (retract ?logic)
   (assert (segundo_viaje))
   (focus LOGIC)
 )
