@@ -2,7 +2,56 @@
 ;;; sbc.clp
 ;;; Translated by owl2clips
 ;;; Translated to CLIPS from ontology sbc.owl
-;;; :Date 21/05/2022 20:04:45
+;;; :Date 22/05/2022 16:19:36
+
+(defclass ViajeOnto
+    (is-a USER)
+    (role concrete)
+    (pattern-match reactive)
+    (multislot esta_formado_por
+        (type INSTANCE)
+        (create-accessor read-write))
+    ;;; Atributo que indica el nombre de la instancia
+    (slot Nombre
+        (type STRING)
+        (create-accessor read-write))
+)
+
+(defclass Descanso
+    (is-a ViajeOnto)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass Diversion
+    (is-a ViajeOnto)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass Romantico
+    (is-a ViajeOnto)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass Trabajo
+    (is-a ViajeOnto)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass VAventura
+    (is-a ViajeOnto)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass VCultural
+    (is-a ViajeOnto)
+    (role concrete)
+    (pattern-match reactive)
+)
 
 (defclass Alojamiento
     (is-a USER)
@@ -116,129 +165,6 @@
     (pattern-match reactive)
 )
 
-(defclass UsuarioOnto
-    (is-a USER)
-    (role concrete)
-    (pattern-match reactive)
-    (multislot participa_en
-        (type INSTANCE)
-        (create-accessor read-write))
-    (multislot se_aloja_en
-        (type INSTANCE)
-        (create-accessor read-write))
-    (multislot va_en
-        (type INSTANCE)
-        (create-accessor read-write))
-    (multislot viaja
-        (type INSTANCE)
-        (create-accessor read-write))
-    ;;; Atributo que identifica si cualquier tipo de usuario tiene gente mayor.
-    (multislot Con_gente_mayor
-        (type SYMBOL)
-        (create-accessor read-write))
-    ;;; Atributo que indica el nombre de la instancia
-    (slot Nombre
-        (type STRING)
-        (create-accessor read-write))
-    ;;; Atributo que indica la preferencia de metodo de transporte para un usuario.
-    (multislot preferencia_viaje
-        (type STRING)
-        (create-accessor read-write))
-)
-
-(defclass Familia
-    (is-a UsuarioOnto)
-    (role concrete)
-    (pattern-match reactive)
-    ;;; Atributo que identifica si una familia o grupo contiene adolescentes
-    (multislot Con_adolescentes
-        (type SYMBOL)
-        (create-accessor read-write))
-    ;;; Atributo que identifica si una familia o grupo contiene niños
-    (multislot Con_niños
-        (type SYMBOL)
-        (create-accessor read-write))
-)
-
-(defclass Grupo
-    (is-a UsuarioOnto)
-    (role concrete)
-    (pattern-match reactive)
-    ;;; Atributo que identifica si una familia o grupo contiene adolescentes
-    (multislot Con_adolescentes
-        (type SYMBOL)
-        (create-accessor read-write))
-    ;;; Atributo que identifica si una familia o grupo contiene niños
-    (multislot Con_niños
-        (type SYMBOL)
-        (create-accessor read-write))
-    ;;; Atributo que representa el número de integrantes de un grupo
-    (multislot Numero_integrantes
-        (type INTEGER)
-        (create-accessor read-write))
-)
-
-(defclass Individuo
-    (is-a UsuarioOnto)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass Pareja
-    (is-a UsuarioOnto)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass ViajeOnto
-    (is-a USER)
-    (role concrete)
-    (pattern-match reactive)
-    (multislot esta_formado_por
-        (type INSTANCE)
-        (create-accessor read-write))
-    ;;; Atributo que indica el nombre de la instancia
-    (slot Nombre
-        (type STRING)
-        (create-accessor read-write))
-)
-
-(defclass Descanso
-    (is-a ViajeOnto)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass Diversion
-    (is-a ViajeOnto)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass Romantico
-    (is-a ViajeOnto)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass Trabajo
-    (is-a ViajeOnto)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass VAventura
-    (is-a ViajeOnto)
-    (role concrete)
-    (pattern-match reactive)
-)
-
-(defclass VCultural
-    (is-a ViajeOnto)
-    (role concrete)
-    (pattern-match reactive)
-)
-
 (defclass Actividad
     (is-a USER)
     (role concrete)
@@ -329,6 +255,47 @@
     ;;; Atributo que indica el numero de habitaciones en un alojamiento.
     (slot Numero_de_habitantes
         (type INTEGER)
+        (create-accessor read-write))
+)
+
+(defclass UsuarioOnto
+    (is-a USER)
+    (role concrete)
+    (pattern-match reactive)
+    (multislot participa_en
+        (type INSTANCE)
+        (create-accessor read-write))
+    (multislot se_aloja_en
+        (type INSTANCE)
+        (create-accessor read-write))
+    (multislot va_en
+        (type INSTANCE)
+        (create-accessor read-write))
+    (multislot viaja
+        (type INSTANCE)
+        (create-accessor read-write))
+    ;;; Atributo que identifica si una familia o grupo contiene adolescentes
+    (multislot Con_adolescentes
+        (type SYMBOL)
+        (create-accessor read-write))
+    ;;; Atributo que identifica si cualquier tipo de usuario tiene gente mayor.
+    (multislot Con_gente_mayor
+        (type SYMBOL)
+        (create-accessor read-write))
+    ;;; Atributo que identifica si una familia o grupo contiene niños
+    (multislot Con_niños
+        (type SYMBOL)
+        (create-accessor read-write))
+    ;;; Atributo que indica el nombre de la instancia
+    (slot Nombre
+        (type STRING)
+        (create-accessor read-write))
+    ;;; Atributo que indica la preferencia de metodo de transporte para un usuario.
+    (multislot preferencia_viaje
+        (type STRING)
+        (create-accessor read-write))
+    (multislot tipo_usuario
+        (type STRING)
         (create-accessor read-write))
 )
 
