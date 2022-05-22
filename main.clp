@@ -477,9 +477,9 @@
   ?user <- (usuario (tipo-usuario ?tuser))
   (not (tipo_viaje_inferido))
   =>
-  (if (eq ?tuser "individual") then (printout t "No será romantico"))
-  (if (eq ?tuser "pareja") then (printout t "será romanatico")) 
-  (if (eq ?tuser "familia") then (printout t "No será de descanso"))
+  (if (eq ?tuser "individual") then (printout t "No será romantico" crlf))
+  (if (eq ?tuser "pareja") then (printout t "Será romanatico" crlf)) 
+  (if (eq ?tuser "familia") then (printout t "No será de descanso" crlf))
   (assert (tipo_viaje_inferido))
 )
 
@@ -690,7 +690,7 @@
 ;                                 MODULO DE RESULTADOS                                 -
 ;---------------------------------------------------------------------------------------
 
-  (defmodule RESULTADOS "Printar resultados obtenidos" (import MENU ?ALL) (import MAIN ?ALL)
+  (defmodule RESULTADOS "Printar resultados obtenidos" (import MENU ?ALL) (import MAIN ?ALL) (import LOGIC ?ALL) (import INFERENCIA ?ALL)
     )
 
 (defrule RESULTADOS:printar_plantilla-rule
@@ -744,7 +744,7 @@
     (printout t ?ntrans ", ")
      (bind ?l (- ?l 1)) 
      )
-  (printout t "Coste total del viaje: " ?costev crlf)
+  (printout t crlf crlf "Coste total del viaje: " ?costev crlf)
   (printout t crlf)
   (assert (printar_viaje))
 )
@@ -757,28 +757,11 @@
  (assert (preparar_segundo_viaje))
 )
 
-(defrule RESULTADOS::preparar_segundo_viaje "Busca el viaje de nuevo, pero con ciudades distintas"
-  ?vi <- (viaje)
-  (preparar_segundo_viaje) 
-  (not (segundo_viaje))
-  ?pri <- (printar_viaje)
- =>
-  (bind ?ciud (create$))
-  (bind ?alojs (create$))
-  (bind ?trans (create$))
-  (bind ?act (create$))
-  (modify ?vi (continentes FALSE) (duracion 0) (coste 0) (continente "placeholder") (ciudades ?ciud) (alojamientos ?alojs) (transporte ?trans) (actividades ?act)
-	  )
-  (printout t "hello world")
-  (retract ?pri)
-  (assert (segundo_viaje))
-  (focus LOGIC)
-)
-
 (defrule RESULTADOS::printar_plantilla-rule2
   ; (not (printar_plantilla))
   (preparar_segundo_viaje)
- (not (printar_plantilla2))
+  (not (printar_plantilla2))
+  (not (segundo_viaje))
   =>
   (printout t "----------------------------------------------------------------------------------------------" crlf
               "-                                        Segundo viaje                                       -" crlf
@@ -787,6 +770,38 @@
   )
   (assert (printar_plantilla2))
 )
+
+(defrule RESULTADOS::preparar_segundo_viaje2 "Busca el viaje de nuevo, pero con ciudades distintas"
+  ?est <- (estructura)
+  (preparar_segundo_viaje)
+  (not (preparar_segundo_viaje2))
+  (not (segundo_viaje))
+  (printar_plantilla2)
+ =>
+  (assert (preparar_segundo_viaje2))
+  (retract ?est)
+  )
+(defrule RESULTADOS::preparar_segundo_viaje "Busca el viaje de nuevo, pero con ciudades distintas"
+  ?vi <- (viaje)
+  (preparar_segundo_viaje) 
+  (preparar_segundo_viaje2)
+  (not (segundo_viaje))
+  ?pri <- (printar_viaje)
+ ?ciudad <- (assertsciudades)
+ =>
+  (bind ?ciud (create$))
+  (bind ?alojs (create$))
+  (bind ?trans (create$))
+  (bind ?act (create$))
+  (modify ?vi (continentes FALSE) (duracion 0) (coste 0) (continente "placeholder") (ciudades ?ciud) (alojamientos ?alojs) (transporte ?trans) (actividades ?act)
+	  )
+  (printout t "preparar viaje" crlf)
+  (retract ?pri)
+  (retract ?ciudad)
+  (assert (segundo_viaje))
+  (focus LOGIC)
+)
+
 
 ;---------------------------------------------------------------------------------------
 ;                                 MODULO DE ERROR                                      -
