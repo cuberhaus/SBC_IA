@@ -550,7 +550,7 @@
   (slot hacia (type STRING))
   )
 
-(deftemplate MENU::estructura "Estructura que nos permite asociar ciudades con los dias que van a ocupar y como de ocupada esta la estancia en esa ciudad (por las actividades que se hacen alli)"
+(deftemplate LOGIC::estructura "Estructura que nos permite asociar ciudades con los dias que van a ocupar y como de ocupada esta la estancia en esa ciudad (por las actividades que se hacen alli)"
   (slot dias (type INTEGER))
   (slot ocupacion (type INTEGER))
   (multislot ciudad (type STRING))
@@ -646,10 +646,11 @@
   ?vi <- (viaje (ciudades $?ciudades) (duracion ?dur))
  =>
   (if (<=  ?min ?dur)
-   then (if (not (<= ?ciumin (length$ ?ciudades) ))
-	 then (printout t "No se puede programar un viaje" crlf) (focus ERROR)
-  )
+   then (printout t "No se puede programar un viaje" crlf) (focus ERROR)
  )
+  (if (not (<= ?ciumin (length$ ?ciudades) ))
+   then (printout t "No se puede programar un viaje" crlf) (focus ERROR)
+  )
   )
 
 (defrule LOGIC::assertsciudades
@@ -778,7 +779,7 @@
   (import MAIN ?ALL) (import LOGIC ?ALL) (import INFERENCIA ?ALL)
     )
 
-(defrule RESULTADOS:printar_plantilla-rule
+(defrule RESULTADOS:printar_plantilla_rule
   (not (printar_plantilla))
   =>
   (printout t "----------------------------------------------------------------------------------------------" crlf
@@ -789,7 +790,7 @@
   (assert (printar_plantilla))
 )
 
-(defrule RESULTADOS:printar_viaje-rule
+(defrule RESULTADOS:printar_viaje_rule
   (not (printar_viaje))
   (printar_plantilla)
   ?vi <- (viaje (duracion ?d) (ciudades $?ciu) (dias_por_ciudad $?diasciu)
@@ -852,7 +853,7 @@
  (assert (preparar_segundo_viaje))
 )
 
-(defrule RESULTADOS::printar_plantilla-rule2
+(defrule RESULTADOS::printar_plantilla_rule2
   (preparar_segundo_viaje)
   (not (printar_plantilla2))
   (not (segundo_viaje))
