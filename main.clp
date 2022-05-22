@@ -145,6 +145,7 @@
 ;; ###########################################################
 
 (defrule MENU::preguntar-edades
+  (not (preguntas-acabadas))
   (not (preguntado-edad))
   ?user <- (usuario)
  =>
@@ -156,6 +157,7 @@
 
 
 (defrule MENU::preguntar-nivel-cultural ;; TODO:
+  (not (preguntas-acabadas))
   (not (preguntado-nivel-cultural))
  =>
   (assert(preguntado-nivel-cultural))
@@ -163,6 +165,7 @@
 
 
 (defrule MENU::preguntar-tipo-de-viaje
+  (not (preguntas-acabadas))
   (not (preguntado-tipo-de-viaje))
   ?user <- (usuario)
  =>
@@ -174,12 +177,14 @@
 )
 
 (defrule MENU::preguntar-ciudades-preferidas ;;TODO
+  (not (preguntas-acabadas))
   (not (preguntado-ciudades-preferidas))
  =>
   (assert(preguntado-ciudades-preferidas))
 )
 
 (defrule MENU::preguntar-dias
+  (not (preguntas-acabadas))
   (not (preguntado-dias))
  ?user <- (usuario)
  =>
@@ -195,15 +200,16 @@
 )
 
 (defrule MENU::preguntar-ndias-ciudad
+  (not (preguntas-acabadas))
   (not (preguntado-ndiasciudades))
-(preguntado-dias)
- ?user <- (usuario (dias-minimo ?dias-minimo) (dias-maximo ?dias-maximo))
+  (preguntado-dias)
+  ?user <- (usuario (dias-minimo ?dias-minimo) (dias-maximo ?dias-maximo))
  =>
   (bind ?min (pregunta-int "¿Cuál es el minimo de dias que quereis estar en cada ciudad?" 1 (fact-slot-value ?user dias-maximo)))
   (bind ?max (pregunta-int "¿Cuál es el maximo de dias que quereis estar en cada ciudad?" 1 (fact-slot-value ?user dias-maximo)))
   (while (not(<= ?min ?max )) do
-    (printout t "Maximo no puede ser menor que el minimo" crlf)
-    (bind ?max (pregunta-int "¿Cuál es el maximo de dias que quereis de viaje?" 1 365))
+	 (printout t "Maximo no puede ser menor que el minimo" crlf)
+	 (bind ?max (pregunta-int "¿Cuál es el maximo de dias que quereis de viaje?" 1 365))
   )
   (modify ?user (diasporciudad-minimo ?min) (diasporciudad-maximo ?max))
   (printout t "Dias seleccionados, se viajará minimo " ?min " dias por ciudad y maximo " ?max " dias por ciudad" crlf)
@@ -211,6 +217,7 @@
 )
 
 (defrule MENU::preguntar-nciudades
+  (not (preguntas-acabadas))
   (not (preguntado-nciudades))
   ?user <- (usuario)
  =>
@@ -226,6 +233,7 @@
 )
 
 (defrule MENU::preguntar-presupuesto
+  (not (preguntas-acabadas))
   (not (preguntado-presupuesto))
   ?user <- (usuario)
  =>
@@ -235,6 +243,7 @@
   (assert(preguntado-presupuesto))
 )
 (defrule MENU::preguntar-medios-de-transporte
+  (not (preguntas-acabadas))
   (not (preguntado-medios-de-transporte))
   ?user <- (usuario)
  =>
@@ -246,6 +255,7 @@
 )
 
 (defrule MENU::preguntar-calidad-alojamiento
+  (not (preguntas-acabadas))
   (not (preguntado-calidad-alojamiento))
   ?user <- (usuario)
  =>
@@ -256,6 +266,7 @@
 )
 
 (defrule MENU::preguntar-popularidad-ciudad
+  (not (preguntas-acabadas))
   (not (preguntado-popularidad-ciudad))
   ?user <- (usuario)
  =>
@@ -266,6 +277,7 @@
 )
 
 (defrule MENU::preguntar-duracion-o-calidad
+  (not (preguntas-acabadas))
   (not (preguntado-duracion-o-calidad))
   ?user <- (usuario)
  =>
@@ -288,6 +300,7 @@
   (preguntado-calidad-alojamiento)
   (preguntado-popularidad-ciudad)
   (preguntado-duracion-o-calidad)
+  (not (preguntas-acabadas))
  =>
   (assert (preguntas-acabadas))
   (focus INFERENCIA)
@@ -301,6 +314,7 @@
   (import MENU ?ALL) (import MAIN ?ALL) (export ?ALL))
 
 (defrule INFERENCIA::con-ninos "Inferimos si hay niños con las edades introducidas"
+  (not (inferencia_acabada))
   (not (preguntado-con-ninos))
   ?user <- (usuario (edades $?edades))
  =>
@@ -316,6 +330,7 @@
 )
 
 (defrule INFERENCIA::con-adolescentes "Inferimos si hay adolescentes con las edades introducidas"
+  (not (inferencia_acabada))
   (not (preguntado-con-adolescentes))
   ?user <- (usuario (edades $?edades))
   (preguntado-edad)
@@ -332,6 +347,7 @@
 )
 
 (defrule INFERENCIA::numero-integrantes "Inferimos el numero de integrantes por la cantidad de edades introducidas"
+  (not (inferencia_acabada))
   (not (preguntado-con-numero-integrantes))
   (preguntado-edad)
  ?user <- (usuario (edades $?edades))
@@ -343,6 +359,7 @@
 
 
 (defrule INFERENCIA::obtenertipousuarios
+  (not (inferencia_acabada))
   (not (inferencia_tipo_usuario_asked))
   (preguntado-con-numero-integrantes)
   ?user <- (usuario (ninos ?n) (numero-integrantes ?num_integrantes))
@@ -377,6 +394,7 @@
   )
 
 (defrule INFERENCIA::ciudades_romanticas
+  (not (inferencia_acabada))
   ?user <- (usuario (tipo-viaje ?tviaje) )
   ?city <- (object  (is-a Ciudad) (Nombre ?nom) (Continente ?cont))
   (test (eq (str-cat ?tviaje) "romantico"))
@@ -393,6 +411,7 @@
   )
 
 (defrule INFERENCIA::ciudades_descanso
+  (not (inferencia_acabada))
   ?user <- (usuario (tipo-viaje ?tviaje) )
   ?city <- (object  (is-a Ciudad) (Nombre ?nom) (Continente ?cont))
   (test (eq (str-cat ?tviaje) "descanso"))
@@ -409,6 +428,7 @@
 )
 
 (defrule INFERENCIA::ciudades_diversion
+  (not (inferencia_acabada))
   ?user <- (usuario (tipo-viaje ?tviaje) )
   ?city <- (object  (is-a Ciudad) (Nombre ?nom) (Continente ?cont))
   (test (eq (str-cat ?tviaje) "diversion"))
@@ -425,6 +445,7 @@
   )
 
 (defrule INFERENCIA::ciudades_trabajo
+  (not (inferencia_acabada))
   ?user <- (usuario (tipo-viaje ?tviaje) )
   ?city <- (object  (is-a Ciudad) (Nombre ?nom) (Continente ?cont))
   (test (eq (str-cat ?tviaje) "trabajo"))
@@ -441,6 +462,7 @@
   )
 
 (defrule INFERENCIA::ciudades_aventura
+  (not (inferencia_acabada))
   ?user <- (usuario (tipo-viaje ?tviaje) )
   ?city <- (object  (is-a Ciudad) (Nombre ?nom) (Continente ?cont))
   (test (eq (str-cat ?tviaje) "aventura"))
@@ -457,6 +479,7 @@
   )
 
 (defrule INFERENCIA::ciudades_cultural
+  (not (inferencia_acabada))
   ?user <- (usuario (tipo-viaje ?tviaje) )
   ?city <- (object  (is-a Ciudad) (Nombre ?nom) (Continente ?cont))
   (test (eq (str-cat ?tviaje) "cultural"))
@@ -474,6 +497,7 @@
 
 
 (defrule INFERENCIA::inferir_tipo_viaje
+  (not (inferencia_acabada))
   ?user <- (usuario (tipo-usuario ?tuser))
   (not (tipo_viaje_inferido))
   =>
@@ -488,6 +512,7 @@
   )
 
 (defrule INFERENCIA::initialize_dias_por_ciudad
+  (not (inferencia_acabada))
   ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
  =>
   (bind ?i ?diasciumin)
@@ -509,7 +534,9 @@
   (preguntado-con-ninos)
   (preguntado-con-adolescentes)
   (preguntado-con-numero-integrantes)
+  (not (inferencia_acabada))
   =>
+  (assert (inferencia_acabada))
    (focus LOGIC)
 )
 
@@ -526,6 +553,7 @@
 
 (defrule LOGIC::escoger-ciudades-rule
   (declare (salience 50))
+ (not (logica-acabada))
   ?vi <- (viaje (ciudades $?ciudades) (duracion ?dur) (dias_por_ciudad $?dpor) (continentes ?use_cont) (continente ?cont))
 ;?todosv <- (object (is-a Ciudad) (Nombre ?nomc))
   ?ciupunt <- (ciudad_puntuada (fitness ?fit) (ciudad ?nom) (Continente ?cont2))
@@ -553,6 +581,7 @@
 
 (defrule LOGIC::comprovar
   (declare (salience 40))
+ (not (logica-acabada))
   ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
   ?vi <- (viaje (ciudades $?ciudades) (duracion ?dur))
  =>
@@ -565,6 +594,7 @@
 
 (defrule LOGIC::initialize_alojamiento_puntuado
   (declare (salience 10))
+ (not (logica-acabada))
   ?user <- (usuario (calidad-alojamiento ?cal))
   ?aloj <- (object (is-a Alojamiento) (Nombre ?nom) (Distancia_a_centro ?dist) (Estrellas ?est))
 =>
@@ -578,6 +608,7 @@
 
 (defrule LOGIC::escoger-alojamiento
   (declare (salience 9) )
+ (not (logica-acabada))
   (not (escoger-alojamiento))
   ?todosv <- (object (is-a Ciudad) (Nombre ?nomc2))
   ?vi <- (viaje (alojamientos $?alojs) (ciudades $?ciu) (coste ?costev))
@@ -602,6 +633,7 @@
 
 (defrule LOGIC::assertsciudades
   (declare (salience 25))
+ (not (logica-acabada))
   (not (assertsciudades))
   ?vi <- (viaje (ciudades $?ciu))
   =>
@@ -625,6 +657,7 @@
 
 (defrule LOGIC::escoger-transporte
   (declare (salience 10))
+ (not (logica-acabada))
   (assertsciudades)
   ?vi <- (viaje (ciudades $?ciu) (transporte $?medios) (coste ?costev))
   ?todosv <- (object (is-a Ciudad) (Nombre ?nomc2))
@@ -654,6 +687,7 @@
 
 
  (defrule LOGIC::escoger-actividades
+   (not (logica-acabada))
    ?vi <- (viaje (ciudades $?ciu) (actividades $?actividade) (coste ?costev))
    ?est <- (estructura (ciudad ?c) (dias ?d) (ocupacion ?o))
    ?todosv <- (object (is-a Ciudad) (Nombre ?nomc))
@@ -681,6 +715,7 @@
 (defrule LOGIC::acaba-la-logica "Ultima funcion que se ejecuta de la logica"
   (declare (salience -5))
  (assertsciudades)
+ (not (logica-acabada))
  =>
   (printout t "acaba_logica" crlf)
   (assert (logica-acabada))
@@ -771,14 +806,54 @@
   (assert (printar_plantilla2))
 )
 
-(defrule RESULTADOS::preparar_segundo_viaje2 "Busca el viaje de nuevo, pero con ciudades distintas"
+(defrule RESULTADOS::preparar_segundo_viaje_next_ciudad ""
+  ?est <- (alojamiento_puntuado)
+  (preparar_segundo_viaje)
+  (not (segundo_viaje))
+  (printar_plantilla2)
+=>
+
+  (printout t "alojamiento_puntuado" crlf)
+  (retract ?est)
+  )
+
+(defrule RESULTADOS::preparar_segundo_viaje_next_ciudad ""
+  ?est <- (nextciudad)
+  (preparar_segundo_viaje)
+  (not (segundo_viaje))
+  (printar_plantilla2)
+=>
+
+  (printout t "nextciudad" crlf)
+  (retract ?est)
+  )
+(defrule RESULTADOS::preparar_segundo_viaje_trans ""
+  ?est <- (fix_trans)
+  (preparar_segundo_viaje)
+  (not (segundo_viaje))
+  (printar_plantilla2)
+=>
+
+(printout t "fix_trans" crlf)
+  (retract ?est)
+  )
+
+(defrule RESULTADOS::preparar_segundo_viaje_aloj ""
+  ?est <- (fix_aloj)
+  (preparar_segundo_viaje)
+  (not (segundo_viaje))
+  (printar_plantilla2)
+=>
+(printout t "fix_aloj" crlf)
+  (retract ?est)
+  )
+(defrule RESULTADOS::preparar_segundo_viaje2 ""
   ?est <- (estructura)
   (preparar_segundo_viaje)
-  (not (preparar_segundo_viaje2))
   (not (segundo_viaje))
   (printar_plantilla2)
  =>
-  (assert (preparar_segundo_viaje2))
+  (printout t "estructura" crlf)
   (retract ?est)
   )
 (defrule RESULTADOS::preparar_segundo_viaje "Busca el viaje de nuevo, pero con ciudades distintas"
@@ -787,7 +862,7 @@
   (preparar_segundo_viaje2)
   (not (segundo_viaje))
   ?pri <- (printar_viaje)
- ?ciudad <- (assertsciudades)
+  ; ?ciudad <- (assertsciudades)
  =>
   (bind ?ciud (create$))
   (bind ?alojs (create$))
@@ -799,7 +874,7 @@
   (retract ?pri)
   (retract ?ciudad)
   (assert (segundo_viaje))
-  (focus LOGIC)
+  ; (focus LOGIC)
 )
 
 
