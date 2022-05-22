@@ -724,7 +724,7 @@
 ;---------------------------------------------------------------------------------------
 ;                                 MODULO DE RESULTADOS                                 -
 ;---------------------------------------------------------------------------------------
-
+;; rules from other modules can be activated if they are imported
   (defmodule RESULTADOS "Printar resultados obtenidos" (import MENU ?ALL) (import MAIN ?ALL) (import LOGIC ?ALL) (import INFERENCIA ?ALL)
     )
 
