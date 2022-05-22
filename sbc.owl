@@ -94,8 +94,7 @@ untitled-ontology-6:viaja rdf:type owl:ObjectProperty ;
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Con_adolescentes
 untitled-ontology-6:Con_adolescentes rdf:type owl:DatatypeProperty ;
                                      rdfs:subPropertyOf owl:topDataProperty ;
-                                     rdfs:domain untitled-ontology-6:Familia ,
-                                                 untitled-ontology-6:Grupo ;
+                                     rdfs:domain untitled-ontology-6:UsuarioOnto ;
                                      rdfs:range xsd:boolean ;
                                      rdfs:comment "Atributo que identifica si una familia o grupo contiene adolescentes" .
 
@@ -111,8 +110,7 @@ untitled-ontology-6:Con_gente_mayor rdf:type owl:DatatypeProperty ;
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Con_niños
 untitled-ontology-6:Con_niños rdf:type owl:DatatypeProperty ;
                               rdfs:subPropertyOf owl:topDataProperty ;
-                              rdfs:domain untitled-ontology-6:Familia ,
-                                          untitled-ontology-6:Grupo ;
+                              rdfs:domain untitled-ontology-6:UsuarioOnto ;
                               rdfs:range xsd:boolean ;
                               rdfs:comment "Atributo que identifica si una familia o grupo contiene niños" .
 
@@ -186,7 +184,6 @@ untitled-ontology-6:Numero_de_habitantes rdf:type owl:DatatypeProperty ;
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Numero_integrantes
 untitled-ontology-6:Numero_integrantes rdf:type owl:DatatypeProperty ;
                                        rdfs:subPropertyOf owl:topDataProperty ;
-                                       rdfs:domain untitled-ontology-6:Grupo ;
                                        rdfs:range xsd:integer ;
                                        rdfs:comment "Atributo que representa el número de integrantes de un grupo" .
 
@@ -226,6 +223,13 @@ untitled-ontology-6:preferencia_viaje rdf:type owl:DatatypeProperty ;
                                       rdfs:domain untitled-ontology-6:UsuarioOnto ;
                                       rdfs:range xsd:string ;
                                       rdfs:comment "Atributo que indica la preferencia de metodo de transporte para un usuario." .
+
+
+###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#tipo_usuario
+untitled-ontology-6:tipo_usuario rdf:type owl:DatatypeProperty ;
+                                 rdfs:subPropertyOf owl:topDataProperty ;
+                                 rdfs:domain untitled-ontology-6:UsuarioOnto ;
+                                 rdfs:range xsd:string .
 
 
 #################################################################
@@ -296,29 +300,14 @@ untitled-ontology-6:Excursion rdf:type owl:Class ;
                               rdfs:subClassOf untitled-ontology-6:Actividad .
 
 
-###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Familia
-untitled-ontology-6:Familia rdf:type owl:Class ;
-                            rdfs:subClassOf untitled-ontology-6:UsuarioOnto .
-
-
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Gastronomica
 untitled-ontology-6:Gastronomica rdf:type owl:Class ;
                                  rdfs:subClassOf untitled-ontology-6:Actividad .
 
 
-###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Grupo
-untitled-ontology-6:Grupo rdf:type owl:Class ;
-                          rdfs:subClassOf untitled-ontology-6:UsuarioOnto .
-
-
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Hotel
 untitled-ontology-6:Hotel rdf:type owl:Class ;
                           rdfs:subClassOf untitled-ontology-6:Alojamiento .
-
-
-###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Individuo
-untitled-ontology-6:Individuo rdf:type owl:Class ;
-                              rdfs:subClassOf untitled-ontology-6:UsuarioOnto .
 
 
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Naturaleza
@@ -329,11 +318,6 @@ untitled-ontology-6:Naturaleza rdf:type owl:Class ;
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Ocio_Nocturno
 untitled-ontology-6:Ocio_Nocturno rdf:type owl:Class ;
                                   rdfs:subClassOf untitled-ontology-6:Actividad .
-
-
-###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Pareja
-untitled-ontology-6:Pareja rdf:type owl:Class ;
-                           rdfs:subClassOf untitled-ontology-6:UsuarioOnto .
 
 
 ###  http://www.semanticweb.org/pol/ontologies/2022/3/untitled-ontology-6#Relax
