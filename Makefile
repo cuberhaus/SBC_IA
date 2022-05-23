@@ -5,5 +5,5 @@ source.zip: sbc.owl sbc.clp main.clp instancias.clp
 	zip source.zip $^
 
 clean: 
-	rm Sara_Buceta_Pol_Casacuberta_Alejandro_Espinosa.zip
+	rm Sara_Buceta_Pol_Casacuberta_Alejandro_Espinosa.zip source.zip
 
