@@ -639,7 +639,7 @@
 )
 
 (defrule LOGIC::comprovar
-  (declare (salience 40))
+  (declare (salience -4))
  (not (logica-acabada))
   ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
   ?vi <- (viaje (ciudades $?ciudades) (duracion ?dur))
