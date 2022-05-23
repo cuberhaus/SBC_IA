@@ -639,16 +639,19 @@
 )
 
 (defrule LOGIC::comprovar
-  (declare (salience -4))
- (not (logica-acabada))
-  ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
-  ?vi <- (viaje (ciudades $?ciudades) (duracion ?dur))
+  (declare (salience -10))
+ ; (logica-acabada)
+  ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax) )
+  ?vi <- (viaje (ciudades $?ciudades) (duracion ?dur) (alojamientos $?alojs))
  =>
-  (if (<=  ?min ?dur)
-   then (printout t "No se puede programar un viaje" crlf) (focus ERROR)
+  (if (>  ?min ?dur)
+   then (printout t "No se puede programar un viaje" crlf) (focus ERROR) (assert (error))
  )
-  (if (not (<= ?ciumin (length$ ?ciudades) ))
-   then (printout t "No se puede programar un viaje" crlf) (focus ERROR)
+  (if (> ?ciumin (length$ ?ciudades) )
+   then (printout t "No se puede programar un viaje" crlf) (focus ERROR) (assert (error))
+  )
+  (if (not(= (length$ ?alojs) (length$ ?ciudades) ))
+   then (printout t "No se puede programar un viaje" crlf) (focus ERROR) (assert (error))
   )
   )
 
@@ -764,6 +767,7 @@
 
 (defrule LOGIC::acaba-la-logica "Ultima funcion que se ejecuta de la logica"
   (declare (salience -5))
+  ; (not (error))
  (assertsciudades)
  (not (logica-acabada))
  =>
@@ -778,8 +782,10 @@
   (import MAIN ?ALL) (import LOGIC ?ALL) (import INFERENCIA ?ALL)
     )
 
+
 (defrule RESULTADOS:printar_plantilla_rule
   (not (printar_plantilla))
+  ; (not (error))
   =>
   (printout t "----------------------------------------------------------------------------------------------" crlf
               "-                                        PRIMER VIAJE                                        -" crlf
