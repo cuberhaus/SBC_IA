@@ -140,14 +140,6 @@
 )
 
 
-(defrule MENU::preguntar-nivel-cultural ;; TODO:
-  (not (preguntas-acabadas))
-  (not (preguntado-nivel-cultural))
- =>
-  (assert(preguntado-nivel-cultural))
-)
-
-
 (defrule MENU::preguntar-tipo-de-viaje
   (not (preguntas-acabadas))
   (not (preguntado-tipo-de-viaje))
@@ -158,13 +150,6 @@
   (printout t "Se realiza un viaje de tipo " ?tipoviaje crlf)
   (modify ?user (tipo-viaje ?tipoviaje))
   (assert(preguntado-tipo-de-viaje))
-)
-
-(defrule MENU::preguntar-ciudades-preferidas ;;TODO
-  (not (preguntas-acabadas))
-  (not (preguntado-ciudades-preferidas))
- =>
-  (assert(preguntado-ciudades-preferidas))
 )
 
 (defrule MENU::preguntar-dias
@@ -273,9 +258,7 @@
 
 (defrule MENU::acaban-las-preguntas
   (preguntado-edad)
-  (preguntado-nivel-cultural)
   (preguntado-tipo-de-viaje)
-  (preguntado-ciudades-preferidas)
   (preguntado-dias)
   (preguntado-ndiasciudades)
   (preguntado-nciudades)
@@ -481,17 +464,6 @@
   )
 
 
-(defrule INFERENCIA::inferir_tipo_viaje
-  (not (inferencia_acabada))
-  ?user <- (usuario (tipo-usuario ?tuser))
-  (not (tipo_viaje_inferido))
-  =>
-  (if (eq ?tuser "individual") then (printout t "No será romantico" crlf))
-  (if (eq ?tuser "pareja") then (printout t "Será romanatico" crlf)) 
-  (if (eq ?tuser "familia") then (printout t "No será de descanso" crlf))
-  (assert (tipo_viaje_inferido))
-)
-
 (defrule INFERENCIA::initialize_dias_por_ciudad
   (not (inferencia_acabada))
   ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax))
@@ -510,7 +482,6 @@
   (declare (salience -5))
   (inferencia_tipo_usuario_asked)
   (longitud_viaje)
-  (tipo_viaje_inferido)
 
   (preguntado-con-ninos)
   (preguntado-con-adolescentes)
@@ -639,22 +610,31 @@
 )
 
 (defrule LOGIC::comprovar
-  (declare (salience -10))
- ; (logica-acabada)
+  (declare (salience -4))
   ?user <- (usuario (dias-minimo ?min) (dias-maximo ?max) (diasporciudad-minimo ?diasciumin) (diasporciudad-maximo ?diasciumax) (ciudades-minimo ?ciumin) (ciudades-maximo ?ciumax) )
   ?vi <- (viaje (ciudades $?ciudades) (duracion ?dur) (alojamientos $?alojs) (transporte $?transporte))
  =>
+  (bind ?i (-(length$ ?transporte) 1))
+  (bind ?j (length$ ?alojs))
   (if (>  ?min ?dur)
-   then (printout t "No se puede programar un viaje debido a la duracion" crlf) (focus ERROR) (assert (error))
+   then
+     (printout t "No se puede programar un viaje debido a la duracion" crlf)
+     (assert (error))
  )
   (if (> ?ciumin (length$ ?ciudades) )
-   then (printout t "No se puede programar un viaje debido a las ciudades" crlf) (focus ERROR) (assert (error))
+   then
+     (printout t "No se puede programar un viaje debido a las ciudades" crlf)
+     (assert (error))
   )
   (if (not(= (length$ ?alojs) (length$ ?ciudades) ))
-   then (printout t "No se puede programar un viaje debido a los alojamientos" crlf) (focus ERROR) (assert (error))
+   then
+     (printout t "No se puede programar un viaje debido a los alojamientos" crlf)
+     (assert (error))
   )
-  (if (not(= (- (length$ ?transporte) 1) (length$ ?ciudades) ))
-   then (printout t "No se puede programar un viaje debido a los transportes" crlf) (focus ERROR) (assert (error))
+  (if (not(= (+ (length$ ?transporte) 1) (length$ ?ciudades) ))
+   then
+     (printout t "No se puede programar un viaje debido a los transportes" crlf)
+     (assert (error)) 
   )
   )
 
@@ -770,9 +750,8 @@
 
 (defrule LOGIC::acaba-la-logica "Ultima funcion que se ejecuta de la logica"
   (declare (salience -5))
-  ; (not (error))
- (assertsciudades)
- (not (logica-acabada))
+  (assertsciudades)
+  (not (logica-acabada))
  =>
   (assert (logica-acabada))
   (focus RESULTADOS)
@@ -785,10 +764,8 @@
   (import MAIN ?ALL) (import LOGIC ?ALL) (import INFERENCIA ?ALL)
     )
 
-
 (defrule RESULTADOS:printar_plantilla_rule
   (not (printar_plantilla))
-  ; (not (error))
   =>
   (printout t "----------------------------------------------------------------------------------------------" crlf
               "-                                        PRIMER VIAJE                                        -" crlf
@@ -848,7 +825,7 @@
   (printar_plantilla)
   ?est <- (continent_rule_not_respected)
  =>
-  (printout t  "Los viajes no pueden ser del mismo continente" crlf)
+  (printout t  "El viaje no puede ser del mismo continente" crlf)
   (retract ?est)
   )
 
@@ -941,10 +918,3 @@
   (assert (segundo_viaje))
   (focus LOGIC)
 )
-
-
-;---------------------------------------------------------------------------------------
-;                                 MODULO DE ERROR                                      -
-;---------------------------------------------------------------------------------------
-
-(defmodule ERROR "No se ha podido programar un viaje")
