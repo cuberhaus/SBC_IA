@@ -71,6 +71,53 @@ CLIPS> (run)
 
 ---
 
+## Web App
+
+An interactive web frontend that reimplements the CLIPS expert system in Python. Users answer 10 questions about their travel preferences through a step-by-step wizard and receive a complete itinerary with cities, hotels, activities, transport, and cost.
+
+**Stack:** HTMX + Alpine.js (no JS build step) + FastAPI/Jinja2 backend
+
+### Quick Start
+
+```bash
+# Docker (recommended)
+docker compose up -d        # http://localhost:8088
+
+# Dev mode
+make web-dev                # uvicorn on :8088 with --reload
+```
+
+### Features
+
+- 10-step questionnaire wizard with HTMX partial HTML swaps (no full page reloads)
+- Alpine.js for client-side interactivity: dynamic age inputs, transport chip selectors, star rating picker
+- Python reimplementation of all CLIPS inference and logic rules (city scoring, hotel/transport/activity selection, budget constraints)
+- City-by-city timeline results with hotel, activities, and transport details
+- Second trip planning (excludes first trip's cities)
+- Zero JavaScript build step — HTMX and Alpine.js are vendored static files (~95KB total)
+
+### Web Structure
+
+```
+web/
+├── backend/
+│   ├── data.py                # Parse instancias.clp → Python dataclasses
+│   ├── solver.py              # Trip planning logic (inference + selection)
+│   ├── app.py                 # FastAPI + Jinja2
+│   ├── templates/
+│   │   ├── base.html          # Dark theme shell + HTMX/Alpine script tags
+│   │   ├── index.html         # Landing page
+│   │   ├── steps/             # 10 wizard step partials
+│   │   └── results.html       # Trip itinerary display
+│   └── static/
+│       ├── theme.css / app.css
+│       ├── htmx.min.js        # Vendored
+│       └── alpine.min.js      # Vendored
+└── requirements.txt
+```
+
+---
+
 ## Empaquetado y Entrega
 
 El proyecto incluye un archivo `Makefile` que automatiza la creación del archivo de subida unificando el código y la memoria del proyecto (`Practica_de_representacion_del_conocimiento.pdf`).
