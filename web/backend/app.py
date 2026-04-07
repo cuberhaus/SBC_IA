@@ -20,7 +20,7 @@ def _render(name: str, ctx: dict | None = None) -> Template:
     return Template(template_name=name, context=ctx or {})
 
 
-@get("/", sync_to_thread=False)
+@get("/")
 async def index() -> Template:
     return _render("index.html")
 
