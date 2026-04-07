@@ -1,36 +1,32 @@
-"""FastAPI application — HTMX-driven trip planning wizard."""
+"""Litestar application — HTMX-driven trip planning wizard."""
 
 from __future__ import annotations
 
 from pathlib import Path
 
-from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
+from litestar import Litestar, Request, get, post
+from litestar.contrib.jinja import JinjaTemplateEngine
+from litestar.response import Template
+from litestar.static_files import create_static_files_router
+from litestar.template.config import TemplateConfig
 
 from .data import get_data
 from .solver import UserPrefs, plan_trip
 
 BASE = Path(__file__).resolve().parent
-app = FastAPI(title="SBC_IA Trip Planner")
-app.mount("/static", StaticFiles(directory=BASE / "static"), name="static")
-templates = Jinja2Templates(directory=BASE / "templates")
 
 
-def _render(request: Request, name: str, ctx: dict | None = None):
-    context = ctx or {}
-    context["request"] = request
-    return templates.TemplateResponse(name=name, context=context, request=request)
+def _render(name: str, ctx: dict | None = None) -> Template:
+    return Template(template_name=name, context=ctx or {})
 
 
-@app.get("/", response_class=HTMLResponse)
-async def index(request: Request):
-    return _render(request, "index.html")
+@get("/", sync_to_thread=False)
+async def index() -> Template:
+    return _render("index.html")
 
 
-@app.post("/step/{n}", response_class=HTMLResponse)
-async def step(request: Request, n: int):
+@post("/step/{n:int}")
+async def step(request: Request, n: int) -> Template:
     form = await request.form()
     ctx = {"form": dict(form), "step": n}
     step_map = {
@@ -46,7 +42,7 @@ async def step(request: Request, n: int):
         10: "steps/priority.html",
     }
     template = step_map.get(n, "steps/ages.html")
-    return _render(request, template, ctx)
+    return _render(template, ctx)
 
 
 def _parse_form(form: dict) -> UserPrefs:
@@ -75,21 +71,21 @@ def _parse_form(form: dict) -> UserPrefs:
     )
 
 
-@app.post("/plan", response_class=HTMLResponse)
-async def plan(request: Request):
+@post("/plan")
+async def plan(request: Request) -> Template:
     form = dict(await request.form())
     prefs = _parse_form(form)
     data = get_data()
     trip = plan_trip(data, prefs)
-    return _render(request, "results.html", {
+    return _render("results.html", {
         "trip": trip,
         "form": form,
         "trip_number": 1,
     })
 
 
-@app.post("/plan/second", response_class=HTMLResponse)
-async def plan_second(request: Request):
+@post("/plan/second")
+async def plan_second(request: Request) -> Template:
     form = dict(await request.form())
     prefs = _parse_form(form)
     data = get_data()
@@ -98,8 +94,23 @@ async def plan_second(request: Request):
     exclude = {cp.city.id for cp in first_trip.city_plans}
     second_trip = plan_trip(data, prefs, exclude_cities=exclude)
 
-    return _render(request, "results.html", {
+    return _render("results.html", {
         "trip": second_trip,
         "form": form,
         "trip_number": 2,
     })
+
+
+app = Litestar(
+    route_handlers=[
+        index,
+        step,
+        plan,
+        plan_second,
+        create_static_files_router(path="/static", directories=[BASE / "static"]),
+    ],
+    template_config=TemplateConfig(
+        directory=BASE / "templates",
+        engine=JinjaTemplateEngine,
+    ),
+)

@@ -12,7 +12,7 @@ clean:
 # ─── Web app targets ───────────────────────────────────
 .PHONY: web-dev docker-build docker-up docker-down web-help
 
-web-dev: ## Start FastAPI dev server
+web-dev: ## Start Litestar dev server
 	cd web && uvicorn backend.app:app --host 127.0.0.1 --port 8088 --reload
 
 docker-build: ## Build Docker image

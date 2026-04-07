@@ -75,7 +75,7 @@ CLIPS> (run)
 
 An interactive web frontend that reimplements the CLIPS expert system in Python. Users answer 10 questions about their travel preferences through a step-by-step wizard and receive a complete itinerary with cities, hotels, activities, transport, and cost.
 
-**Stack:** HTMX + Alpine.js (no JS build step) + FastAPI/Jinja2 backend
+**Stack:** HTMX + Alpine.js (no JS build step) + Litestar/Jinja2 backend
 
 ### Quick Start
 
@@ -103,7 +103,7 @@ web/
 ├── backend/
 │   ├── data.py                # Parse instancias.clp → Python dataclasses
 │   ├── solver.py              # Trip planning logic (inference + selection)
-│   ├── app.py                 # FastAPI + Jinja2
+│   ├── app.py                 # Litestar + Jinja2
 │   ├── templates/
 │   │   ├── base.html          # Dark theme shell + HTMX/Alpine script tags
 │   │   ├── index.html         # Landing page
