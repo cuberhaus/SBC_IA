@@ -1,0 +1,13 @@
+{% macro progress(current) %}
+<div class="progress-bar">
+  {% for i in range(1, 11) %}
+  <div class="step-dot {% if i < current %}done{% elif i == current %}current{% endif %}"></div>
+  {% endfor %}
+</div>
+{% endmacro %}
+
+{% macro hidden_fields(form, exclude=[]) %}
+{% for key, val in form.items() if key not in exclude %}
+<input type="hidden" name="{{ key }}" value="{{ val }}">
+{% endfor %}
+{% endmacro %}

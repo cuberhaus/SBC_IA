@@ -1,0 +1,87 @@
+<div class="results-card">
+  <div class="results-header">
+    <div class="trip-label">{% if trip_number == 2 %}Second Trip{% else %}Your Itinerary{% endif %}</div>
+    <h2>{% if trip.valid %}Trip Planned!{% else %}Partial Results{% endif %}</h2>
+    <div style="margin-top: 8px;">
+      {% if trip.valid %}
+      <span class="validity-badge valid">✓ Valid itinerary</span>
+      {% else %}
+      <span class="validity-badge invalid">✗ Issues found</span>
+      {% endif %}
+    </div>
+    {% if trip.errors %}
+    <ul class="errors-list">
+      {% for err in trip.errors %}
+      <li>{{ err }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+
+  <div class="summary-grid">
+    <div class="summary-stat">
+      <div class="value">{{ trip.total_days }}</div>
+      <div class="label">Days</div>
+    </div>
+    <div class="summary-stat">
+      <div class="value">{{ trip.city_plans | length }}</div>
+      <div class="label">Cities</div>
+    </div>
+    <div class="summary-stat">
+      <div class="value">€{{ "%.0f" | format(trip.total_cost) }}</div>
+      <div class="label">Total Cost</div>
+    </div>
+  </div>
+
+  {% if trip.city_plans %}
+  <div class="timeline">
+    {% for cp in trip.city_plans %}
+    <div class="timeline-item">
+      <div class="city-name">{{ cp.city.name | replace("_", " ") }}</div>
+      <div class="city-meta">{{ cp.days }} day{{ "s" if cp.days != 1 }} · {{ cp.city.continent }}</div>
+
+      {% if cp.hotel %}
+      <div class="hotel-row">
+        🏨 {{ cp.hotel.name | replace("_", " ") }}
+        <span class="stars">{% for _ in range(cp.hotel.stars) %}★{% endfor %}</span>
+        <span style="color:var(--text-muted)">€{{ "%.0f" | format(cp.hotel.price_per_night) }}/night</span>
+      </div>
+      {% endif %}
+
+      {% if cp.activities %}
+      <ul class="activities-list">
+        {% for act in cp.activities %}
+        <li>{{ act.name | replace("_", " ") }} <span style="color:var(--text-muted)">({{ act.category }}, €{{ "%.0f" | format(act.price) }})</span></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      {% if cp.transport_to_next %}
+      <div class="transport-row">
+        {% if cp.transport_to_next.mode == "Avion" %}✈️{% elif cp.transport_to_next.mode == "Tren" %}🚂{% else %}🚢{% endif %}
+        {{ cp.transport_to_next.mode }} → {{ trip.city_plans[loop.index].city.name | replace("_", " ") if loop.index < trip.city_plans | length else "" }}
+        <span>€{{ "%.0f" | format(cp.transport_to_next.price) }}</span>
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="results-actions">
+    {% if trip_number == 1 %}
+    <form style="flex:1" hx-post="/plan/second" hx-target="#wizard-content" hx-swap="innerHTML transition:true">
+      {% for key, val in form.items() %}
+      <input type="hidden" name="{{ key }}" value="{{ val }}">
+      {% endfor %}
+      <button type="submit" class="btn btn-secondary">
+        <span class="btn-label">Plan a Second Trip</span>
+        <span class="htmx-indicator"><span class="spinner"></span></span>
+      </button>
+    </form>
+    {% endif %}
+    <form style="flex:1" hx-post="/step/1" hx-target="#wizard-content" hx-swap="innerHTML transition:true">
+      <button type="submit" class="btn btn-primary">Start Over</button>
+    </form>
+  </div>
+</div>

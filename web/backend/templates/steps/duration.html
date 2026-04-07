@@ -1,0 +1,31 @@
+{% from "steps/_macros.html" import progress, hidden_fields %}
+{{ progress(3) }}
+
+<div class="step-header">
+  <div class="step-num">Step 3 of 10</div>
+  <h3>Trip duration</h3>
+  <p>How many days do you want to travel?</p>
+</div>
+
+<form hx-post="/step/4" hx-target="#wizard-content" hx-swap="innerHTML transition:true">
+  {{ hidden_fields(form) }}
+
+  <div class="inline-group">
+    <div class="form-group">
+      <label for="days_min">Minimum days</label>
+      <input type="number" id="days_min" name="days_min" min="1" max="365" value="{{ form.get('days_min', '3') }}">
+    </div>
+    <div class="form-group">
+      <label for="days_max">Maximum days</label>
+      <input type="number" id="days_max" name="days_max" min="1" max="365" value="{{ form.get('days_max', '10') }}">
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <button type="button" class="btn btn-secondary" hx-post="/step/2" hx-target="#wizard-content" hx-swap="innerHTML transition:true" hx-include="closest form">← Back</button>
+    <button type="submit" class="btn btn-primary">
+      <span class="btn-label">Next →</span>
+      <span class="htmx-indicator"><span class="spinner"></span></span>
+    </button>
+  </div>
+</form>

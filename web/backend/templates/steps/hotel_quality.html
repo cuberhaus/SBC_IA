@@ -1,0 +1,35 @@
+{% from "steps/_macros.html" import progress, hidden_fields %}
+{{ progress(8) }}
+
+<div class="step-header">
+  <div class="step-num">Step 8 of 10</div>
+  <h3>Hotel quality</h3>
+  <p>Minimum star rating for accommodation</p>
+</div>
+
+<form hx-post="/step/9" hx-target="#wizard-content" hx-swap="innerHTML transition:true"
+      x-data="{ stars: {{ form.get('min_stars', '3') }} }">
+  {{ hidden_fields(form) }}
+  <input type="hidden" name="min_stars" :value="stars">
+
+  <div class="form-group">
+    <label>Minimum stars</label>
+    <div class="star-rating">
+      <template x-for="n in 5" :key="n">
+        <span class="star" :class="{ active: n <= stars }" @click="stars = n"
+              x-text="n <= stars ? '★' : '☆'"></span>
+      </template>
+    </div>
+    <p style="margin-top: 8px; font-size: 0.82rem; color: var(--text-muted);">
+      <span x-text="stars"></span> star<span x-show="stars !== 1">s</span> minimum
+    </p>
+  </div>
+
+  <div class="btn-group">
+    <button type="button" class="btn btn-secondary" hx-post="/step/7" hx-target="#wizard-content" hx-swap="innerHTML transition:true" hx-include="closest form">← Back</button>
+    <button type="submit" class="btn btn-primary">
+      <span class="btn-label">Next →</span>
+      <span class="htmx-indicator"><span class="spinner"></span></span>
+    </button>
+  </div>
+</form>

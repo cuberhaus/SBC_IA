@@ -1,0 +1,35 @@
+{% from "steps/_macros.html" import progress, hidden_fields %}
+{{ progress(10) }}
+
+<div class="step-header">
+  <div class="step-num">Step 10 of 10</div>
+  <h3>What matters most?</h3>
+  <p>Choose your planning priority</p>
+</div>
+
+<form hx-post="/plan" hx-target="#wizard-content" hx-swap="innerHTML transition:true">
+  {{ hidden_fields(form) }}
+
+  <div class="radio-cards">
+    <div class="radio-card">
+      <input type="radio" name="priority" id="pr-duracion" value="duracion">
+      <label for="pr-duracion"><span class="icon">⏱️</span><span>Duration</span></label>
+    </div>
+    <div class="radio-card">
+      <input type="radio" name="priority" id="pr-calidad" value="calidad">
+      <label for="pr-calidad"><span class="icon">⭐</span><span>Quality</span></label>
+    </div>
+    <div class="radio-card">
+      <input type="radio" name="priority" id="pr-mixto" value="mixto" checked>
+      <label for="pr-mixto"><span class="icon">⚖️</span><span>Balanced</span></label>
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <button type="button" class="btn btn-secondary" hx-post="/step/9" hx-target="#wizard-content" hx-swap="innerHTML transition:true" hx-include="closest form">← Back</button>
+    <button type="submit" class="btn btn-primary">
+      <span class="btn-label">Plan My Trip! 🚀</span>
+      <span class="htmx-indicator"><span class="spinner"></span></span>
+    </button>
+  </div>
+</form>

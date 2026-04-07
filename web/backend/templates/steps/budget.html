@@ -1,0 +1,25 @@
+{% from "steps/_macros.html" import progress, hidden_fields %}
+{{ progress(6) }}
+
+<div class="step-header">
+  <div class="step-num">Step 6 of 10</div>
+  <h3>Budget</h3>
+  <p>Total budget for the entire trip (in euros)</p>
+</div>
+
+<form hx-post="/step/7" hx-target="#wizard-content" hx-swap="innerHTML transition:true">
+  {{ hidden_fields(form) }}
+
+  <div class="form-group">
+    <label for="budget">Budget (€)</label>
+    <input type="number" id="budget" name="budget" min="100" max="100000" step="100" value="{{ form.get('budget', '3000') }}">
+  </div>
+
+  <div class="btn-group">
+    <button type="button" class="btn btn-secondary" hx-post="/step/5" hx-target="#wizard-content" hx-swap="innerHTML transition:true" hx-include="closest form">← Back</button>
+    <button type="submit" class="btn btn-primary">
+      <span class="btn-label">Next →</span>
+      <span class="htmx-indicator"><span class="spinner"></span></span>
+    </button>
+  </div>
+</form>

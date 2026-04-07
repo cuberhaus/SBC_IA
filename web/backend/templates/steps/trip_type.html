@@ -1,0 +1,47 @@
+{% from "steps/_macros.html" import progress, hidden_fields %}
+{{ progress(2) }}
+
+<div class="step-header">
+  <div class="step-num">Step 2 of 10</div>
+  <h3>What kind of trip?</h3>
+  <p>Choose the style that suits you best</p>
+</div>
+
+<form hx-post="/step/3" hx-target="#wizard-content" hx-swap="innerHTML transition:true">
+  {{ hidden_fields(form) }}
+
+  <div class="radio-cards">
+    <div class="radio-card">
+      <input type="radio" name="trip_type" id="tt-descanso" value="descanso">
+      <label for="tt-descanso"><span class="icon">🏖️</span><span>Relax</span></label>
+    </div>
+    <div class="radio-card">
+      <input type="radio" name="trip_type" id="tt-diversion" value="diversion">
+      <label for="tt-diversion"><span class="icon">🎉</span><span>Fun</span></label>
+    </div>
+    <div class="radio-card">
+      <input type="radio" name="trip_type" id="tt-romantico" value="romantico">
+      <label for="tt-romantico"><span class="icon">💕</span><span>Romantic</span></label>
+    </div>
+    <div class="radio-card">
+      <input type="radio" name="trip_type" id="tt-trabajo" value="trabajo">
+      <label for="tt-trabajo"><span class="icon">💼</span><span>Business</span></label>
+    </div>
+    <div class="radio-card">
+      <input type="radio" name="trip_type" id="tt-aventura" value="aventura">
+      <label for="tt-aventura"><span class="icon">🧗</span><span>Adventure</span></label>
+    </div>
+    <div class="radio-card">
+      <input type="radio" name="trip_type" id="tt-cultural" value="cultural" checked>
+      <label for="tt-cultural"><span class="icon">🏛️</span><span>Cultural</span></label>
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <button type="button" class="btn btn-secondary" hx-post="/step/1" hx-target="#wizard-content" hx-swap="innerHTML transition:true" hx-include="closest form">← Back</button>
+    <button type="submit" class="btn btn-primary">
+      <span class="btn-label">Next →</span>
+      <span class="htmx-indicator"><span class="spinner"></span></span>
+    </button>
+  </div>
+</form>

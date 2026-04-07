@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="wizard-card">
+  <div class="landing" id="wizard-content">
+    <div class="icon">🌍</div>
+    <h2>Plan Your Perfect Trip</h2>
+    <p>
+      An AI expert system that designs personalised travel itineraries.
+      Answer 10 quick questions about your preferences and get a complete
+      plan — cities, hotels, activities, transport, and budget.
+    </p>
+    <button class="btn btn-primary"
+            hx-post="/step/1"
+            hx-target="#wizard-content"
+            hx-swap="innerHTML transition:true">
+      <span class="btn-label">Start Planning</span>
+      <span class="htmx-indicator"><span class="spinner"></span></span>
+    </button>
+  </div>
+</div>
+{% endblock %}

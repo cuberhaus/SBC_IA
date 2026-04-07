@@ -1,0 +1,33 @@
+{% from "steps/_macros.html" import progress, hidden_fields %}
+{{ progress(9) }}
+
+<div class="step-header">
+  <div class="step-num">Step 9 of 10</div>
+  <h3>Off the beaten path?</h3>
+  <p>Do you prefer lesser-known destinations?</p>
+</div>
+
+<form hx-post="/step/10" hx-target="#wizard-content" hx-swap="innerHTML transition:true">
+  {{ hidden_fields(form) }}
+
+  <div class="toggle-group">
+    <div class="toggle-option">
+      <input type="radio" name="prefer_unknown" id="pu-no" value="false"
+             {% if form.get('prefer_unknown', 'false') != 'true' %}checked{% endif %}>
+      <label for="pu-no">🏙️ Popular cities</label>
+    </div>
+    <div class="toggle-option">
+      <input type="radio" name="prefer_unknown" id="pu-yes" value="true"
+             {% if form.get('prefer_unknown') == 'true' %}checked{% endif %}>
+      <label for="pu-yes">🗺️ Hidden gems</label>
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <button type="button" class="btn btn-secondary" hx-post="/step/8" hx-target="#wizard-content" hx-swap="innerHTML transition:true" hx-include="closest form">← Back</button>
+    <button type="submit" class="btn btn-primary">
+      <span class="btn-label">Next →</span>
+      <span class="htmx-indicator"><span class="spinner"></span></span>
+    </button>
+  </div>
+</form>

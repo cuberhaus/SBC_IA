@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SBC_IA — Trip Planner</title>
+  <link rel="stylesheet" href="/static/theme.css">
+  <link rel="stylesheet" href="/static/app.css">
+  <script src="/static/htmx.min.js"></script>
+  <script defer src="/static/alpine.min.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <div class="top-bar">
+      <h1>SBC_IA Trip Planner</h1>
+      <span class="badge">Expert System</span>
+      <span class="badge" style="background:var(--success)">HTMX + Alpine.js</span>
+    </div>
+    <div class="wizard-area">
+      {% block content %}{% endblock %}
+    </div>
+  </div>
+</body>
+</html>

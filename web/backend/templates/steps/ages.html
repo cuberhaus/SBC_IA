@@ -1,0 +1,46 @@
+{% from "steps/_macros.html" import progress, hidden_fields %}
+{{ progress(1) }}
+
+<div class="step-header">
+  <div class="step-num">Step 1 of 10</div>
+  <h3>Who's travelling?</h3>
+  <p>Enter the age of each participant</p>
+</div>
+
+<form hx-post="/step/2" hx-target="#wizard-content" hx-swap="innerHTML transition:true"
+      x-data="{
+        ages: [30],
+        newAge: '',
+        addAge() {
+          const a = parseInt(this.newAge);
+          if (a >= 0 && a <= 100) { this.ages.push(a); this.newAge = ''; }
+        },
+        removeAge(i) { if (this.ages.length > 1) this.ages.splice(i, 1); }
+      }">
+  {{ hidden_fields(form) }}
+  <input type="hidden" name="ages" :value="ages.join(',')">
+
+  <div class="form-group">
+    <label>Participants</label>
+    <div class="age-tags">
+      <template x-for="(age, i) in ages" :key="i">
+        <span class="age-tag">
+          <span x-text="age + ' yrs'"></span>
+          <button type="button" @click="removeAge(i)">&times;</button>
+        </span>
+      </template>
+    </div>
+    <div class="age-input-row">
+      <input type="number" min="0" max="100" placeholder="Age"
+             x-model="newAge" @keydown.enter.prevent="addAge()">
+      <button type="button" class="btn btn-secondary btn-sm" @click="addAge()">+ Add</button>
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <button type="submit" class="btn btn-primary">
+      <span class="btn-label">Next →</span>
+      <span class="htmx-indicator"><span class="spinner"></span></span>
+    </button>
+  </div>
+</form>

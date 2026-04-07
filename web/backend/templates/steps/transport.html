@@ -1,0 +1,48 @@
+{% from "steps/_macros.html" import progress, hidden_fields %}
+{{ progress(7) }}
+
+<div class="step-header">
+  <div class="step-num">Step 7 of 10</div>
+  <h3>Transport preferences</h3>
+  <p>Select any transport modes you want to avoid</p>
+</div>
+
+<form hx-post="/step/8" hx-target="#wizard-content" hx-swap="innerHTML transition:true"
+      x-data="{
+        avoided: [],
+        toggle(mode) {
+          const i = this.avoided.indexOf(mode);
+          if (i >= 0) this.avoided.splice(i, 1);
+          else this.avoided.push(mode);
+        }
+      }">
+  {{ hidden_fields(form) }}
+  <input type="hidden" name="avoid_transport" :value="avoided.join(',')">
+
+  <div class="chip-group">
+    <div class="chip">
+      <input type="checkbox" id="av-avion" @change="toggle('Avion')" :checked="avoided.includes('Avion')">
+      <label for="av-avion">✈️ Plane</label>
+    </div>
+    <div class="chip">
+      <input type="checkbox" id="av-tren" @change="toggle('Tren')" :checked="avoided.includes('Tren')">
+      <label for="av-tren">🚂 Train</label>
+    </div>
+    <div class="chip">
+      <input type="checkbox" id="av-barco" @change="toggle('Barco')" :checked="avoided.includes('Barco')">
+      <label for="av-barco">🚢 Boat</label>
+    </div>
+  </div>
+
+  <p style="margin-top: 12px; font-size: 0.82rem; color: var(--text-muted);">
+    Leave all unchecked if you have no preference
+  </p>
+
+  <div class="btn-group">
+    <button type="button" class="btn btn-secondary" hx-post="/step/6" hx-target="#wizard-content" hx-swap="innerHTML transition:true" hx-include="closest form">← Back</button>
+    <button type="submit" class="btn btn-primary">
+      <span class="btn-label">Next →</span>
+      <span class="htmx-indicator"><span class="spinner"></span></span>
+    </button>
+  </div>
+</form>
