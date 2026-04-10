@@ -70,10 +70,53 @@ def test_plan(client):
     assert "Itinerary" in r.text or "Trip" in r.text or "city" in r.text.lower()
 
 
+def test_plan_contains_reasoning_panels(client):
+    r = client.post("/plan", data=FULL_FORM)
+    assert r.status_code == 200
+    assert "How the system decided" in r.text
+    assert "Inferred Profile" in r.text
+    assert "City Ranking" in r.text
+    assert "Budget Breakdown" in r.text
+
+
+def test_plan_contains_preference_recap(client):
+    r = client.post("/plan", data=FULL_FORM)
+    assert r.status_code == 200
+    assert "cultural" in r.text.lower() or "Cultural" in r.text
+    assert "25" in r.text and "35" in r.text
+    assert "2000" in r.text
+
+
+def test_plan_contains_city_ranking_statuses(client):
+    r = client.post("/plan", data=FULL_FORM)
+    assert r.status_code == 200
+    assert "Chosen" in r.text or "chosen" in r.text
+    assert "badge-chosen" in r.text
+
+
+def test_plan_contains_hotel_candidates(client):
+    r = client.post("/plan", data=FULL_FORM)
+    assert r.status_code == 200
+    assert "Hotel candidates" in r.text or "Selection details" in r.text
+
+
+def test_plan_contains_budget_steps(client):
+    r = client.post("/plan", data=FULL_FORM)
+    assert r.status_code == 200
+    assert "Starting budget" in r.text
+    assert "budget-bar-fill" in r.text
+
+
 def test_plan_second(client):
     r = client.post("/plan/second", data=FULL_FORM)
     assert r.status_code == 200
     assert "text/html" in r.headers["content-type"]
+
+
+def test_plan_second_shows_excluded(client):
+    r = client.post("/plan/second", data=FULL_FORM)
+    assert r.status_code == 200
+    assert "Second Trip Context" in r.text or "excluded" in r.text.lower()
 
 
 def test_plan_different_trip_types(client):
@@ -81,6 +124,7 @@ def test_plan_different_trip_types(client):
         form = {**FULL_FORM, "trip_type": trip_type}
         r = client.post("/plan", data=form)
         assert r.status_code == 200, f"trip_type={trip_type} failed"
+        assert "How the system decided" in r.text, f"reasoning missing for {trip_type}"
 
 
 def test_plan_high_budget(client):

@@ -76,9 +76,11 @@ async def plan(request: Request) -> Template:
     form = dict(await request.form())
     prefs = _parse_form(form)
     data = get_data()
-    trip = plan_trip(data, prefs)
+    trip, reasoning = plan_trip(data, prefs)
     return _render("results.html", {
         "trip": trip,
+        "reasoning": reasoning,
+        "prefs": prefs,
         "form": form,
         "trip_number": 1,
     })
@@ -90,12 +92,14 @@ async def plan_second(request: Request) -> Template:
     prefs = _parse_form(form)
     data = get_data()
 
-    first_trip = plan_trip(data, prefs)
+    first_trip, _ = plan_trip(data, prefs)
     exclude = {cp.city.id for cp in first_trip.city_plans}
-    second_trip = plan_trip(data, prefs, exclude_cities=exclude)
+    second_trip, reasoning = plan_trip(data, prefs, exclude_cities=exclude)
 
     return _render("results.html", {
         "trip": second_trip,
+        "reasoning": reasoning,
+        "prefs": prefs,
         "form": form,
         "trip_number": 2,
     })

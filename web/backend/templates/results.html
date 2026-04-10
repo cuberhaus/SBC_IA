@@ -1,4 +1,4 @@
-<div class="results-card">
+<div class="results-card" x-data="{ showReasoning: false }">
   <div class="results-header">
     <div class="trip-label">{% if trip_number == 2 %}Second Trip{% else %}Your Itinerary{% endif %}</div>
     <h2>{% if trip.valid %}Trip Planned!{% else %}Partial Results{% endif %}</h2>
@@ -33,10 +33,138 @@
     </div>
   </div>
 
+  {# ── Panel 1: Preference Recap ── #}
+  {% if prefs %}
+  <div class="prefs-recap">
+    <span class="prefs-chip">{{ prefs.trip_type | capitalize }}</span>
+    <span class="prefs-chip">Ages: {{ prefs.ages | join(", ") }}</span>
+    <span class="prefs-chip">{{ prefs.days_min }}–{{ prefs.days_max }} days</span>
+    <span class="prefs-chip">{{ prefs.cities_min }}–{{ prefs.cities_max }} cities</span>
+    <span class="prefs-chip">Budget €{{ "%.0f" | format(prefs.budget) }}</span>
+    <span class="prefs-chip">Min {{ prefs.min_stars }}★</span>
+    {% if prefs.avoid_transport %}
+    <span class="prefs-chip prefs-chip--warn">Avoid: {{ prefs.avoid_transport | join(", ") }}</span>
+    {% endif %}
+    <span class="prefs-chip">Priority: {{ prefs.priority }}</span>
+  </div>
+  {% endif %}
+
+  {# ── Master toggle for reasoning panels ── #}
+  {% if reasoning %}
+  <button class="reasoning-toggle" @click="showReasoning = !showReasoning">
+    <span x-text="showReasoning ? '▾' : '▸'"></span>
+    How the system decided
+  </button>
+
+  <div x-show="showReasoning" x-collapse class="reasoning-section">
+
+    {# ── Panel 2: Inferred User Profile ── #}
+    {% if reasoning.inferred %}
+    <div class="reasoning-panel">
+      <div class="reasoning-panel-title">Inferred Profile</div>
+      <div class="profile-chips">
+        {% set ut = reasoning.inferred.user_type %}
+        <span class="profile-chip">
+          {% if ut == "individual" %}👤 Individual
+          {% elif ut == "pareja" %}👫 Couple
+          {% elif ut == "familia" %}👨‍👩‍👧 Family
+          {% else %}👥 Group{% endif %}
+        </span>
+        {% if reasoning.inferred.has_children %}
+        <span class="profile-chip">🧒 Has children (≤12)</span>
+        {% endif %}
+        {% if reasoning.inferred.has_teens %}
+        <span class="profile-chip">🎓 Has teens (12–20)</span>
+        {% endif %}
+        {% if reasoning.inferred.same_continent %}
+        <span class="profile-chip">🌍 Same continent only (short trip)</span>
+        {% else %}
+        <span class="profile-chip">✈️ Multi-continent allowed</span>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+
+    {# ── Panel 3: City Ranking Table ── #}
+    {% if reasoning.city_ranking %}
+    <div class="reasoning-panel">
+      <div class="reasoning-panel-title">City Ranking</div>
+      <table class="candidate-table">
+        <thead>
+          <tr>
+            <th>City</th>
+            <th>Score</th>
+            <th>Status</th>
+            <th>Reason</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for cd in reasoning.city_ranking %}
+          <tr class="{% if cd.status == 'chosen' %}row-chosen{% elif cd.status == 'skipped' %}row-skipped{% else %}row-dim{% endif %}">
+            <td>{{ cd.city.name | replace("_", " ") }}</td>
+            <td>{{ cd.score }}</td>
+            <td>
+              {% if cd.status == 'chosen' %}<span class="badge-chosen">✓ Chosen</span>
+              {% elif cd.status == 'skipped' %}<span class="badge-skipped">✗ Skipped</span>
+              {% else %}<span class="badge-dim">— Not reached</span>{% endif %}
+            </td>
+            <td class="reason-cell">{{ cd.skip_reason }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+
+    {# ── Panel 5: Budget Waterfall ── #}
+    {% if reasoning.budget_steps %}
+    <div class="reasoning-panel">
+      <div class="reasoning-panel-title">Budget Breakdown</div>
+      <div class="budget-waterfall">
+        {% for bs in reasoning.budget_steps %}
+        <div class="budget-step">
+          <div class="budget-label">{{ bs.label }}</div>
+          {% if bs.amount > 0 %}
+          <div class="budget-amount">−€{{ "%.0f" | format(bs.amount) }}</div>
+          {% else %}
+          <div class="budget-amount budget-amount--start">€{{ "%.0f" | format(bs.remaining) }}</div>
+          {% endif %}
+          <div class="budget-remaining">€{{ "%.0f" | format(bs.remaining) }} left</div>
+          <div class="budget-bar-track">
+            <div class="budget-bar-fill" style="width: {{ (bs.remaining / reasoning.budget_steps[0].remaining * 100) | round(1) }}%"></div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="budget-totals">
+        <span>🏨 Hotels: €{{ "%.0f" | format(reasoning.cost_hotels) }}</span>
+        <span>🚂 Transport: €{{ "%.0f" | format(reasoning.cost_transport) }}</span>
+        <span>🎭 Activities: €{{ "%.0f" | format(reasoning.cost_activities) }}</span>
+      </div>
+    </div>
+    {% endif %}
+
+    {# ── Panel 6: Second Trip Explanation ── #}
+    {% if reasoning.excluded_cities and reasoning.excluded_cities | length > 0 %}
+    <div class="reasoning-panel">
+      <div class="reasoning-panel-title">Second Trip Context</div>
+      <p style="font-size:0.85rem; color:var(--text-secondary)">
+        Cities excluded from first trip:
+        {% for cid in reasoning.excluded_cities %}
+        <span class="badge-skipped">{{ cid | replace("_", " ") }}</span>
+        {% endfor %}
+      </p>
+    </div>
+    {% endif %}
+
+  </div>
+  {% endif %}
+
+  {# ── Timeline with per-city reasoning ── #}
   {% if trip.city_plans %}
   <div class="timeline">
     {% for cp in trip.city_plans %}
-    <div class="timeline-item">
+    <div class="timeline-item" x-data="{ showDetail: false }">
       <div class="city-name">{{ cp.city.name | replace("_", " ") }}</div>
       <div class="city-meta">{{ cp.days }} day{{ "s" if cp.days != 1 }} · {{ cp.city.continent }}</div>
 
@@ -62,6 +190,89 @@
         {{ cp.transport_to_next.mode }} → {{ trip.city_plans[loop.index].city.name | replace("_", " ") if loop.index < trip.city_plans | length else "" }}
         <span>€{{ "%.0f" | format(cp.transport_to_next.price) }}</span>
       </div>
+      {% endif %}
+
+      {# ── Panel 4: Per-city selection details ── #}
+      {% if reasoning and reasoning.city_details[loop.index0] %}
+      {% set cr = reasoning.city_details[loop.index0] %}
+      {% if cr.hotel_candidates or cr.transport_candidates or cr.activity_decisions %}
+      <button class="detail-toggle" @click="showDetail = !showDetail">
+        <span x-text="showDetail ? '▾' : '▸'"></span> Selection details
+      </button>
+
+      <div x-show="showDetail" x-collapse class="city-detail-section">
+
+        {% if cr.hotel_candidates %}
+        <div class="detail-block">
+          <div class="detail-title">Hotel candidates{% if cr.hotel_relaxed %} <span class="badge-warn">star filter relaxed</span>{% endif %}</div>
+          <table class="candidate-table candidate-table--sm">
+            <thead>
+              <tr><th>Hotel</th><th>Fit</th><th>Stars</th><th>Dist.</th><th>Total</th><th></th></tr>
+            </thead>
+            <tbody>
+              {% for hc in cr.hotel_candidates %}
+              <tr class="{% if hc.chosen %}row-chosen{% endif %}">
+                <td>{{ hc.hotel.name | replace("_", " ") }}</td>
+                <td>{{ hc.fit }}</td>
+                <td>{% for _ in range(hc.hotel.stars) %}★{% endfor %}</td>
+                <td>{{ hc.hotel.distance_to_center }}km</td>
+                <td>€{{ "%.0f" | format(hc.total_price) }}</td>
+                <td>{% if hc.chosen %}<span class="badge-chosen">✓</span>{% endif %}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% endif %}
+
+        {% if cr.transport_candidates %}
+        <div class="detail-block">
+          <div class="detail-title">Transport options{% if cr.transport_avoid_relaxed %} <span class="badge-warn">avoid-list relaxed</span>{% endif %}</div>
+          <table class="candidate-table candidate-table--sm">
+            <thead>
+              <tr><th>Mode</th><th>Price</th><th>Duration</th><th></th></tr>
+            </thead>
+            <tbody>
+              {% for tc in cr.transport_candidates %}
+              <tr class="{% if tc.chosen %}row-chosen{% endif %}">
+                <td>{{ tc.transport.mode }}</td>
+                <td>€{{ "%.0f" | format(tc.transport.price) }}</td>
+                <td>{{ tc.transport.duration_hours }}h</td>
+                <td>{% if tc.chosen %}<span class="badge-chosen">✓</span>{% endif %}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% endif %}
+
+        {% if cr.activity_decisions %}
+        <div class="detail-block">
+          <div class="detail-title">Activity packing <span style="color:var(--text-muted); font-weight:400">({{ cr.duration_used }}/{{ cr.duration_max }} duration)</span></div>
+          <table class="candidate-table candidate-table--sm">
+            <thead>
+              <tr><th>Activity</th><th>Category</th><th>Price</th><th>Duration</th><th></th></tr>
+            </thead>
+            <tbody>
+              {% for ad in cr.activity_decisions %}
+              <tr class="{% if ad.chosen %}row-chosen{% else %}row-skipped{% endif %}">
+                <td>{{ ad.activity.name | replace("_", " ") }}</td>
+                <td>{{ ad.activity.category }}</td>
+                <td>€{{ "%.0f" | format(ad.activity.price) }}</td>
+                <td>{{ ad.activity.duration_pct }}</td>
+                <td>
+                  {% if ad.chosen %}<span class="badge-chosen">✓</span>
+                  {% else %}<span class="badge-skipped" title="{{ ad.skip_reason }}">✗ {{ ad.skip_reason }}</span>{% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% endif %}
+
+      </div>
+      {% endif %}
       {% endif %}
     </div>
     {% endfor %}
