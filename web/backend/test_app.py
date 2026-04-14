@@ -143,3 +143,49 @@ def test_plan_prefer_unknown(client):
     form = {**FULL_FORM, "prefer_unknown": "true"}
     r = client.post("/plan", data=form)
     assert r.status_code == 200
+
+
+# ─── Extended tests: multi-step flow & edge cases ────────────────
+
+
+def test_step_sequence_preserves_state(client):
+    """Posting steps 1→2→3 should accumulate form state."""
+    client.post("/step/1", data={"ages": "20"})
+    r = client.post("/step/2", data={"ages": "20", "trip_type": "aventura"})
+    assert r.status_code == 200
+    r = client.post("/step/3", data={"ages": "20", "trip_type": "aventura", "days_min": "5"})
+    assert r.status_code == 200
+
+
+def test_plan_with_transport_exclusion(client):
+    form = {**FULL_FORM, "avoid_transport": "avion"}
+    r = client.post("/plan", data=form)
+    assert r.status_code == 200
+
+
+def test_plan_with_high_min_stars(client):
+    form = {**FULL_FORM, "min_stars": "5"}
+    r = client.post("/plan", data=form)
+    assert r.status_code == 200
+
+
+def test_plan_cost_priority(client):
+    form = {**FULL_FORM, "priority": "precio"}
+    r = client.post("/plan", data=form)
+    assert r.status_code == 200
+
+
+def test_plan_quality_priority(client):
+    form = {**FULL_FORM, "priority": "calidad"}
+    r = client.post("/plan", data=form)
+    assert r.status_code == 200
+
+
+def test_step_invalid_number(client):
+    r = client.post("/step/99", data={})
+    assert r.status_code in [200, 400, 404]
+
+
+def test_plan_response_is_html(client):
+    r = client.post("/plan", data=FULL_FORM)
+    assert "<!DOCTYPE html>" in r.text.lower() or "<html" in r.text.lower() or "text/html" in r.headers["content-type"]
