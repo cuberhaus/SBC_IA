@@ -2,6 +2,46 @@
 
 from __future__ import annotations
 
+# ── Phase 14 (Option A) — Sentry SDK + JSON-line stdout (no-op if missing) ─
+try:
+    from ._sentry_obs import (  # type: ignore[import-not-found]
+        init_observability,
+        breadcrumb as _crumb,
+        span as _span,
+        tag as _tag,
+        SessionIdMiddleware as _SessionIdMiddleware,
+    )
+
+    init_observability(service="sbc-ia")
+except ImportError:
+    from contextlib import contextmanager
+
+    def _tag(*_a, **_kw):
+        return None
+
+    def _crumb(*_a, **_kw):
+        return None
+
+    @contextmanager
+    def _span(*_a, **_kw):
+        yield None
+
+    class _SessionIdMiddleware:  # type: ignore[no-redef]
+        def __init__(self, app):
+            self.app = app
+
+        async def __call__(self, scope, receive, send):
+            await self.app(scope, receive, send)
+
+
+def _budget_bucket(budget: float) -> str:
+    """Three-bucket budget label so Sentry tag cardinality stays bounded."""
+    if budget < 1500:
+        return "low"
+    if budget < 4000:
+        return "mid"
+    return "high"
+
 from pathlib import Path
 
 from litestar import Litestar, Request, get, post
@@ -42,6 +82,10 @@ async def step(request: Request, n: int) -> Template:
         10: "steps/priority.html",
     }
     template = step_map.get(n, "steps/ages.html")
+    _crumb(
+        "wizard", f"step {n} submit",
+        step=n, template=template, form_keys=list(dict(form).keys()),
+    )
     return _render(template, ctx)
 
 
@@ -71,12 +115,37 @@ def _parse_form(form: dict) -> UserPrefs:
     )
 
 
+def _tag_prefs(prefs: UserPrefs, trip_number: int) -> None:
+    _tag("trip_type", prefs.trip_type)
+    _tag("priority", prefs.priority)
+    _tag("budget", _budget_bucket(prefs.budget))
+    _tag("n_cities", prefs.cities_max)
+    _tag(
+        "transport_pref",
+        "any" if not prefs.avoid_transport else "+".join(sorted(prefs.avoid_transport)),
+    )
+    _tag("trip_number", trip_number)
+
+
 @post("/plan")
 async def plan(request: Request) -> Template:
     form = dict(await request.form())
     prefs = _parse_form(form)
+    _tag_prefs(prefs, trip_number=1)
+    _crumb(
+        "wizard", "primary plan submit",
+        trip_type=prefs.trip_type, priority=prefs.priority,
+        budget_bucket=_budget_bucket(prefs.budget),
+        cities=f"{prefs.cities_min}-{prefs.cities_max}",
+    )
     data = get_data()
-    trip, reasoning = plan_trip(data, prefs)
+    with _span(
+        "expert.plan",
+        description="primary itinerary search",
+        trip_type=prefs.trip_type, priority=prefs.priority,
+        cities_max=prefs.cities_max,
+    ):
+        trip, reasoning = plan_trip(data, prefs)
     return _render("results.html", {
         "trip": trip,
         "reasoning": reasoning,
@@ -90,11 +159,27 @@ async def plan(request: Request) -> Template:
 async def plan_second(request: Request) -> Template:
     form = dict(await request.form())
     prefs = _parse_form(form)
+    _tag_prefs(prefs, trip_number=2)
+    _crumb(
+        "wizard", "second plan submit",
+        trip_type=prefs.trip_type, priority=prefs.priority,
+        budget_bucket=_budget_bucket(prefs.budget),
+    )
     data = get_data()
 
-    first_trip, _ = plan_trip(data, prefs)
+    with _span(
+        "expert.plan",
+        description="primary itinerary (for excludes)",
+        trip_type=prefs.trip_type,
+    ):
+        first_trip, _ = plan_trip(data, prefs)
     exclude = {cp.city.id for cp in first_trip.city_plans}
-    second_trip, reasoning = plan_trip(data, prefs, exclude_cities=exclude)
+    with _span(
+        "expert.plan",
+        description="second itinerary search",
+        trip_type=prefs.trip_type, n_excluded=len(exclude),
+    ):
+        second_trip, reasoning = plan_trip(data, prefs, exclude_cities=exclude)
 
     return _render("results.html", {
         "trip": second_trip,
@@ -113,6 +198,7 @@ app = Litestar(
         plan_second,
         create_static_files_router(path="/static", directories=[BASE / "static"]),
     ],
+    middleware=[_SessionIdMiddleware],
     template_config=TemplateConfig(
         directory=BASE / "templates",
         engine=JinjaTemplateEngine,
